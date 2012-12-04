@@ -11,6 +11,7 @@ define([
     },
 
     render: function() {
+      this.$el.html('');
       return this;
     }
 

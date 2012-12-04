@@ -12,10 +12,10 @@ define([
       $.ajax({
         url: '/api/auth/logout',
         success: function() {
-          Backbone.history.navigate(self.pather.getUrl('homepage'), { trigger: true });
+          Backbone.history.navigate('', { trigger: true });
         },
         error: function() {
-          Backbone.history.navigate(self.pather.getUrl('homepage'), { trigger: true });
+          Backbone.history.navigate('', { trigger: true });
         }
       });
     }
