@@ -1,0 +1,91 @@
+
+var should = require('should');
+var _ = require('underscore');
+
+var store = require(process.env.APP_ROOT + '/store/store.js')('ram');
+var DrinkModel = require(process.env.APP_ROOT + '/models/drink.js')(store);
+
+var drinkHistorian = require(process.env.APP_ROOT + '/historian/drink.js')(store);
+
+describe('Drink Historian', function() {
+
+  var drinkData = {
+    id: store.generateId(),
+    name: 'test drink',
+    type: 'myType'
+  };
+  var update = { name: 'updated drink' };
+
+  beforeEach(function(done) {
+    // delete all drinks, then add in the drink we want
+    var deleteDrinks = new DrinkModel();
+    deleteDrinks.remove(function(error) {
+      var drink = new DrinkModel(drinkData);
+      drink.create(done);
+    });
+  });
+
+  describe('#create', function() {
+    it('should be able to create a drink', function(done) {
+
+      // generate create's own id
+      var _drinkData = _.clone(drinkData);
+      _drinkData.id = store.generateId();
+
+      drinkHistorian.create(_drinkData, function(error) {
+        should.not.exist(error);
+
+        var drink = new DrinkModel({ id: _drinkData.id });
+        drink.retrieve(function(error, data) {
+          should.not.exist(error);
+
+          delete data.created;
+          data.should.eql(_drinkData);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('#update', function() {
+    it('should be able to update an existing drink', function(done) {
+      drinkHistorian.update({ id: drinkData.id }, update, function(error) {
+        should.not.exist(error);
+
+        var drink = new DrinkModel({ id: drinkData.id });
+        drink.retrieve(function(error, storedData) {
+          should.not.exist(error);
+
+          delete storedData.created;
+          storedData.should.eql(_.extend(drinkData, update));
+          done();
+        });
+      });
+    });
+  });
+
+  describe('#remove', function() {
+    it('should able to remove a drink', function(done) {
+      var drink = new DrinkModel({ id: drinkData.id });
+      drink.retrieve(function(error, storedData) {
+        should.not.exist(error);
+
+        delete storedData.created;
+        storedData.should.eql(drinkData);
+
+        drinkHistorian.remove(drinkData.id, function(error) {
+          should.not.exist(error);
+
+          var drink = new DrinkModel({ id: drinkData.id });
+          drink.retrieve(function(error) {
+            should.exist(error);
+
+            done();
+          });
+        });
+      });
+    });
+
+  });
+
+});

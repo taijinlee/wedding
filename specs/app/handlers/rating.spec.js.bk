@@ -1,0 +1,127 @@
+var should = require('should');
+var sinon = require('sinon');
+
+var store = require(process.env.APP_ROOT + '/store/store.js')('ram');
+var history = require(process.env.APP_ROOT + '/history/history.js')(store);
+var userIdentification = require(process.env.APP_ROOT + '/app/internal/userIdentification.js')(store);
+
+var HistoryModel = require(process.env.APP_ROOT + '/models/history.js')(store);
+// var CommentModel = require(process.env.APP_ROOT + '/models/comment.js')(store);
+
+var RatingModel = require(process.env.APP_ROOT + '/models/rating.js')(store);
+
+var ratingHandler = require(process.env.APP_ROOT + '/app/public/handlers/rating.js')(store, history, userIdentification);
+
+describe('rating route handler:', function() {
+
+  var userIdentificationStub;
+  var ratingData = {
+    id: store.generateId(),
+    userId: store.generateId(),
+    drinkId: store.generateId(),
+    rating: 5
+  };
+
+  // var commentData = {
+  //  userId: checkinData.userId,
+  //  comment: 'my Comment',
+  //  activityType: 'checkin',
+  //  activityId: checkinData.id
+  // };
+
+  before(function(done) {
+    userIdentificationStub = sinon.stub(userIdentification, 'check');
+
+    var ratingModel = new RatingModel(ratingData);
+    if (!ratingModel.isValid()) {
+      throw new Error('invalid');
+    }
+    ratingModel.create(done);
+  });
+
+  describe('#create', function() {
+    it('should be able to tell the history about rating create', function(done) {
+      userIdentificationStub.returns(ratingData.userId); // returns the id of the user
+      ratingHandler.create('login stubbed out', ratingData.drinkId, ratingData.userId, ratingData.rating, function(error, storedRatingData) {
+        should.not.exist(error);
+
+        storedRatingData.drinkId.should.equal(ratingData.drinkId);
+        storedRatingData.userId.should.equal(ratingData.userId);
+
+        var history = new HistoryModel({ entityId: storedRatingData.id });
+        history.retrieve(function(error, historyData) {
+          should.not.exist(error);
+          var _ratingData = historyData.params.shift();
+          _ratingData.drinkId.should.eql(ratingData.drinkId);
+          _ratingData.userId.should.eql(ratingData.userId);
+          // should.exist(_ratingData.created);
+          done();
+        });
+      });
+    });
+
+    it('should fail if user auth fails', function(done) {
+      userIdentificationStub.returns(false); // returns the id of the user
+      ratingHandler.create('login stubbed out', ratingData.drinkId, ratingData.userId, ratingData.rating, function(error, storedRatingData) {
+        should.exist(error);
+        done();
+      });
+    });
+  });
+
+  describe('#retrieve', function() {
+    it('should be able to retrieve checkin if user is owner of rating', function(done) {
+      userIdentificationStub.returns(ratingData.userId); // returns the id of the user
+      ratingHandler.retrieve('login stubbed', ratingData.id, function(error, data) {
+        should.not.exist(error);
+        delete data.created;
+        data.should.eql(ratingData);
+        done();
+      });
+    });
+
+    it('should fail if user is not owner of rating', function(done) {
+      userIdentificationStub.returns(store.generateId()); // returns the id of the user
+      ratingHandler.retrieve('login stubbed', ratingData.id, function(error, data) {
+        error.should.eql(new Error('notFound'));
+        should.not.exist(data);
+
+        done();
+      });
+    });
+
+    it('should fail if user is not logged in', function(done) {
+      userIdentificationStub.returns(false); // returns the id of the user
+      ratingHandler.retrieve('login stubbed', ratingData.id, function(error, data) {
+        error.should.eql(new Error('unauthorized'));
+        should.not.exist(data);
+
+        done();
+      });
+    });
+  });
+
+  //describe('#comment', function() {
+  //  it('should be able to create a comment assuming good user', function(done) {
+  //    userIdentificationStub.returns(commentData.userId); // returns the id of the userId
+  //    checkinHandler.comment('login stubbed', commentData.activityId, commentData.comment, function(error, commentId) {
+  //      should.not.exist(error);
+  //
+  //      var history = new HistoryModel({ entityId: commentId });
+  //      history.retrieve(function(error, historyData) {
+  //        should.not.exist(error);
+  //
+  //        var _commentData = historyData.params.shift();
+  //        should.exist(_commentData.created);
+  //
+  //        delete _commentData.id;
+  //        delete _commentData.created;
+  //        _commentData.should.eql(commentData);
+  //        done();
+  //      });
+  //
+  //    });
+  //  });
+  //});
+
+});

@@ -1,0 +1,130 @@
+
+var should = require('should');
+var sinon = require('sinon');
+
+var store = require(process.env.APP_ROOT + '/store/store.js')('ram');
+var history = require(process.env.APP_ROOT + '/history/history.js')(store);
+var userIdentification = require(process.env.APP_ROOT + '/app/internal/userIdentification.js')(store);
+
+var HistoryModel = require(process.env.APP_ROOT + '/models/history.js')(store);
+var CommentModel = require(process.env.APP_ROOT + '/models/comment.js')(store);
+
+var CheckinModel = require(process.env.APP_ROOT + '/models/checkin.js')(store);
+
+var checkinHandler = require(process.env.APP_ROOT + '/app/public/handlers/checkin.js')(store, history, userIdentification);
+
+describe('checkin route handler:', function() {
+
+  var userIdentificationStub;
+  var checkinData = {
+    id: store.generateId(),
+    userId: store.generateId(),
+    drinkId: store.generateId()
+  };
+
+  var commentData = {
+    userId: checkinData.userId,
+    comment: 'my Comment',
+    activityType: 'checkin',
+    activityId: checkinData.id
+  };
+
+  before(function(done) {
+    userIdentificationStub = sinon.stub(userIdentification, 'check');
+
+    var checkin = new CheckinModel(checkinData);
+    if (!checkin.isValid()) {
+      throw new Error('invalid');
+    }
+    checkin.create(done);
+  });
+
+  describe('#create', function() {
+    it('should be able to tell the history about checkin create', function(done) {
+      userIdentificationStub.returns(checkinData.userId); // returns the id of the user
+      checkinHandler.create('login stubbed out', checkinData.drinkId, function(error, storedCheckinData) {
+        should.not.exist(error);
+
+        storedCheckinData.drinkId.should.equal(checkinData.drinkId);
+        storedCheckinData.userId.should.equal(checkinData.userId);
+
+        var history = new HistoryModel({ entityId: storedCheckinData.id });
+        history.retrieve(function(error, historyData) {
+          should.not.exist(error);
+          var _checkinData = historyData.params.shift();
+          _checkinData.drinkId.should.eql(checkinData.drinkId);
+          _checkinData.userId.should.eql(checkinData.userId);
+          should.exist(_checkinData.created);
+          done();
+        });
+
+      });
+    });
+
+    it('should fail if user auth fails', function(done) {
+      userIdentificationStub.returns(false); // returns the id of the user
+      checkinHandler.create('login stubbed out', checkinData.drinkId, function(error) {
+        should.exist(error);
+        done();
+      });
+    });
+
+  });
+
+  describe('#retrieve', function() {
+    it('should be able to retrieve checkin if user is owner of checkin', function(done) {
+      userIdentificationStub.returns(checkinData.userId); // returns the id of the user
+      checkinHandler.retrieve('login stubbed', checkinData.id, function(error, data) {
+        should.not.exist(error);
+        delete data.created;
+
+        data.should.eql(checkinData);
+        done();
+      });
+    });
+
+    it('should fail if user is not owner of checkin', function(done) {
+      userIdentificationStub.returns(store.generateId()); // returns the id of the user
+      checkinHandler.retrieve('login stubbed', checkinData.id, function(error, data) {
+        error.should.eql(new Error('notFound'));
+        should.not.exist(data);
+
+        done();
+      });
+    });
+
+    it('should fail if user is not logged in', function(done) {
+      userIdentificationStub.returns(false); // returns the id of the user
+      checkinHandler.retrieve('login stubbed', checkinData.id, function(error, data) {
+        error.should.eql(new Error('unauthorized'));
+        should.not.exist(data);
+
+        done();
+      });
+    });
+  });
+
+  describe('#comment', function() {
+    it('should be able to create a comment assuming good user', function(done) {
+      userIdentificationStub.returns(commentData.userId); // returns the id of the userId
+      checkinHandler.comment('login stubbed', commentData.activityId, commentData.comment, function(error, commentId) {
+        should.not.exist(error);
+
+        var history = new HistoryModel({ entityId: commentId });
+        history.retrieve(function(error, historyData) {
+          should.not.exist(error);
+
+          var _commentData = historyData.params.shift();
+          should.exist(_commentData.created);
+
+          delete _commentData.id;
+          delete _commentData.created;
+          _commentData.should.eql(commentData);
+          done();
+        });
+
+      });
+    });
+  });
+
+});

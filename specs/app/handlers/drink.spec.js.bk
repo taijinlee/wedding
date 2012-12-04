@@ -1,0 +1,136 @@
+
+var should = require('should');
+var sinon = require('sinon');
+var _ = require('underscore');
+
+var store = require(process.env.APP_ROOT + '/store/store.js')('ram');
+var history = require(process.env.APP_ROOT + '/history/history.js')(store);
+var userIdentification = require(process.env.APP_ROOT + '/app/internal/userIdentification.js')(store);
+
+var DrinkModel = require(process.env.APP_ROOT + '/models/drink.js')(store);
+var HistoryModel = require(process.env.APP_ROOT + '/models/history.js')(store);
+var drinkHandler = require(process.env.APP_ROOT + '/app/public/handlers/drink.js')(store, history, userIdentification);
+
+describe('drink route handler:', function() {
+
+  var userIdentificationStub;
+  var drinkData = {
+    id: store.generateId(),
+    name: 'blah',
+    type: 'drinkType'
+  };
+  var updatedDrink = { name: 'New Drink name' };
+
+  before(function(done) {
+    userIdentificationStub = sinon.stub(userIdentification, 'check');
+
+    var drink = new DrinkModel(drinkData);
+    if (!drink.isValid()) {
+      throw new Error('invalid drink creation');
+    }
+    drink.create(done);
+  });
+
+  describe('#create', function() {
+    it('should be able to tell history about drink create with correct user', function(done) {
+      userIdentificationStub.returns('someUserId');
+      var createDrinkData = { id: store.generateId(), name: 'My new drink!', type: 'myDrinkType' };
+      drinkHandler.create('login stubbed', createDrinkData, function(error, storedDrinkData) {
+        should.not.exist(error);
+
+        _.each(createDrinkData, function(value, key) { storedDrinkData[key].should.equal(value); });
+
+        var history = new HistoryModel({ entityId: storedDrinkData.id });
+
+        history.retrieve(function(error, historyData) {
+          var historyDrinkData = historyData.params.shift();
+          historyDrinkData.id.should.equal(storedDrinkData.id);
+          historyDrinkData.name.should.equal('My new drink!');
+          historyDrinkData.type.should.equal('myDrinkType');
+          should.exist(historyDrinkData.created);
+          done();
+        });
+      });
+    });
+
+    it('should fail when user is not authenticated', function(done) {
+      userIdentificationStub.returns(false);
+      drinkHandler.create('login stubbed', { id: store.generateId(), name: 'My new drink!' }, function(error, drinkId) {
+        should.exist(error);
+        should.not.exist(drinkId);
+        done();
+      });
+    });
+  });
+
+
+  describe('#retrieve', function() {
+    it('should be able to retrieve drink data', function(done) {
+      drinkHandler.retrieve(drinkData.id, function(error, data) {
+        should.not.exist(error);
+        data.name.should.equal('blah');
+        done();
+      });
+    });
+  });
+
+
+  describe('#update', function() {
+    it('should be able to tell history to update', function(done) {
+      userIdentificationStub.returns(drinkData.id);
+
+      drinkHandler.update('login stubbed', drinkData.id, updatedDrink, function(error) {
+        should.not.exist(error);
+
+        var history = new HistoryModel({ entityId: drinkData.id, subject: 'drink', event: 'update' });
+        history.retrieve(function(error, historyData) {
+          var criteria = historyData.params.shift();
+          var updateData = historyData.params.shift();
+
+          criteria.should.eql({ id: drinkData.id });
+          updateData.should.eql(updatedDrink);
+          done();
+        });
+      });
+
+    });
+
+    it('should be fail on bad user', function(done) {
+      userIdentificationStub.returns(false);
+      drinkHandler.update('login stubbed', drinkData.id, { name: 'New Drink name' }, function(error) {
+        should.exist(error);
+        done();
+      });
+    });
+  });
+
+
+  describe('#destroy', function() {
+
+    it('should be able to destroy a drink when user is correct', function(done) {
+      userIdentificationStub.returns(drinkData.id);
+      drinkHandler.destroy('login stubbed', drinkData.id, function(error) {
+        should.not.exist(error);
+
+        var history = new HistoryModel({ entityId: drinkData.id, subject: 'drink', event: 'remove' });
+        history.retrieve(function(error, historyData) {
+          var drinkId = historyData.params.shift();
+
+          drinkId.should.equal(drinkData.id);
+          done();
+        });
+      });
+    });
+
+    it('should fail on bad user', function(done) {
+      userIdentificationStub.returns(false);
+      drinkHandler.destroy('login stubbed', drinkData.id, function(error) {
+        should.exist(error);
+        done();
+      });
+    });
+
+
+  });
+
+});
