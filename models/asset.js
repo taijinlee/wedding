@@ -9,7 +9,7 @@ module.exports = function(store) {
 
     ServerModel = BackboneServerModel.extend({
       store: store,
-      context: { database: 'orgChart', collection: 'assets' },
+      context: { database: 'wedding', collection: 'assets' },
       key: { primary: 'id' },
 
       schema: {
