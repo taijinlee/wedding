@@ -9,13 +9,12 @@ module.exports = function(store) {
     ServerModel = WebModel.extend({
       store: store,
       context: { database: 'wedding', collection: 'users' },
-      key: { primary: 'id' },
 
       schema: {
         id: { type: 'string' },
         firstName: { type: 'string' },
         lastName: { type: 'string' },
-        email: { type: 'email' },
+        email: { type: 'email', optional: true },
         role: { type: 'userRole', defaults: 'user' },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }

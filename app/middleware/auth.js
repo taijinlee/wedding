@@ -2,6 +2,7 @@
 module.exports = function(store, cookieJar) {
 
   var async = require('async');
+  var AuthModel = require(process.env.APP_ROOT + '/models/auth.js')(store);
   var UserModel = require(process.env.APP_ROOT + '/models/user.js')(store);
   var salt = 'Plubrl#mla!2lUCleFluSTouW@i@SWoA';
   var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
@@ -54,28 +55,26 @@ module.exports = function(store, cookieJar) {
 
   var login = function(req, res, next) {
     async.auto({
-      userData: function(done, results) {
-        new UserModel({ email: req.body.email }).retrieve(done);
+      authData: function(done, results) {
+        new AuthModel({ identifier: req.body.identifier, type: 'base' }).retrieve(done);
       },
-      authenticate: ['userData', function(done, results) {
-        var userData = results.userData;
-        if (!userData || !tokenizer.match(userData.salt, req.body.password, 0, 0, userData.password)) {
+      authenticate: ['authData', function(done, results) {
+        var authData = results.authData;
+        if (!authData || !tokenizer.match(authData.salt, req.body.secret, 0, 0, authData.secret)) {
           return done(new Error('unauthorized: incorrect password'));
         }
 
+        var userId = authData.userId;
         // give the user a good login cookie
         var time = (new Date()).getTime();
-        var token = tokenizer.generate(salt, userData.id, time, 300000 /* 5 mins */);
+        var token = tokenizer.generate(salt, userId, time, 300000 /* 5 mins */);
 
-        cookieJar.set('userId', userData.id);
-        cookieJar.set('login', [userData.id, time, 300000, token].join(':'));
+        cookieJar.set('userId', userId);
+        cookieJar.set('login', [userId, time, 300000, token].join(':'));
         res.cookie.apply(res, cookieJar.cookie());
         return done(null);
       }]
-    }, function(error) {
-      if (error) { return next(error); }
-      return next(null);
-    });
+    }, next);
   };
 
   var logout = function(req, res, next) {

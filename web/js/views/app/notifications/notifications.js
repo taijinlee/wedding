@@ -2,40 +2,34 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!views/app/notifications/notifications.html'
+  'text!./notifications.html'
 ], function($, _, Backbone, notificationsTemplate) {
 
-  var NotificationsView = Backbone.View.extend({
-    tagName: 'div',
-
+  var View = Backbone.View.extend({
     events: {
       'click a.alert_close': 'closeNotification'
     },
 
-    initialize: function(vent) {
-      this.vent = vent;
+    initialize: function(config, vent, pather, cookie) {
+      this.vent = vent; this.pather = pather; this.cookie = cookie;
     },
 
-    bind: function() {
-      this.vent.bind('renderNotification', this.renderNotification, this);
-      // this.vent.bind('navigated', this.closeNotification, this);
+    render: function() {
+      this.vent.on('renderNotification', this.renderNotification, this);
     },
 
-    renderNotification: function(message, alert_type) {
-      $(this.el).attr('class', 'eight columns offset-by-four alert-box ' + alert_type);
-
-      $(this.el).html(_.template(notificationsTemplate, {'message': message}));
-      $('section#notifications').append($(this.el));
-      this.delegateEvents();
+    renderNotification: function(messages, alertType) {
+      if (!_.isArray(messages)) { messages = [messages]; }
+      this.$el.append(_.template(notificationsTemplate, { messages: messages, alertType: alertType }));
     },
 
     closeNotification: function() {
-      $('section#notifications').empty();
+      this.$el.empty();
       return false;
     }
 
   });
 
-  return NotificationsView;
+  return View;
 
 });

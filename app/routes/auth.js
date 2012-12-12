@@ -4,7 +4,7 @@ module.exports = function(app, middlewares, handlers) {
   /**
    * Using email and password, logs in an existing user
    */
-  app.post('/api/auth/login', middlewares.auth.requireLogout, middlewares.auth.login, function(req, res, next) {
+  app.post('/api/auth', middlewares.auth.requireLogout, middlewares.auth.login, function(req, res, next) {
     return req.responder.send();
   });
 

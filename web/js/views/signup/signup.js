@@ -22,14 +22,19 @@ define([
 
     signup: function() {
       var values = {};
-      this.$('input').each(function() {
-        values[this.name] = $(this).val();
+      _.each(this.$('form').serializeArray(), function(field) {
+        values[field.name] = field.value;
       });
 
       var self = this;
-      var user = new UserModel();
-      user.save(values, {
+      var user = new UserModel(values);
+      if (!user.isValid()) {
+        this.vent.trigger('renderNotification');
+      }
+
+      user.save({}, {
         error: function(model, response) {
+          self.vent.trigger('renderNotification', 'Error', 'error');
           console.log(model);
           console.log(response);
         },

@@ -3,7 +3,7 @@ module.exports = function(app, middlewares, handlers) {
 
   app.post('/api/user', function(req, res, next) {
     var userData = req.body;
-    handlers.user.create(userData, req.responder.send);
+    handlers.user.create(userData.email, userData.firstName, userData.lastName, userData.secret, req.responder.send);
   });
 
   app.get('/api/user/:userId', middlewares.entity.exists('user'), function(req, res, next) {

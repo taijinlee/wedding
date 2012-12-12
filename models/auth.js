@@ -3,18 +3,17 @@ module.exports = function(store) {
 
   var ServerModel;
   requirejs([
-    'web/js/models/user'
+    'web/js/models/auth'
   ], function (WebModel) {
 
     ServerModel = WebModel.extend({
       store: store,
-      context: { database: 'wedding', collection: 'auth' },
-      key: { primary: 'id' },
+      context: { database: 'wedding', collection: 'authentication' },
 
       schema: {
         id: { type: 'string' },
         userId: { type: 'string' },
-        type: { type: 'string' },
+        type: { type: 'authType' },
         identifier: { type: 'string' },
         secret: { type: 'string' },
         salt: { type: 'string', optional: true },

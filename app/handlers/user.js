@@ -3,6 +3,7 @@ module.exports = function(store, history) {
   var _ = require('underscore');
   var async = require('async');
 
+  var AuthModel = require(process.env.APP_ROOT + '/models/auth.js')(store);
   var UserModel = require(process.env.APP_ROOT + '/models/user.js')(store);
   var WebUserModel = require(process.env.APP_ROOT + '/models/webModel.js')(store, 'user');
 
@@ -10,17 +11,33 @@ module.exports = function(store, history) {
   var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
 
   /* Basic crud */
-  var create = function(userData, callback) {
-    userData.id = store.generateId();
-    userData.salt = tokenizer.generateSalt();
-    userData.password = tokenizer.generate(userData.salt, userData.password, 0, 0);
+  var create = function(email, firstName, lastName, secret, callback) {
+    var userData = {
+      id: store.generateId(),
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      role: 'user'
+    };
+
+    var authData = {
+      id: store.generateId(),
+      userId: userData.id,
+      type: 'base',
+      identifier: email
+    };
+    authData.salt = tokenizer.generateSalt();
+    authData.secret = tokenizer.generate(authData.salt, secret, 0, 0);
+
     var user = new UserModel(userData);
-    console.log(userData);
     if (!user.isValid()) { return callback(new Error('invalid:invalid input')); } // TODO: make this clearer
 
-    history.record(userData.id, 'user', 'create', userData.id, [user.toJSON()], function(error, historyData) {
-      var webUser = new WebUserModel(user.toJSON()).toJSON();
-      return callback(null, webUser);
+    var auth = new AuthModel(authData);
+    if (!auth.isValid()) { return callback(new Error('invalid:invalid input')); } // TODO: make this clearer
+
+    history.record(userData.id, 'user', 'create', userData.id, [user.toJSON(), auth.toJSON()], function(error, historyData) {
+      if (error) { return callback(error); }
+      return callback(null, new WebUserModel(user.toJSON()).toJSON());
     });
   };
 

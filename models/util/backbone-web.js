@@ -20,9 +20,10 @@ define([
 
     isExistingFieldsValid: function() {
       var isValid;
-      async.detect(_.keys(this.attributes), _.bind(function(attribute, done) {
-        return done(!this.isValid(attribute));
-      }, this), function(result) {
+      var self = this;
+      async.detect(_.keys(this.attributes), function(attribute, done) {
+        return done(!self.isValid(attribute));
+      }, function(result) {
         isValid = (result === undefined ? true : false);
       });
       return isValid;
