@@ -8,15 +8,16 @@ module.exports = function(store) {
 
     ServerModel = WebModel.extend({
       store: store,
-      context: { database: 'wedding', collection: 'users' },
+      context: { database: 'wedding', collection: 'auth' },
       key: { primary: 'id' },
 
       schema: {
         id: { type: 'string' },
-        firstName: { type: 'string' },
-        lastName: { type: 'string' },
-        email: { type: 'email' },
-        role: { type: 'userRole', defaults: 'user' },
+        userId: { type: 'string' },
+        type: { type: 'string' },
+        identifier: { type: 'string' },
+        secret: { type: 'string' },
+        salt: { type: 'string', optional: true },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
 
