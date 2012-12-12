@@ -102,14 +102,16 @@ define([
     parse: function(resp) {
       var self = this;
       resp = resp.data;
-      async.forEach(_.keys(resp), function(key, done) {
-        if (!self.getSchema()[key]) { return done(); }
-        resp[key] = self.castType(self.getSchema()[key].type, resp[key]);
-        return done();
-      }, function(error) {
-        if (error) { /* do something? */ }
+      if (!resp) { return {}; }
+
+      var respData = {};
+      _.each(resp, function(value, key) {
+        var schema = self.getSchema();
+        if (!schema[key]) { return; }
+        respData[key] = self.castType(schema[key].type, resp[key]);
       });
-      return resp;
+
+      return respData;
     },
 
     castType: function(type, value) {

@@ -32,16 +32,14 @@ define([
         return false;
       }
 
-      auth.save({}, {
-        error: function(model, response) {
-          self.vent.trigger('renderNotification', 'Error', 'error');
-          console.log(model);
-          console.log(response);
-        },
-        success: function(model, response) {
-          Backbone.history.navigate('organization', true);
-        }
+      var self = this;
+      auth.on('error', function(model, response, options) {
+        self.vent.trigger('renderNotification', 'Error', 'error');
       });
+      auth.on('sync', function(model, response, options) {
+        Backbone.history.navigate('organization', true);
+      });
+      auth.save();
 
       return false;
     }

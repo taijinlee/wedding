@@ -13,7 +13,6 @@ define([
       { urlFragment: 'login', view: 'login/login', symName: 'login' },
       { urlFragment: 'logout', view: 'logout/logout', symName: 'logout' },
       { urlFragment: 'signup', view: 'signup/signup', symName: 'signup' },
-      { urlFragment: 'users', view: 'users/users', symName: 'users' },
       { urlFragment: 'organization', view: 'organization/organization', symName: 'organization' },
       { urlFragment: 'organization/add', view: 'organization/add', symName: 'organizationAdd' },
       { urlFragment: 'organization/edit/:id', view: 'organization/edit', symName: 'organizationEdit' },
