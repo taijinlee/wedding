@@ -13,7 +13,7 @@ define([
         { symName: 'homepage', name: 'Home' },
         { symName: 'login', name: 'Login', loggedIn: false },
         { symName: 'signup', name: 'Signup', loggedIn: false },
-        { symName: 'organization', name: 'Organization', loggedIn: true },
+        { symName: 'weddingsList', name: 'My Weddings', loggedIn: true },
         { symName: 'logout', name: 'Sign out', loggedIn: true, id: 'logout' }
       ];
 

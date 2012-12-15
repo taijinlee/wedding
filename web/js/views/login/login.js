@@ -37,7 +37,7 @@ define([
         self.vent.trigger('renderNotification', 'Error', 'error');
       });
       auth.on('sync', function(model, response, options) {
-        Backbone.history.navigate('organization', true);
+        Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
       });
       auth.save();
 

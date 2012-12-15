@@ -13,10 +13,10 @@ define([
       { urlFragment: 'login', view: 'login/login', symName: 'login' },
       { urlFragment: 'logout', view: 'logout/logout', symName: 'logout' },
       { urlFragment: 'signup', view: 'signup/signup', symName: 'signup' },
-      { urlFragment: 'organization', view: 'organization/organization', symName: 'organization' },
-      { urlFragment: 'organization/add', view: 'organization/add', symName: 'organizationAdd' },
-      { urlFragment: 'organization/edit/:id', view: 'organization/edit', symName: 'organizationEdit' },
-
+      { urlFragment: 'wedding/:id', view: 'weddings/show', symName: 'weddingShow' },
+      { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList' },
+      { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew' },
+      { urlFragment: 'guest/new/:weddingId', view: 'guest/new', symName: 'guestNew' },
       { urlFragment: 'account', view: 'account/account', symName: 'account', requireLogin: true }
     ],
 

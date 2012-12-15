@@ -38,8 +38,4 @@ module.exports = function(app, middlewares, handlers) {
     handlers.user.list(filters, limit, skip, req.responder.send);
   });
 
-  // returns all the activities for user :userId that is visible to the requesting
-  // users
-  app.get('api/user/:userId/recent_activity', null /* new handler */);
-
 };

@@ -3,20 +3,24 @@ module.exports = function(store) {
 
   var ServerModel;
   requirejs([
-    'web/js/models/user'
+    'web/js/models/guest'
   ], function (WebModel) {
 
     ServerModel = WebModel.extend({
       store: store,
-      context: { database: 'wedding', collection: 'users' },
+      context: { database: 'wedding', collection: 'guests' },
 
       schema: {
         id: { type: 'string' },
+        weddingId: { type: 'string' },
         firstName: { type: 'string' },
         lastName: { type: 'string' },
         email: { type: 'email', optional: true },
-        role: { type: 'userRole', defaults: 'user' },
-        // active: { type: 'boolean', defaults: false }, // flesh this out later
+        address1: { type: 'string', optional: true },
+        address2: { type: 'string', optional: true },
+        city: { type: 'string', optional: true },
+        state: { type: 'string', optional: true },
+        zip: { type: 'string', optional: true },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
 
