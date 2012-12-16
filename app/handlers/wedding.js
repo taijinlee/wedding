@@ -36,24 +36,19 @@ module.exports = function(store, history) {
   };
 
   var retrieve = function(tokenUserId, weddingId, callback) {
-    var wedding = new WeddingModel({ id: weddingId });
     async.auto({
-      wedding: function(done) { wedding.retrieve(done); },
+      wedding: function(done) { new WeddingModel({ id: weddingId }).retrieve(done); },
+      /*
       checkUser: ['wedding', function(done, results) {
-        if (tokenUserId !== wedding.userId) {
+        if (tokenUserId !== results.wedding.userId) {
           return done(new Error('unauthorized: userId:' + tokenUserId + ' not allowed'));
         }
       }],
-      user: ['checkUser', function(done, results) {
-        new UserModel({ id: wedding.get('userId') }).retrieve(done);
-      }],
-      fiance: ['checkUser', function(done, results) {
-        new GuestModel({ id: wedding.get('fianceGuestId') }).retrieve(done);
-      }]
+      */
+      metadata: ['wedding', function(done, results) { getMetadata(results.wedding, done); }]
     }, function(error, results) {
       if (error) { return callback(error); }
-      wedding.set({ user: results.user.toJSON(), fiance: results.fiance.toJSON() });
-      return callback(null, new WebWeddingModel(results.wedding).toJSON());
+      return callback(null, new WebWeddingModel(results.metadata).toJSON());
     });
   };
 
@@ -75,12 +70,28 @@ module.exports = function(store, history) {
   };
 
   var list = function(filters, limit, pageId, callback) {
-    WeddingModel.prototype.list(filters, limit, pageId, function(error, weddings) {
+    async.auto({
+      weddings: function(done) { WeddingModel.prototype.list(filters, limit, pageId, done); },
+      metadata: ['weddings', function(done, results) {
+        async.map(results.weddings, getMetadata, function(error, weddings) {
+          if (error) { return done(error); }
+          weddings = _.map(weddings, function(wedding) { return new WebWeddingModel(wedding).toJSON(); });
+          return done(null, weddings);
+        });
+      }]
+    }, callback);
+  };
+
+  var getMetadata = function(wedding, callback) {
+    async.auto({
+      user: function(done, results) { new UserModel({ id: wedding.userId }).retrieve(done); },
+      fiance: function(done, results) { new GuestModel({ id: wedding.fianceGuestId }).retrieve(done); }
+    }, function(error, results) {
       if (error) { return callback(error); }
-      weddings = _.map(weddings, function(wedding) { return new WebWeddingModel(wedding).toJSON(); });
-      return callback(null, weddings);
+      return callback(null, _.extend(wedding, results));
     });
   };
+
 
   return {
     create: create,
