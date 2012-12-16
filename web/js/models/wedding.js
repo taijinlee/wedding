@@ -20,7 +20,7 @@ define([
     },
 
     name: function() {
-      return this.user.get('firstName') + ' & ' + this.fiance.get('firstName');
+      return this.get('user').firstName + ' & ' + this.get('fiance').firstName;
     }
 
   });

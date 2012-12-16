@@ -79,7 +79,10 @@ module.exports = function(store, history) {
           return done(null, weddings);
         });
       }]
-    }, callback);
+    }, function(error, results) {
+      if (error) { return callback(error); }
+      return callback(null, results.metadata);
+    });
   };
 
   var getMetadata = function(wedding, callback) {
