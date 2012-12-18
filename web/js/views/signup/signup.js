@@ -2,9 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'models/user',
+  'models/signup',
   'text!./form.html'
-], function($, _, Backbone, UserModel, formTemplate) {
+], function($, _, Backbone, SignupModel, formTemplate) {
 
   var SignupView = Backbone.View.extend({
     events: {
@@ -27,12 +27,12 @@ define([
       });
 
       var self = this;
-      var user = new UserModel(values);
-      if (!user.isValid()) {
+      var signup = new SignupModel(values);
+      if (!signup.isValid()) {
         this.vent.trigger('renderNotification');
       }
 
-      user.save({}, {
+      signup.save({}, {
         error: function(model, response) {
           self.vent.trigger('renderNotification', 'Error', 'error');
           console.log(model);

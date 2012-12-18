@@ -7,6 +7,9 @@ module.exports = function(store, history) {
   var UserModel = require(process.env.APP_ROOT + '/models/user.js')(store);
   var WebUserModel = require(process.env.APP_ROOT + '/models/webModel.js')(store, 'user');
 
+  var WeddingModel = require(process.env.APP_ROOT + '/models/wedding.js')(store);
+  var PartyModel = require(process.env.APP_ROOT + '/models/party.js')(store);
+
   var assetManager = require(process.env.APP_ROOT + '/assetManager/assetManager.js')(store);
   var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
 
@@ -79,6 +82,57 @@ module.exports = function(store, history) {
     });
   };
 
+  var signup = function(email, firstName, lastName, secret, fianceFirstName, fianceLastName, callback) {
+    var userData = {
+      id: store.generateId(),
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      role: 'user'
+    };
+
+    var authData = {
+      id: store.generateId(),
+      userId: userData.id,
+      type: 'base',
+      identifier: email
+    };
+    authData.salt = tokenizer.generateSalt();
+    authData.secret = tokenizer.generate(authData.salt, secret, 0, 0);
+
+    var weddingData = {
+      id: store.generateId(),
+      userId: userData.id,
+      mainPartyId: store.generateId()
+    };
+
+    var partyData = {
+      id: weddingData.mainPartyId,
+      weddingId: weddingData.id,
+      guests: [
+        { salutation: '', firstName: firstName, lastName: lastName, email: email },
+        { salutation: '', firstName: fianceFirstName, lastName: fianceLastName, email: '' }
+      ]
+    };
+
+    var user = new UserModel(userData);
+    if (!user.isValid()) { return callback(new Error('invalid:invalid input')); } // TODO: make this clearer
+
+    var auth = new AuthModel(authData);
+    if (!auth.isValid()) { return callback(new Error('invalid:invalid input')); } // TODO: make this clearer
+
+    var wedding = new WeddingModel(weddingData);
+    if (!wedding.isValid()) { return callback(new Error('invalid:invalid input')); }
+
+    var party = new PartyModel(partyData);
+    if (!party.isValid()) { return callback(new Error('invalid:invalid input')); }
+
+    history.record(userData.id, 'user', 'signup', userData.id, [user.toJSON(), auth.toJSON(), wedding.toJSON(), party.toJSON()], function(error, historyData) {
+      if (error) { return callback(error); }
+      return callback(null, new WebUserModel(user.toJSON()).toJSON());
+    });
+  };
+
   var getMetaData = function(user, callback) {
     async.auto({
       userAvatar: function(done) {
@@ -96,7 +150,8 @@ module.exports = function(store, history) {
     retrieve: retrieve,
     update: update,
     destroy: destroy,
-    list: list
+    list: list,
+    signup: signup
   };
 
 };

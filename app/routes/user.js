@@ -6,6 +6,11 @@ module.exports = function(app, middlewares, handlers) {
     handlers.user.create(userData.email, userData.firstName, userData.lastName, userData.secret, req.responder.send);
   });
 
+  app.post('/api/user/signup', function(req, res, next) {
+    var signupData = req.body;
+    handlers.user.signup(signupData.email, signupData.firstName, signupData.lastName, signupData.secret, signupData.fianceFirstName, signupData.fianceLastName, req.responder.send);
+  });
+
   app.get('/api/user/:userId', middlewares.entity.exists('user'), function(req, res, next) {
     handlers.user.retrieve(req.auth.tokenUserId, req.params.userId, req.responder.send);
   });

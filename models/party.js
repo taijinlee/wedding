@@ -3,18 +3,17 @@ module.exports = function(store) {
 
   var ServerModel;
   requirejs([
-    'web/js/models/wedding'
+    'web/js/models/party'
   ], function (WebModel) {
 
     ServerModel = WebModel.extend({
       store: store,
-      context: { database: 'wedding', collection: 'weddings' },
+      context: { database: 'wedding', collection: 'partys' },
 
       schema: {
         id: { type: 'string' },
-        userId: { type: 'string' },
-        mainPartyId: { type: 'string' },
-        date: { type: 'timestamp', optional: true },
+        weddingId: { type: 'string' },
+        guests: { type: 'object' },
         address1: { type: 'string', optional: true },
         address2: { type: 'string', optional: true },
         city: { type: 'string', optional: true },
