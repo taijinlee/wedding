@@ -19,7 +19,7 @@ module.exports = function(app, middlewares, handlers) {
     handlers.wedding.destroy(req.auth.tokenUserId, req.params.weddingId, req.responder.send);
   });
 
-  app.get('/api/wedding', function(req, res, next) {
+  app.get('/api/wedding', middlewares.auth.requireLogin, function(req, res, next) {
     var page = req.param('page', 1);
 
     var limit = 10;
@@ -34,6 +34,7 @@ module.exports = function(app, middlewares, handlers) {
         .value();
     }
     delete filters.keywords;
+    filters.userId = req.auth.tokenUserId;
 
     handlers.wedding.list(filters, limit, skip, req.responder.send);
   });
