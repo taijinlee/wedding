@@ -4,21 +4,21 @@ define([
   'backbone',
   'collections/partys',
   'text!./emptyTable.html',
-  'text!./partyRow.html'
-], function($, _, Backbone, PartysCollection, emptyTableTemplate, partyRowTemplate) {
+  'text!./partyRow.html',
+  'text!./addPartyRow.html'
+], function($, _, Backbone, PartysCollection, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate) {
 
   var View = Backbone.View.extend({
     initialize: function(config, vent, pather, cookie, args) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
-      this.weddingId = args[0] || null;
+      this.weddingId = args[0];
       this.partys = new PartysCollection();
       this.partys.on('reset', this.renderPartys, this);
 
       this.headers = [
-        'First Name',
-        'Last Name',
-        'Address',
+        'Guest Name',
         'E-mail',
+        'Address',
         "RSVP'ed"
       ];
     },
@@ -30,7 +30,6 @@ define([
       _.each(this.headers, function(header) {
         $tr.append(self.make('th', {}, header));
       });
-      $tr.append(self.make('th', {}, self.make('a', { 'class': 'btn pull-right', href: self.pather.getUrl('partyNew', { weddingId: this.weddingId }) }, 'Add Party')));
       this.$el.find('thead').append($tr);
 
       this.partys.fetch();
@@ -41,8 +40,9 @@ define([
       var $body = this.$el.find('tbody');
       var self = this;
       partys.each(function(party) {
-        $body.append(_.template(partyRowTemplate, party.toJSON()));
+        $body.append(_.template(partyRowTemplate, { guests: party.get('guests'), address: party.address() }));
       });
+      $body.append(_.template(addPartyRowTemplate, { addPartyUrl: this.pather.getUrl('partyNew', { id: this.weddingId }) }));
     }
   });
 

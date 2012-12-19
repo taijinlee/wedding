@@ -8,23 +8,27 @@ define([
 ], function($, _, Backbone, Pather, CookieModel, AppView) {
   var Router = Backbone.Router.extend({
 
-    paths: [
-      { urlFragment: '', view: 'homepage', symName: 'homepage' },
-      { urlFragment: 'login', view: 'login/login', symName: 'login' },
-      { urlFragment: 'logout', view: 'logout/logout', symName: 'logout' },
-      { urlFragment: 'signup', view: 'signup/signup', symName: 'signup' },
-      { urlFragment: 'wedding/:id', view: 'weddings/show', symName: 'weddingShow' },
-      { urlFragment: 'wedding', view: 'weddings/show', symName: 'weddingShow' },
-      { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList' },
-      { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew' },
-      { urlFragment: 'guest/new/:weddingId', view: 'guest/new', symName: 'guestNew' },
-      { urlFragment: 'account', view: 'account/account', symName: 'account', requireLogin: true }
-    ],
+    paths: function() {
+      return [
+        { urlFragment: '', view: 'homepage', symName: 'homepage' },
+        { urlFragment: 'login', view: 'login/login', symName: 'login' },
+        { urlFragment: 'logout', view: 'logout/logout', symName: 'logout' },
+        { urlFragment: 'signup', view: 'signup/signup', symName: 'signup' },
+        { urlFragment: 'wedding/:id', view: 'weddings/show', symName: 'weddingShow' },
+        { urlFragment: 'wedding', view: 'weddings/show', symName: 'weddingShowOwn' },
+        { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList' },
+        { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew' },
+        { urlFragment: 'wedding/:id/party/new', view: 'party/new', symName: 'partyNew' },
+        { urlFragment: 'account', view: 'account/linkAccount', symName: 'linkAccount', requireLogin: true },
+
+        { urlFragment: 'https://accounts.google.com/o/oauth2/auth?response_type=token&scope=' + encodeURIComponent('https://www.google.com/m8/feeds') + '&redirect_uri=' + encodeURIComponent('http://localhost:4000/auth/google/oauth2callback') + '&client_id=' + this.config.data.googleOAuth.clientId, view: '!external', symName: 'googleOAuth' }
+      ];
+    },
 
     initialize: function(config) {
       this.config = config;
       this.vent = _.extend({}, Backbone.Events);
-      this.pather = new Pather(this.paths);
+      this.pather = new Pather(this.paths());
       this.cookie = new CookieModel();
 
       this.app = new AppView(this.config, this.vent, this.pather, this.cookie);
@@ -35,7 +39,7 @@ define([
       });
 
       var self = this;
-      _.each(this.paths.reverse(), function(path) {
+      _.each(this.paths().reverse(), function(path) {
         // ignore any empty views or views with ! in the view name
         if (!path.view || path.view.indexOf('!') !== -1) { return; }
 

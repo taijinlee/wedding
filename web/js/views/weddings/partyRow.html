@@ -1,7 +1,10 @@
-<tr>
-  <td><%= firstName %></td>
-  <td><%= lastName %></td>
-  <td><%= address1 %>, <%= city %>, <%= state %> <%= zip %></td>
-  <td><%= email %></td>
-  <td>No</td>
-</tr>
+<% _.each(guests, function(guest, index) { %>
+  <tr>
+    <td><%= guest.firstName %> <%= guest.lastName %></td>
+    <td><%= guest.email %></td>
+    <% if (index === 0) { %>
+      <td rowspan="<%= guests.length %>"><%= index === 0 ? address.replace(/\n/g, '<br />') : ''  %></td>
+    <% } %>
+    <td>No</td>
+  </tr>
+<% }) %>

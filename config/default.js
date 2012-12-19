@@ -10,6 +10,10 @@ module.exports = {
       port: 27017,
       maxMillisOnWarn: 5000
     }
+  },
+
+  googleOAuth: {
+    clientId: '669677576804.apps.googleusercontent.com'
   }
 
 };
