@@ -1,10 +1,11 @@
 <% _.each(guests, function(guest, index) { %>
-  <tr>
+  <tr <%= index === 0 ? 'class="table-row"' : '' %>>
     <td><%= guest.firstName %> <%= guest.lastName %></td>
     <td><%= guest.email %></td>
     <% if (index === 0) { %>
       <td rowspan="<%= guests.length %>"><%= index === 0 ? address.replace(/\n/g, '<br />') : ''  %></td>
     <% } %>
     <td>No</td>
+    <td><a href="<%= editUrl %>">Edit</a></td>
   </tr>
 <% }) %>

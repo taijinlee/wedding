@@ -19,13 +19,14 @@ define([
         'Guest Name',
         'E-mail',
         'Address',
-        "RSVP'ed"
+        "RSVP'ed",
+        'Edit'
       ];
     },
 
     render: function() {
       this.$el.html(_.template(emptyTableTemplate));
-      var $tr = $(this.make('tr'));
+      var $tr = $(this.make('tr', { 'class': 'table-row' }));
       var self = this;
       _.each(this.headers, function(header) {
         $tr.append(self.make('th', {}, header));
@@ -40,7 +41,7 @@ define([
       var $body = this.$el.find('tbody');
       var self = this;
       partys.each(function(party) {
-        $body.append(_.template(partyRowTemplate, { guests: party.get('guests'), address: party.address() }));
+        $body.append(_.template(partyRowTemplate, { guests: party.get('guests'), address: party.address(), editUrl: self.pather.getUrl('partyEdit', { weddingId: self.weddingId, partyId: party.get('id') }) }));
       });
       $body.append(_.template(addPartyRowTemplate, { addPartyUrl: this.pather.getUrl('partyNew', { id: this.weddingId }) }));
     }

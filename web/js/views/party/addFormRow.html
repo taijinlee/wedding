@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="span10" data-guestNum="<%= guestNum %>">
+  <div class="span10">
     <select class="span1" id="salutation" name="guest_<%=guestNum%>_salutation">
       <option value=""></option>
       <option value="mr">Mr.</option>
@@ -8,8 +8,8 @@
       <option value="misss">Miss</option>
       <option value="dr">Dr.</option>
     </select>
-    <input class="span3" type="text" id="firstName" name="guest_<%=guestNum%>_firstName" placeholder="First Name" value="" />
-    <input class="span3" type="text" id="lastName" name="guest_<%=guestNum%>_lastName" placeholder="Last Name" value="" />
-    <input class="span3" type="email" id="email" name="guest_<%=guestNum%>_email" placeholder="E-mail" value="" />
+    <input class="span3" type="text" id="firstName" name="guest_<%=guestNum%>_firstName" placeholder="First Name" value="<%= guest.firstName || ''%>" />
+    <input class="span3" type="text" id="lastName" name="guest_<%=guestNum%>_lastName" placeholder="Last Name" value="<%= guest.lastName || ''%>" />
+    <input class="span3" type="email" id="email" name="guest_<%=guestNum%>_email" placeholder="E-mail" value="<%= guest.email || ''%>" />
   </div>
 </div>

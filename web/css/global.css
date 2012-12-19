@@ -14,3 +14,15 @@
 .horizontalLink li:last-child { margin: 0; padding: 0; border: none; }
 
 button.btn[type='submit'] { display: block; }
+
+.table-multirow th, .table-multirow td {
+  border: 0;
+}
+
+.table-multirow tbody .table-row {
+  border-top: 1px solid #ddd;
+}
+
+.table-multirow-striped tbody > tr.table-row:nth-child(2n+1) > td, .table-striped tbody > tr.table-row:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}

@@ -17,6 +17,7 @@ define([
     initialize: function(config, vent, pather, cookie, args) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.weddingId = args[0];
+      this.partyId = args[1];
       this.guestNum = 0;
 
       this.guestTable = {
@@ -31,23 +32,40 @@ define([
         state: 'State',
         zip: 'Zip'
       };
+
+      this.party = new PartyModel({ id: this.partyId });
+      this.party.on('change', this.renderPartyInfo, this);
     },
 
     render: function() {
+      if (this.partyId) {
+        this.party.fetch();
+        return this;
+      }
+      this.renderPartyInfo();
+      return this;
+    },
+
+    renderPartyInfo: function() {
       this.$el.html(_.template(addFormTemplate, { backUrl: this.pather.getUrl('weddingShow', { id: this.weddingId }) }));
       var $guestSection = this.$el.find('#addGuests');
-      $guestSection.html(_.template(addFormRowTemplate, { guestNum: this.guestNum }));
+      var self = this;
+
+      var guests = this.party.get('guests');
+      if (!guests || guests.length === 0) { guests = [{}]; }
+      _.each(guests, function(guest) {
+        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest  }));
+        self.guestNum++;
+      });
 
       var $addressSection = this.$el.find('#addAddress');
-      $addressSection.html(_.template(addressFormTemplate));
-
-      return this;
+      $addressSection.html(_.template(addressFormTemplate, { party: this.party.toJSON() }));
     },
 
     addGuest: function() {
       var $guestSection = this.$el.find('#addGuests');
+      $guestSection.append(_.template(addFormRowTemplate, { guestNum: this.guestNum, guest: {} }));
       this.guestNum++;
-      $guestSection.append(_.template(addFormRowTemplate, { guestNum: this.guestNum }));
       return false;
     },
 
@@ -84,20 +102,22 @@ define([
       });
       partyData.guests = guests;
 
-      var party = new PartyModel(partyData);
-      if (!party.isValid()) {
+      this.party.set(partyData);
+      // var party = new PartyModel(partyData);
+      if (!this.party.isValid()) {
         this.vent.trigger('renderNotification', 'blah', 'error');
         return false;
       }
 
       var self = this;
-      party.save({}, {
+      this.party.save({}, {
         error: function(model, response) {
           self.vent.trigger('renderNotification', 'Error', 'error');
           console.log(model);
           console.log(response);
         },
         success: function(model, response) {
+          Backbone.history.navigate(self.pather.getUrl('weddingShow', { id: self.weddingId }), { trigger: true });
           console.log(model);
           console.log(response);
           console.log(self.vent);

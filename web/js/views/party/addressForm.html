@@ -1,14 +1,14 @@
 <div class="span6">
-  <input class="span6" type="text" id="address1" name="address1" placeholder="Street" value=""/>
+  <input class="span6" type="text" id="address1" name="address1" placeholder="Street" value="<%= party.address1 || '' %>"/>
   <div class="row">
     <div class="span3">
-      <input class="span3" type="text" id="city" name="city" placeholder="city" value=""/>
+      <input class="span3" type="text" id="city" name="city" placeholder="city" value="<%= party.city || '' %>"/>
     </div>
     <div class="span1">
-      <input class="span1" type="text" id="state" name="state" placeholder="state" value=""/>
+      <input class="span1" type="text" id="state" name="state" placeholder="state" value="<%= party.state || '' %>"/>
     </div>
     <div class="span2">
-      <input class="span2" type="text" id="zip" name="zip" placeholder="zip" value=""/>
+      <input class="span2" type="text" id="zip" name="zip" placeholder="zip" value="<%= party.zip || '' %>"/>
     </div>
   </div>
 </div>
