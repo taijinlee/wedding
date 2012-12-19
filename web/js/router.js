@@ -19,6 +19,7 @@ define([
         { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList' },
         { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew' },
         { urlFragment: 'wedding/:id/party/new', view: 'party/new', symName: 'partyNew' },
+        { urlFragment: 'wedding/:weddingId/party/:partyId', view: 'party/new', symName: 'partyEdit' },
         { urlFragment: 'account', view: 'account/linkAccount', symName: 'linkAccount', requireLogin: true },
 
         { urlFragment: 'https://accounts.google.com/o/oauth2/auth?response_type=token&scope=' + encodeURIComponent('https://www.google.com/m8/feeds') + '&redirect_uri=' + encodeURIComponent('http://localhost:4000/auth/google/oauth2callback') + '&client_id=' + this.config.data.googleOAuth.clientId, view: '!external', symName: 'googleOAuth' }
