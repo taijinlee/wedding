@@ -103,6 +103,7 @@ module.exports = function(store, history) {
     var weddingData = {
       id: store.generateId(),
       userId: userData.id,
+      name: userData.firstName + ' & ' + fianceFirstName,
       mainPartyId: store.generateId()
     };
 

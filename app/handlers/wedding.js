@@ -87,8 +87,7 @@ module.exports = function(store, history) {
 
   var getMetadata = function(wedding, callback) {
     async.auto({
-      user: function(done, results) { new UserModel({ id: wedding.userId }).retrieve(done); },
-      fiance: function(done, results) { new GuestModel({ id: wedding.fianceGuestId }).retrieve(done); }
+      user: function(done, results) { new UserModel({ id: wedding.userId }).retrieve(done); }
     }, function(error, results) {
       if (error) { return callback(error); }
       return callback(null, _.extend(wedding, results));

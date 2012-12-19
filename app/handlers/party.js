@@ -44,7 +44,6 @@ module.exports = function(store, history) {
   };
 
   var list = function(filters, limit, pageId, callback) {
-    PartyModel.retrieve();
     PartyModel.prototype.list(filters, limit, pageId, function(error, partys) {
       if (error) { return callback(error); }
       partys = _.map(partys, function(party) { return new WebPartyModel(party).toJSON(); });

@@ -9,7 +9,7 @@ define([
     schema: {
       id: { type: 'string', optional: true },
       user: { type: 'object' },
-      fiance: { type: 'object' },
+      name: { type: 'string' },
       date: { type: 'timestamp', optional: true },
       address1: { type: 'string', optional: true },
       address2: { type: 'string', optional: true },

@@ -13,6 +13,7 @@ module.exports = function(store) {
       schema: {
         id: { type: 'string' },
         userId: { type: 'string' },
+        name: { type: 'string' },
         mainPartyId: { type: 'string' },
         date: { type: 'timestamp', optional: true },
         address1: { type: 'string', optional: true },
