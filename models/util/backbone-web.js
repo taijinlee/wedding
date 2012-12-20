@@ -51,7 +51,8 @@ define([
 
       // return an array of errors if any
       if (errors.length) {
-        var error = new Error('invalid: context: ' + JSON.stringify(this.context) + ' ');
+        return errors;
+        var error = new Error();
         error.message += _.map(errors, function(errorMeta) {
           return errorMeta.error.message + ': column: ' + errorMeta.column + ' value: ' + errorMeta.value;
         }).join(', ');

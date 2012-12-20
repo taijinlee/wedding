@@ -2,9 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'models/auth',
+  'models/authBase',
   'text!./form.html'
-], function($, _, Backbone, AuthModel, formTemplate) {
+], function($, _, Backbone, AuthBaseModel, formTemplate) {
 
   var View = Backbone.View.extend({
     events: {
@@ -20,26 +20,31 @@ define([
       return this;
     },
 
-    login: function() {
+    login: function(event) {
+      event && event.preventDefault && event.stopPropagation();
       var values = { type: 'base' };
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
       });
 
-      var auth = new AuthModel(values);
-      if (!auth.isValid()) {
-        this.vent.trigger('renderNotification');
+      var authBase = new AuthBaseModel(values);
+      var errors = authBase.validate(values);
+      if (errors) {
+        _.each(errors, function(error) {
+          $('#' + error.column).addClass('error');
+        });
+        this.vent.trigger('renderNotification', 'Error', 'error');
         return false;
       }
 
       var self = this;
-      auth.on('error', function(model, response, options) {
+      authBase.on('error', function(model, response, options) {
         self.vent.trigger('renderNotification', 'Error', 'error');
       });
-      auth.on('sync', function(model, response, options) {
+      authBase.on('sync', function(model, response, options) {
         Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
       });
-      auth.save();
+      authBase.save();
 
       return false;
     }

@@ -1,6 +1,10 @@
 <form class="well span4 offset4" method="post" action="/api/auth">
   <input type="hidden" name="_method" value="post">
-  <input type="text" placeholder="E-mail" name="identifier" class="span4" />
-  <input type="password" placeholder="Password" name="secret" class="span4" />
+  <div class="control-group" id="identifier">
+    <input type="email" placeholder="E-mail" name="identifier" class="span4" required />
+  </div>
+  <div class="control-group" id="password">
+    <input type="password" placeholder="Password" name="secret" class="span4" required />
+  </div>
   <button type="submit" class="btn" id="loginButton" name="login" value="login">Login</button>
 </form>

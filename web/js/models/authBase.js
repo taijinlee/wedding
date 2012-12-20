@@ -8,8 +8,8 @@ define([
     schema: {
       id: { type: 'string', optional: true },
       userId: { type: 'string', optional: true },
-      type: { type: 'authType' },
-      identifier: { type: 'string' },
+      type: { type: 'authType', defaults: 'base' },
+      identifier: { type: 'email' },
       secret: { type: 'string' },
       created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
     }
