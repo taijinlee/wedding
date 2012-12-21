@@ -33,7 +33,9 @@ define([
       });
       this.$el.find('thead').append($tr);
 
-      this.partys.fetch();
+      this.partys.fetch({
+        data: { weddingId: this.weddingId }
+      });
       return this;
     },
 
