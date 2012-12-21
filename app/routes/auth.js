@@ -3,7 +3,7 @@ module.exports = function(app, middlewares, handlers) {
 
   var querystring = require('querystring');
   var https = require('https');
-  var config = require('config')();
+  var config = require(process.env.APP_ROOT + '/config/config.js')();
 
   /**
    * Using email and password, logs in an existing user
