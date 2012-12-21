@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "ssh://nopuku.com/opt/git/orgchart.git"
+    "url": "ssh://nopuku.com/opt/git/wedding.git"
   },
   "engines": {
     "node": "~0.8"

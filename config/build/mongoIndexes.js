@@ -4,12 +4,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var indexes = [
-  { database: 'drinks', collection: 'userActivity', index: {userId: 1, created: -1}},
-  { database: 'drinks', collection: 'drinkActivity', index: {drinkId: 1, created: -1}},
-  { database: 'drinks', collection: 'ratings', index: {userId: 1, drinkId: 1}, options: {unique: true} },
-  { database: 'drinks', collection: 'assetBlobs', index: {hash: 1}, options: {unique: true} },
-  { database: 'drinks', collection: 'relationships', index: {userId1: 1, userId2: 1}, options: {unique: true} },
-  { database: 'drinks', collection: 'drinks', index: {keywords: 1} }
+  { database: 'wedding', collection: 'users', index: { email: 1 }, options: { unique: true }},
 ];
 
 var mongoServer = new mongo.Server('localhost', 27017);
