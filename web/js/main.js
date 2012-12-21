@@ -26,7 +26,7 @@ require([
 ], function($, Backbone, ConfigModel, Router) {
   new ConfigModel().fetch({
     success: function(configModel, configObj) {
-      var router = new Router(configObj);
+      var router = new Router(configObj.data);
     }
   });
 

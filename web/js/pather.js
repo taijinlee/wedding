@@ -26,18 +26,21 @@ define([
       }
 
       var url = _formattedPaths[symName];
-      if (url.indexOf('http') !== -1) {
-        return url;
-      }
 
       // substitute
       url = url.replace(/:(\w+)/g, function(origString, key) {
-        return args.hasOwnProperty(key) ? args[key] : origString;
+        return args.hasOwnProperty(key) ? encodeURIComponent(args[key]) : origString;
       });
 
       // if we still find a : that isn't replaced, then something is wrong with the inputs
-      if (url.indexOf(':') !== -1) {
+      var parser = document.createElement('a');
+      parser.href = url;
+      if (parser.pathname.indexOf(':') !== -1 || parser.search.indexOf(':') !== -1 || parser.hash.indexOf(':') !== -1) {
         throw new Error('invalid arguments');
+      }
+
+      if (url.indexOf('http') === 0) {
+        return url;
       }
       return '/' + url;
     };

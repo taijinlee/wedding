@@ -13,7 +13,9 @@ module.exports = {
   },
 
   googleOAuth: {
-    clientId: '669677576804.apps.googleusercontent.com'
+    clientId: '669677576804-oiqgaqu5qao3606jlqpjij2vln6l4sh5.apps.googleusercontent.com',
+    contactScope: 'https://www.google.com/m8/feeds',
+    redirectUri: 'http://localhost:4000/api/auth/google/oauth2callback'
   }
 
 };

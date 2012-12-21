@@ -21,7 +21,7 @@ define([
       checkType: function(value) { return _validator().check(value).isIn(['checkin', 'rating', 'comment']); }
     },
     authType: {
-      checkType: function(value) { return _validator().check(value).isIn(['base']); }
+      checkType: function(value) { return _validator().check(value).isIn(['base', 'google']); }
     },
     bool: {
       checkType: function(value) { return _validator().check(value).isIn([true, false]); },

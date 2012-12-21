@@ -17,6 +17,7 @@ module.exports = function(store) {
         identifier: { type: 'string' },
         secret: { type: 'string' },
         salt: { type: 'string', optional: true },
+        expires: { type: 'timestamp', defaults: 0 },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
 
