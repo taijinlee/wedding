@@ -3,6 +3,7 @@ module.exports = function(app, middlewares, handlers) {
 
   var querystring = require('querystring');
   var https = require('https');
+  var config = require('config')();
 
   /**
    * Using email and password, logs in an existing user
@@ -33,8 +34,8 @@ module.exports = function(app, middlewares, handlers) {
 
     var postData = querystring.stringify({
       code: code,
-      client_id: '669677576804-oiqgaqu5qao3606jlqpjij2vln6l4sh5.apps.googleusercontent.com',
-      client_secret: 'vQbQB798l2q08UmhwfJADzW-',
+      client_id: config.googleOAuth.clientId,
+      client_secret: config.googleOAuth.secret,
       redirect_uri: 'http://localhost:4000/api/auth/google/oauth2callback',
       grant_type: 'authorization_code'
     });
