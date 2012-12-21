@@ -20,6 +20,14 @@ module.exports = function(app, middlewares, handlers) {
   app.post('/api/auth/login', null /* TODO: figure this out */);
 
 
+  /**
+   * Logs an existing user out from the system and invalid their credential cookie.
+   */
+  app.get('/api/auth/logout', middlewares.auth.requireLogin, middlewares.auth.logout, function(req, res, next) {
+    return req.responder.send();
+  });
+
+
   app.get('/api/auth/:authId', middlewares.auth.requireLogin, function(req, res, next) {
     var authId = req.params.authId;
     if (req.auth.tokenUserId !== authId.slice(0, authId.indexOf('|'))) { return req.responder.send(new Error('unauthorized: can only query for current user authtokens')); }
@@ -63,13 +71,6 @@ module.exports = function(app, middlewares, handlers) {
       });
     }).end(postData);
 
-  });
-
-  /**
-   * Logs an existing user out from the system and invalid their credential cookie.
-   */
-  app.get('/api/auth/logout', middlewares.auth.requireLogin, middlewares.auth.logout, function(req, res, next) {
-    return req.responder.send();
   });
 
 };
