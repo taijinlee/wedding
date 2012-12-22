@@ -6,6 +6,6 @@
       <td rowspan="<%= guests.length %>"><%= index === 0 ? address.replace(/\n/g, '<br />') : ''  %></td>
     <% } %>
     <td>No</td>
-    <td><a href="<%= editUrl %>">Edit</a></td>
+    <td><%= index === 0 ? '<a href="' + editUrl + '">Edit</a>' : '' %></td>
   </tr>
 <% }) %>
