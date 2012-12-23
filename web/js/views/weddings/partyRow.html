@@ -1,11 +1,14 @@
 <% _.each(guests, function(guest, index) { %>
-  <tr <%= index === 0 ? 'class="table-row"' : '' %>>
+  <tr <% if (index === 0) { %>class="table-row"<% } %> data-party-id="<%= partyId %>">
     <td><%= guest.firstName %> <%= guest.lastName %></td>
     <td><%= guest.email %></td>
     <% if (index === 0) { %>
       <td rowspan="<%= guests.length %>"><%= index === 0 ? address.replace(/\n/g, '<br />') : ''  %></td>
     <% } %>
     <td>No</td>
-    <td><%= index === 0 ? '<a href="' + editUrl + '">Edit</a>' : '' %></td>
+    <td><% if (index === 0) { %><a href="<%= editUrl %>">Edit</a><% } %></td>
+    <td>
+      <% if (index === 0) { %> <button class="delete btn btn-danger">Delete</button><% } %>
+    </td>
   </tr>
 <% }) %>
