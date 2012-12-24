@@ -8,7 +8,6 @@ require.config({
     'humanize': 'lib/humanize',
     'json2': 'lib/json2',
     'jquery': 'lib/jquery/jquery-min',
-    'order': 'lib/require/order-min',
     'text': 'lib/require/text',
     'types': 'lib/backbone/types',
     'underscore': 'lib/underscore/underscore',
