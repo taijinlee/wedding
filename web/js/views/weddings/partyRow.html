@@ -1,11 +1,27 @@
-<% _.each(guests, function(guest, index) { %>
-  <tr <% if (index === 0) { %>class="table-row"<% } %> data-party-id="<%= partyId %>">
+<% _.each(party.guests, function(guest, index) { %>
+  <tr <% if (index === 0) { %>class="table-row"<% } %> data-party-id="<%= party.id %>">
+    <% if (index === 0) { %>
+      <td rowspan="<%= party.guests.length %>">
+        <input type="checkbox" />
+      </td>
+    <% } %>
     <td><%= guest.firstName %> <%= guest.lastName %></td>
     <td><%= guest.email %></td>
     <% if (index === 0) { %>
-      <td rowspan="<%= guests.length %>"><%= index === 0 ? address.replace(/\n/g, '<br />') : ''  %></td>
+      <td rowspan="<%= party.guests.length %>"><%= index === 0 ? address.replace(/\n/g, '<br />') : ''  %></td>
     <% } %>
     <td>No</td>
+    <td>
+      <% if (index === 0) { %>
+        <div class="btn-group invitePriority">
+          <button class="btn <%= party.priority === 'a' ? 'btn-on' : '' %>" data-priority="a">A</button>
+          <button class="btn <%= party.priority === 'b' ? 'btn-on' : '' %>" data-priority="b">B</button>
+          <button class="btn <%= party.priority === 'c' ? 'btn-on' : '' %>" data-priority="c">C</button>
+          <button class="btn <%= party.priority === '?' ? 'btn-on' : '' %>" data-priority="?">?</button>
+          <button class="btn <%= party.priority === 'x' ? 'btn-on' : '' %>" data-priority="X">X</button>
+        </div>
+      <% } %>
+    </td>
     <td><% if (index === 0) { %><a href="<%= editUrl %>">Edit</a><% } %></td>
     <td>
       <% if (index === 0) { %> <button class="delete btn btn-danger">Delete</button><% } %>

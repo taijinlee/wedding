@@ -10,7 +10,8 @@ define([
 
   var View = Backbone.View.extend({
     events: {
-      'click .delete': 'deleteParty'
+      'click .delete': 'deleteParty',
+      'click .invitePriority': 'setInvitePriority'
     },
 
     initialize: function(config, vent, pather, cookie, args) {
@@ -21,10 +22,12 @@ define([
       this.partys.on('remove', this.removeParty, this);
 
       this.headers = [
+        '',
         'Guest Name',
         'E-mail',
         'Address',
         "RSVP'ed",
+        'Invite Priority',
         'Edit',
         'Delete'
       ];
@@ -50,14 +53,17 @@ define([
       var self = this;
       partys.each(function(party) {
         var templateVars = {
-          guests: party.get('guests'),
+          party: party.toJSON(),
           address: party.address(),
-          partyId: party.get('id'),
           editUrl: self.pather.getUrl('partyEdit', { weddingId: self.weddingId, partyId: party.get('id') }),
         };
         $body.append(_.template(partyRowTemplate, templateVars));
       });
       $body.append(_.template(addPartyRowTemplate, { addPartyUrl: this.pather.getUrl('partyNew', { id: this.weddingId }) }));
+    },
+
+    removeParty: function(model, collection, options) {
+      $('tr[data-party-id="' + model.get('id') + '"]').remove();
     },
 
     deleteParty: function(event) {
@@ -70,9 +76,18 @@ define([
       }
     },
 
-    removeParty: function(model, collection, options) {
-      $('tr[data-party-id="' + model.get('id') + '"]').remove();
-    }
+    setInvitePriority: function(event) {
+      event.preventDefault() && event.stopPropagation();
+      var $priorityButton = $(event.target);
+      var priority = $priorityButton.data('priority');
+      var partyId = $priorityButton.closest('tr').data('party-id');
+      var party = this.partys.get(partyId);
+
+      party.set({ priority: priority }).save();
+
+      $priorityButton.siblings().removeClass('btn-on');
+      $priorityButton.addClass('btn-on');
+    },
 
   });
 
