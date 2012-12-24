@@ -2,7 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'humanize'
+  'humanize',
+  'lib/jquery/select2'
 ], function() {
   var $ = window.$.noConflict();
   var _ = window._.noConflict();

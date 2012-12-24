@@ -1,5 +1,6 @@
 
 require.config({
+  baseUrl: '/js',
   paths: {
     'async': 'lib/async/async',
     'backbone': 'lib/backbone/backbone-amd',
@@ -8,13 +9,14 @@ require.config({
     'json2': 'lib/json2',
     'jquery': 'lib/jquery/jquery-min',
     'order': 'lib/require/order-min',
-    'select2': 'lib/select2.min',
     'text': 'lib/require/text',
     'types': 'lib/backbone/types',
     'underscore': 'lib/underscore/underscore',
     'validator': 'lib/validator/validator-min'
   },
-  baseUrl: '/js',
+  shim: {
+    'lib/jquery/select2': ['jquery']
+  },
   priority: ['common']
 });
 
