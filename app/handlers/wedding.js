@@ -4,7 +4,6 @@ module.exports = function(store, history) {
   var async = require('async');
 
   var UserModel = require(process.env.APP_ROOT + '/models/user.js')(store);
-  var GuestModel = require(process.env.APP_ROOT + '/models/guest.js')(store);
   var WeddingModel = require(process.env.APP_ROOT + '/models/wedding.js')(store);
   var WebWeddingModel = require(process.env.APP_ROOT + '/models/webModel.js')(store, 'wedding');
 
