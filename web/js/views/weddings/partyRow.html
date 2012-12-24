@@ -13,12 +13,8 @@
     <td>No</td>
     <td>
       <% if (index === 0) { %>
-        <div class="btn-group invitePriority">
-          <button class="btn <%= party.priority === 'a' ? 'btn-on' : '' %>" data-priority="a">A</button>
-          <button class="btn <%= party.priority === 'b' ? 'btn-on' : '' %>" data-priority="b">B</button>
-          <button class="btn <%= party.priority === 'c' ? 'btn-on' : '' %>" data-priority="c">C</button>
-          <button class="btn <%= party.priority === '?' ? 'btn-on' : '' %>" data-priority="?">?</button>
-          <button class="btn <%= party.priority === 'x' ? 'btn-on' : '' %>" data-priority="X">X</button>
+        <div class="setPartyPriority">
+          <%= priorityButtonsTemplate({ priority: party.priority }) %>
         </div>
       <% } %>
     </td>

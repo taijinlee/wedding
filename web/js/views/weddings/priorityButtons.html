@@ -1,0 +1,7 @@
+<% var priorities = { a: 'A', b: 'B', c: 'C', '?': '?', x: 'X' }; %>
+
+<div class="btn-group invitePriority">
+  <% _.each(priorities, function(display, key) { %>
+    <button class="btn <%= priority === key ? 'btn-on' : '' %>" data-priority="<%= key %>"><%= display %></button>
+  <% }); %>
+</div>

@@ -5,13 +5,15 @@ define([
   'collections/partys',
   'text!./emptyTable.html',
   'text!./partyRow.html',
-  'text!./addPartyRow.html'
-], function($, _, Backbone, PartysCollection, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate) {
+  'text!./addPartyRow.html',
+  'text!./priorityButtons.html'
+], function($, _, Backbone, PartysCollection, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
 
   var View = Backbone.View.extend({
     events: {
       'click .delete': 'deleteParty',
-      'click .invitePriority': 'setInvitePriority'
+      'click .setPartyPriority': 'setPartyPriority',
+      'click #party-priority-filter button': 'setPriorityFilter'
     },
 
     initialize: function(config, vent, pather, cookie, args) {
@@ -35,6 +37,7 @@ define([
 
     render: function() {
       this.$el.html(_.template(emptyTableTemplate));
+      this.$el.find('#party-priority-filter').html(_.template(priorityButtonsTemplate, { priority: '' }));
       var $tr = $(this.make('tr', { 'class': 'table-row' }));
       var self = this;
       _.each(this.headers, function(header) {
@@ -42,20 +45,28 @@ define([
       });
       this.$el.find('thead').append($tr);
 
-      this.partys.fetch({
-        data: { weddingId: this.weddingId }
-      });
+      this.refreshPartys();
       return this;
+    },
+
+    refreshPartys: function() {
+      var priorities = $('#party-priority-filter .btn-group').children().filter('.btn-on').map(function(index, el) { return $(el).data('priority') }).toArray();
+      this.partys.fetch({
+        data: { weddingId: this.weddingId, priority: { $in: priorities } }
+      });
     },
 
     renderPartys: function(partys) {
       var $body = this.$el.find('tbody');
+      $body.empty();
       var self = this;
+      var priorityButtonsPartial = _.template(priorityButtonsTemplate);
       partys.each(function(party) {
         var templateVars = {
           party: party.toJSON(),
           address: party.address(),
           editUrl: self.pather.getUrl('partyEdit', { weddingId: self.weddingId, partyId: party.get('id') }),
+          priorityButtonsTemplate: priorityButtonsPartial
         };
         $body.append(_.template(partyRowTemplate, templateVars));
       });
@@ -64,6 +75,13 @@ define([
 
     removeParty: function(model, collection, options) {
       $('tr[data-party-id="' + model.get('id') + '"]').remove();
+    },
+
+    setPriorityFilter: function(event) {
+      event.preventDefault() && event.stopPropagation();
+      var $selectedPriority = $(event.target);
+      $selectedPriority.toggleClass('btn-on');
+      this.refreshPartys();
     },
 
     deleteParty: function(event) {
@@ -76,7 +94,7 @@ define([
       }
     },
 
-    setInvitePriority: function(event) {
+    setPartyPriority: function(event) {
       event.preventDefault() && event.stopPropagation();
       var $priorityButton = $(event.target);
       var priority = $priorityButton.data('priority');
@@ -87,6 +105,7 @@ define([
 
       $priorityButton.siblings().removeClass('btn-on');
       $priorityButton.addClass('btn-on');
+      this.refreshPartys();
     },
 
   });
