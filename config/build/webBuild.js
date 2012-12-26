@@ -6,7 +6,7 @@ var config = {
   appDir: process.env.APP_ROOT + '/web',
   baseUrl: 'js',
   dir: process.env.APP_ROOT + '/web-build',
-  optimize: 'none',
+  // optimize: 'none',
 
   paths: {
     'async': 'lib/async/async',
