@@ -28,7 +28,6 @@ define([
         'Guest Name',
         'E-mail',
         'Address',
-        "RSVP'ed",
         'Invite Priority',
         'Edit',
         'Delete'

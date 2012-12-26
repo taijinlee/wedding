@@ -2,13 +2,11 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'humanize',
-  'lib/jquery/select2'
+  'select2'
 ], function() {
   var $ = window.$.noConflict();
   var _ = window._.noConflict();
   var Backbone = window.Backbone.noConflict();
-  var humanize = window.humanize.noConflict();
 
   Backbone.View = Backbone.View.extend({
     getQueryParams: function() {

@@ -8,23 +8,24 @@ require.config({
     'humanize': 'lib/humanize',
     'json2': 'lib/json2',
     'jquery': 'lib/jquery/jquery-min',
+    'select2': 'lib/jquery/select2',
     'text': 'lib/require/text',
     'types': 'lib/backbone/types',
     'underscore': 'lib/underscore/underscore',
     'validator': 'lib/validator/validator-min'
   },
   shim: {
-    'lib/jquery/select2': ['jquery']
-  },
-  priority: ['common']
+    'select2': ['jquery']
+  }
 });
 
 require([
+  'common',
   'jquery',
   'backbone',
   'models/config',
   'router'
-], function($, Backbone, ConfigModel, Router) {
+], function(common, $, Backbone, ConfigModel, Router) {
   new ConfigModel().fetch({
     success: function(configModel, configObj) {
       var router = new Router(configObj.data);
