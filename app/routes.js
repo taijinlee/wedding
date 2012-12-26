@@ -70,12 +70,13 @@ module.exports = function(app, store, history) {
 
   // capturing non-api request routes
   app.all('*', function(req, res, next) {
-    var html = fs.readFileSync(process.env.APP_ROOT + '/web/layout.html', 'utf8');
+    var layout = process.env.APP_ROOT + process.env.WEB_ROOT + (process.env.GIT_REV !== undefined ? '/' + process.env.GIT_REV : '') + '/layout.html';
+    var html = fs.readFileSync(layout, 'utf8');
     res.end(html);
     return; // breaking here for now
 
     var jsdom = require('jsdom');
-    var markup = fs.readFileSync(process.env.APP_ROOT + '/web/layout.html', 'utf8');
+    var markup = fs.readFileSync(process.env.WEB_ROOT + '/layout.html', 'utf8');
 
     jsdom.env({
       html: markup,

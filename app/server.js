@@ -11,11 +11,11 @@ var app = express.createServer();
 express.logger.token('date', function() { return Date().replace(/GMT-\d{4} /, ''); });
 
 app.configure(function() {
+  app.use(express.compress());
   app.use(express.bodyParser({ uploadDir: process.env.APP_ROOT + '/tmp' }));
   app.use(express.cookieParser());
   // use this as _method = POST / PUT / DELETE in forms to emulate them without going through backbone
   app.use(express.methodOverride());
-  // app.use(require('connect-gzip').gzip()); // deprecated? doesn't work anymore
 });
 
 // services
@@ -35,6 +35,11 @@ app.configure('dev', function () {
   process.env.WEB_ROOT = '/web';
 
   app.use(express.logger(logger.serverLogFormatDev()));
+  app.use(function(req, res, next) {
+    // filter out VERSION placeholder on dev
+    if (req.url.indexOf('VERSION') !== -1) { req.url = req.url.replace(/VERSION\//, ''); }
+    return next();
+  });
   app.use(express['static'](process.env.APP_ROOT + process.env.WEB_ROOT));
 
   app.use(cookieJarMiddleware.init);
@@ -44,8 +49,7 @@ app.configure('dev', function () {
 
 // specific to production
 app.configure('prod', function () {
-  if (process.env.GIT_REV === undefined) { throw new Error('GIT_REV not set'); }
-  process.env.WEB_ROOT = '/web-build/' + process.env.GIT_REV;
+  process.env.WEB_ROOT = '/web-build';
 
   app.use(express.logger(logger.serverLogFormat()));
   app.use(express['static'](process.env.APP_ROOT + process.env.WEB_ROOT, {

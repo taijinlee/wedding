@@ -35,6 +35,12 @@ exec('git rev-parse --verify HEAD', function(error, stdout, stderror) {
 
   requirejs.optimize(config, function (buildResponse) {
     console.log(buildResponse);
+    var versionedFiles = [config.dir + 'js/main.js', config.dir + 'layout.html'].join(' ');
+
+    exec('find ' + versionedFiles + " -exec sed -i -e 's/VERSION/" + latestHash + "/g' {} \\;", function(error, stdout, stderror) {
+      if (error) { return console.log(error); }
+      console.log(versionedFiles + ' have VERSION substituted with ' + latestHash);
+    });
   });
 
 });

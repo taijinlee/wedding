@@ -1,6 +1,8 @@
 
-require.config({
-  baseUrl: '/js',
+
+var config = {
+  baseUrl: '/VERSION/js',
+
   paths: {
     'async': 'lib/async/async',
     'backbone': 'lib/backbone/backbone-amd',
@@ -17,7 +19,8 @@ require.config({
   shim: {
     'select2': ['jquery']
   }
-});
+};
+require.config(config);
 
 require([
   'common',
