@@ -1,4 +1,5 @@
 APP_ROOT = `pwd`
+GIT_REV = `git rev-parse --verify HEAD`
 
 console:
 	NODE_ENV=dev APP_ROOT=${APP_ROOT} node
@@ -14,7 +15,7 @@ lint:
 	find web -type f -a ! -path 'web/css/*' -a ! -path 'web/images/*' -a ! -path 'web/js/libs/*' -a ! -path 'web/js/templates/*' -a ! -path 'web/layout.html' -exec ./node_modules/jshint/bin/hint {} --config config/build/jshint.config.web.json \;
 
 build:
-	node_modules/requirejs/bin/r.js -o config/build/web.build.json
+	APP_ROOT=${APP_ROOT} node config/build/webBuild.js
 
 clean:
 	rm -Rf web-build
@@ -25,4 +26,4 @@ run-dev:
 
 run-prod:
 	NODE_ENV=prod APP_ROOT=${APP_ROOT} node config/build/mongoIndexes.js
-	NODE_ENV=prod APP_ROOT=${APP_ROOT} node app/server.js
+	NODE_ENV=prod APP_ROOT=${APP_ROOT} GIT_REV=${GIT_REV} node app/server.js

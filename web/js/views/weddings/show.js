@@ -49,7 +49,7 @@ define([
     },
 
     refreshPartys: function() {
-      var priorities = $('#party-priority-filter .btn-group').children().filter('.btn-on').map(function(index, el) { return $(el).data('priority') }).toArray();
+      var priorities = $('#party-priority-filter .btn-group').children().filter('.btn-on').map(function(index, el) { return $(el).data('priority'); }).toArray();
       this.partys.fetch({
         data: { weddingId: this.weddingId, priority: { $in: priorities } }
       });
@@ -77,16 +77,16 @@ define([
     },
 
     setPriorityFilter: function(event) {
-      event.preventDefault() && event.stopPropagation();
+      event.preventDefault(); event.stopPropagation();
       var $selectedPriority = $(event.target);
       $selectedPriority.toggleClass('btn-on');
       this.refreshPartys();
     },
 
     deleteParty: function(event) {
-      event.preventDefault() && event.stopPropagation();
+      event.preventDefault(); event.stopPropagation();
       var partyId = $(event.currentTarget).closest('tr').data('party-id');
-      if (confirm('Delete party?')) {
+      if (window.confirm('Delete party?')) {
         var party = this.partys.get(partyId);
         party.destroy();
         this.partys.remove(party);
@@ -94,7 +94,7 @@ define([
     },
 
     setPartyPriority: function(event) {
-      event.preventDefault() && event.stopPropagation();
+      event.preventDefault(); event.stopPropagation();
       var $priorityButton = $(event.target);
       var priority = $priorityButton.data('priority');
       var partyId = $priorityButton.closest('tr').data('party-id');

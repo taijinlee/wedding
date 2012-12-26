@@ -22,11 +22,11 @@ define([
         { urlFragment: 'wedding/:weddingId/party/:partyId', view: 'party/new', symName: 'partyEdit' },
         { urlFragment: 'account', view: 'account/linkAccount', symName: 'linkAccount', requireLogin: true },
 
-        { urlFragment: 'https://accounts.google.com/o/oauth2/auth?response_type=code&scope='
-          + encodeURIComponent(this.config.googleOAuth.contactScope)
-          + '&redirect_uri=' + encodeURIComponent(this.config.googleOAuth.redirectUri)
-          + '&client_id=' + encodeURIComponent(this.config.googleOAuth.clientId)
-          + '&access_type=offline&state=:state', view: '!external', symName: 'googleOAuth' }
+        { urlFragment: 'https://accounts.google.com/o/oauth2/auth?response_type=code&scope=' +
+          encodeURIComponent(this.config.googleOAuth.contactScope) +
+          '&redirect_uri=' + encodeURIComponent(this.config.googleOAuth.redirectUri) +
+          '&client_id=' + encodeURIComponent(this.config.googleOAuth.clientId) +
+          '&access_type=offline&state=:state', view: '!external', symName: 'googleOAuth' }
       ];
     },
 

@@ -7,7 +7,7 @@ require.config({
     'backbone-web': 'lib/backbone/backbone-web',
     'humanize': 'lib/humanize',
     'json2': 'lib/json2',
-    'jquery': 'lib/jquery/jquery-min',
+    'jquery': 'lib/jquery/jquery-1.8.3',
     'select2': 'lib/jquery/select2',
     'text': 'lib/require/text',
     'types': 'lib/backbone/types',

@@ -21,7 +21,7 @@ define([
     },
 
     login: function(event) {
-      event && event.preventDefault && event.stopPropagation();
+      event.preventDefault; event.stopPropagation();
       var values = { type: 'base' };
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;

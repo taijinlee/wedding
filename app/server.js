@@ -1,9 +1,6 @@
-if (process.env.NODE_ENV === undefined) {
-  throw new Error('NODE_ENV not set. Try \'prod\' or \'dev\'.');
-}
-if (process.env.APP_ROOT === undefined) {
-  throw new Error('APP_ROOT not set. Try ~/drinks or /service/drinks');
-}
+
+if (process.env.NODE_ENV === undefined) { throw new Error('NODE_ENV not set. Try \'prod\' or \'dev\'.'); }
+if (process.env.APP_ROOT === undefined) { throw new Error('APP_ROOT not set. Try ~/wedding or /service/wedding'); }
 
 var express = require('express');
 var config = require(process.env.APP_ROOT + '/config/config.js')();
@@ -18,7 +15,7 @@ app.configure(function() {
   app.use(express.cookieParser());
   // use this as _method = POST / PUT / DELETE in forms to emulate them without going through backbone
   app.use(express.methodOverride());
-  // app.use(require('connect-gzip').gzip());
+  // app.use(require('connect-gzip').gzip()); // deprecated? doesn't work anymore
 });
 
 // services
@@ -47,7 +44,8 @@ app.configure('dev', function () {
 
 // specific to production
 app.configure('prod', function () {
-  process.env.WEB_ROOT = '/web-build';
+  if (process.env.GIT_REV === undefined) { throw new Error('GIT_REV not set'); }
+  process.env.WEB_ROOT = '/web-build/' + process.env.GIT_REV;
 
   app.use(express.logger(logger.serverLogFormat()));
   app.use(express['static'](process.env.APP_ROOT + process.env.WEB_ROOT, {
