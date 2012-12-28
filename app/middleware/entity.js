@@ -1,17 +1,26 @@
 
 module.exports = function(store, cookieJar) {
 
-  var exists = function(modelName, param) {
+  var exists = function(modelName, param, key, negate) {
     return function(req, res, next) {
       param = param || (modelName + 'Id');
-      var modelId = req.param(param, null);
-      if (modelId === undefined) { return next(new Error('notFound: ' + modelName + 'Id expected in parameters')); }
+      key = key || 'id';
+      var modelKey = req.param(param, null);
+      if (!modelKey) { return next(new Error('notFound: ' + modelName + ':' + key + ' expected in parameters')); }
+
+      var criteria = {};
+      criteria[key] = modelKey;
 
       var Model = require(process.env.APP_ROOT + '/models/' + modelName + '.js')(store);
 
-      new Model({ id: modelId }).retrieve(function(error, modelData) {
+      new Model(criteria).retrieve(function(error, modelData) {
         if (error) { return next(error); }
-        if (!modelData) { return next(new Error('notFound: ' + modelName + 'Id: ' + modelId + ' does not exist')); }
+        if (!negate) {
+            if (!modelData) { return next(new Error('notFound: ' + modelName + ':' + key + '=' + modelKey + ' does not exist')); }
+        } else {
+          if (modelData) { return next(new Error('alreadyExists: ' + modelName + ':' + key + ':' + modelKey)); }
+        }
+
         return next();
       });
 

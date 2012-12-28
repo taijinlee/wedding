@@ -6,7 +6,7 @@ module.exports = function(app, middlewares, handlers) {
     handlers.user.create(userData.email, userData.firstName, userData.lastName, userData.secret, req.responder.send);
   });
 
-  app.post('/api/user/signup', function(req, res, next) {
+  app.post('/api/user/signup', middlewares.entity.exists('user', 'email', 'email', 'negate'), function(req, res, next) {
     var signupData = req.body;
     handlers.user.signup(signupData.email, signupData.firstName, signupData.lastName, signupData.secret, signupData.fianceFirstName, signupData.fianceLastName, req.responder.send);
   });
