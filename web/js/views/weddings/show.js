@@ -3,11 +3,12 @@ define([
   'underscore',
   'backbone',
   'collections/partys',
+  './statsPane',
   'text!./emptyTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html',
-  'text!./priorityButtons.html'
-], function($, _, Backbone, PartysCollection, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
+  'text!./priorityButtons.html',
+], function($, _, Backbone, PartysCollection, StatsPaneView, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
 
   var View = Backbone.View.extend({
     events: {
@@ -22,6 +23,7 @@ define([
       this.partys = new PartysCollection();
       this.partys.on('reset', this.renderPartys, this);
       this.partys.on('remove', this.removeParty, this);
+      this.statsPane = new StatsPaneView(config, vent, pather, cookie, args);
 
       this.headers = [
         '',
@@ -49,22 +51,32 @@ define([
     },
 
     refreshPartys: function() {
-      var priorities = $('#party-priority-filter .btn-group').children().filter('.btn-on').map(function(index, el) { return $(el).data('priority'); }).toArray();
       this.partys.fetch({
-        data: { weddingId: this.weddingId, priority: { $in: priorities } }
+        data: { weddingId: this.weddingId }
       });
     },
 
     renderPartys: function(partys) {
+      partys = partys.map(function(party) { return party.toJSON(); });
+
       var $body = this.$el.find('tbody');
       $body.empty();
       var self = this;
       var priorityButtonsPartial = _.template(priorityButtonsTemplate);
-      partys.each(function(party) {
+
+      this.statsPane.setElement(this.$el.find('#weddingStats')).render(partys);
+
+      var priorities = $('#party-priority-filter .btn-group').children().filter('.btn-on').map(function(index, el) { return $(el).data('priority'); }).toArray();
+
+      if (priorities.length) {
+        partys = partys.filter(function(party) { return _.indexOf(priorities, party.priority) !== -1; });
+      }
+
+      _.each(partys, function(party) {
         var templateVars = {
-          party: party.toJSON(),
-          address: party.address(),
-          editUrl: self.pather.getUrl('partyEdit', { weddingId: self.weddingId, partyId: party.get('id') }),
+          party: party,
+          address: (party.address1 || '') + "\n" + (party.city || '') + ', ' + (party.state || '') + ' ' + (party.zip || ''),
+          editUrl: self.pather.getUrl('partyEdit', { weddingId: self.weddingId, partyId: party.id }),
           priorityButtonsTemplate: priorityButtonsPartial
         };
         $body.append(_.template(partyRowTemplate, templateVars));
@@ -80,7 +92,7 @@ define([
       event.preventDefault(); event.stopPropagation();
       var $selectedPriority = $(event.target);
       $selectedPriority.toggleClass('btn-on');
-      this.refreshPartys();
+      this.renderPartys(this.partys);
     },
 
     deleteParty: function(event) {

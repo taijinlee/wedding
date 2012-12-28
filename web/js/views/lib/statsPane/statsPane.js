@@ -13,13 +13,8 @@ define([
      * stats in format
      * [ {key: key, value: value}, ... ] from top downwards
      */
-    render: function(stats) {
-      var $dl = $(this.make('dl', { 'class': 'statsPane' }));
-
-      _.each(stats, function(stat) {
-        $dl.append(_.template(statTemplate, stat));
-      }, this);
-      this.$el.html($dl);
+    render: function(stats, title) {
+      this.$el.html(_.template(statTemplate, { stats: stats, title: title }));
       return this;
     }
   });
