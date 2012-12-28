@@ -9,8 +9,7 @@ module.exports = function(store, cookieJar) {
 
   // called globally before all routing
   var getTokenUserId = function(req, res, next) {
-    req.auth = req.auth || {};
-    req.auth.tokenUserId = false;
+    res.locals.auth = { tokenUserId: false };
 
     var loginToken = cookieJar.get('login');
     if (!loginToken) { return next(null); }
@@ -19,7 +18,7 @@ module.exports = function(store, cookieJar) {
     var tokenParts = loginToken.split(':');
     tokenParts.unshift(salt);
 
-    if (tokenizer.match.apply(null, tokenParts)) { req.auth.tokenUserId = userId; }
+    if (tokenizer.match.apply(null, tokenParts)) { res.locals.auth.tokenUserId = userId; }
     return next(null);
   };
 
@@ -28,7 +27,7 @@ module.exports = function(store, cookieJar) {
       async.series([
         async.apply(requireLogin, req, res),
         function(done) {
-          var user = new UserModel({ id: req.auth.tokenUserId });
+          var user = new UserModel({ id: res.locals.auth.tokenUserId });
           user.retrieve(function(error, userData) {
             if (error) { return next(error); }
             if (userData.role !== role) { return next(new Error('unauthorized')); }
@@ -43,13 +42,13 @@ module.exports = function(store, cookieJar) {
 
   // requires getTokenUserId to run before it
   var requireLogin = function(req, res, next) {
-    if (req.auth.tokenUserId === false) { return next(new Error('unauthorized: require login')); }
+    if (res.locals.auth.tokenUserId === false) { return next(new Error('unauthorized: require login')); }
     return next(null);
   };
 
   // requires getTokenUserId to run before it
   var requireLogout = function(req, res, next) {
-    if (req.auth.tokenUserId !== false) { return next(new Error('unauthorized: require logout')); }
+    if (res.locals.auth.tokenUserId !== false) { return next(new Error('unauthorized: require logout')); }
     return next(null);
   };
 

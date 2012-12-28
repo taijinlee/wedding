@@ -9,29 +9,21 @@ module.exports = function(app, middlewares, handlers) {
    * Using email and password, logs in an existing user
    */
   app.post('/api/auth', middlewares.auth.requireLogout, middlewares.auth.login, function(req, res, next) {
-    return req.responder.send();
+    return res.locals.responder.send();
   });
-
-  /**
-   * TODO: should this be its own method or should this doc be rolled up
-   * to the above mapping?
-   * Using OAuth, logs in an existing user into the system
-   */
-  app.post('/api/auth/login', null /* TODO: figure this out */);
-
 
   /**
    * Logs an existing user out from the system and invalid their credential cookie.
    */
   app.get('/api/auth/logout', middlewares.auth.requireLogin, middlewares.auth.logout, function(req, res, next) {
-    return req.responder.send();
+    return res.locals.responder.send();
   });
 
 
   app.get('/api/auth/:authId', middlewares.auth.requireLogin, function(req, res, next) {
     var authId = req.params.authId;
-    if (req.auth.tokenUserId !== authId.slice(0, authId.indexOf('|'))) { return req.responder.send(new Error('unauthorized: can only query for current user authtokens')); }
-    handlers.auth.retrieve(req.auth.tokenUserId, authId, req.responder.send);
+    if (res.locals.auth.tokenUserId !== authId.slice(0, authId.indexOf('|'))) { return res.locals.responder.send(new Error('unauthorized: can only query for current user authtokens')); }
+    handlers.auth.retrieve(res.locals.auth.tokenUserId, authId, res.locals.responder.send);
   });
 
   app.get('/api/auth/google/oauth2callback', middlewares.auth.requireLogin, function(req, res, next) {
@@ -64,7 +56,7 @@ module.exports = function(app, middlewares, handlers) {
       response.on('end', function() {
         data = JSON.parse(data);
         var expires = (data.expires_in - 10) * 1000 + new Date().getTime();
-        handlers.auth.create(req.auth.tokenUserId, 'google', data.refresh_token, data.access_token, expires, false, function(error) {
+        handlers.auth.create(res.locals.auth.tokenUserId, 'google', data.refresh_token, data.access_token, expires, false, function(error) {
           // if error do something!
           res.redirect(redirectUri);
         });

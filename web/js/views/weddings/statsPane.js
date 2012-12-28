@@ -20,14 +20,14 @@ define([
         noPriority: { display: 'None', value: 0 }
       };
       var priorityCounts = _.chain(partys).map(function(party) {
-        return party.priority;
-      }).reduce(function(memo, priority) {
-        if (priority) {
-          memo[priority].value += 1;
+        return { priority: party.priority, count: party.guests.length };
+      }).reduce(function(memo, priorityCount) {
+        if (priorityCount.priority && memo[priorityCount.priority]) {
+          memo[priorityCount.priority].value += priorityCount.count;
         } else {
-          memo.noPriority.value += 1;
+          memo.noPriority.value += priorityCount.count;
         }
-        memo.total.value += 1;
+        memo.total.value += priorityCount.count;
         return memo;
       }, defaultMemo).value();
       this.statsPane.setElement(this.$el).render(priorityCounts, 'Guest counts');

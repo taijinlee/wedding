@@ -5,7 +5,7 @@ if (process.env.APP_ROOT === undefined) { throw new Error('APP_ROOT not set. Try
 var express = require('express');
 var config = require(process.env.APP_ROOT + '/config/config.js')();
 var logger = require(process.env.APP_ROOT + '/logger/logger.js')();
-var app = express.createServer();
+var app = express();
 
 // overwriting default date token definition
 express.logger.token('date', function() { return Date().replace(/GMT-\d{4} /, ''); });
@@ -41,10 +41,16 @@ app.configure('dev', function () {
     return next();
   });
   app.use(express['static'](process.env.APP_ROOT + process.env.WEB_ROOT));
-
   app.use(cookieJarMiddleware.init);
+  app.use(function(req, res, next) {
+    res.locals.responder = require(process.env.APP_ROOT + '/responder/responder.js')();
+    res.locals.responder.initialize(res);
+    return next();
+  });
+
   app.use(authMiddleware.getTokenUserId);
   app.use(app.router);
+  app.use(function(error, req, res, next) { res.locals.responder.send(error); });
 });
 
 // specific to production
@@ -57,8 +63,15 @@ app.configure('prod', function () {
   }));
 
   app.use(cookieJarMiddleware.init);
+  app.use(function(req, res, next) {
+    res.locals.responder = require(process.env.APP_ROOT + '/responder/responder.js')();
+    res.locals.responder.initialize(res);
+    return next();
+  });
+
   app.use(authMiddleware.getTokenUserId);
   app.use(app.router);
+  app.use(function(error, req, res, next) { res.locals.responder.send(error); });
 });
 
 // load routes

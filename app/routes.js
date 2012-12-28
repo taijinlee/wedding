@@ -42,13 +42,6 @@ module.exports = function(app, store, history) {
     handlersLevelRef[levels[i]] = require(process.env.APP_ROOT + '/app/handlers/' + relativeFilePath)(store, history);
   });
 
-  // initialize responder
-  app.all('/api/*', function(req, res, next) {
-    req.responder = require(process.env.APP_ROOT + '/responder/responder.js')();
-    req.responder.initialize(res);
-    next();
-  });
-
   // load all api pre-routes
   var preRouteFiles = recursiveReaddirSync(process.env.APP_ROOT + '/app/preRoutes');
   preRouteFiles.forEach(function(file) {

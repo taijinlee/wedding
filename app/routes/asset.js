@@ -11,14 +11,14 @@ module.exports = function(app, middlewares, handlers) {
       if (error) { return next(error); }
 
       // save it
-      handlers.asset.create(req.auth.tokenUserId, assetData.refId, assetData.refContext, blob, req.responder.send);
+      handlers.asset.create(res.locals.auth.tokenUserId, assetData.refId, assetData.refContext, blob, res.locals.responder.send);
     });
   });
 
   app.get('/asset/:hash', function(req, res, next) {
     // maybe do some user validation of sorts in the future
     // if we are here, it means it was not in the filesystem
-    handlers.asset.retrieve(req.auth.tokenUserId, req.params.hash, function(error, data) {
+    handlers.asset.retrieve(res.locals.auth.tokenUserId, req.params.hash, function(error, data) {
       if (error) { return next(error); }
       return res.sendfile(process.env.APP_ROOT + process.env.WEB_ROOT + '/asset/' + req.params.hash);
     });

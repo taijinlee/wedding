@@ -112,10 +112,21 @@ define([
       var partyId = $priorityButton.closest('tr').data('party-id');
       var party = this.partys.get(partyId);
 
-      party.set({ priority: priority }).save();
+      if ($priorityButton.hasClass('btn-on')) {
+        party.set({ priority: 'none' }).save({}, {
+          success: function() {
+            $priorityButton.removeClass('btn-on');
+          }
+        });
+      } else {
+        party.set({ priority: priority }).save({}, {
+          success: function() {
+            $priorityButton.siblings().removeClass('btn-on');
+            $priorityButton.addClass('btn-on');
+          }
+        });
+      }
 
-      $priorityButton.siblings().removeClass('btn-on');
-      $priorityButton.addClass('btn-on');
       this.refreshPartys();
     },
 
