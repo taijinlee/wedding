@@ -16,18 +16,17 @@ module.exports = function(store) {
 
     history.create(function(error) {
       if (error) { return callback(error); }
-      return callback(null, history.toJSON());
-    });
 
-    /* async call to historian to interpret history only called in dev */
-    if (process.env.NODE_ENV === 'dev') {
+      /* Call to historian to interpret history only called in dev */
       params.push(function(error) {
         // log error on error, otherwise no need to do anything
         if (error) { return logger.error(error); }
       });
       var historian = require(process.env.APP_ROOT + '/historian/' + subject + '.js')(store);
       historian[event].apply(null, params);
-    }
+
+      return callback(null, history.toJSON());
+    });
   };
 
   return {
