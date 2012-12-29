@@ -27,17 +27,17 @@ module.exports = function(store, cookieJar) {
         return next();
       });
     };
-  }; 
+  };
 
   var fetch = function(key, modelKey, modelName, callback) {
     var criteria = {};
     criteria[key] = modelKey;
     var Model = require(process.env.APP_ROOT + '/models/' + modelName + '.js')(store);
-    new Model(criteria).retrieve(callback); 
+    new Model(criteria).retrieve(callback);
   };
 
   return {
     exists: exists,
-    notExists : notExists
+    notExists: notExists
   };
 };
