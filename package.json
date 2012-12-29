@@ -19,6 +19,7 @@
     "jquery": "1.7.2",
     "jsdom": "0.2.14",
     "mongodb": "1.0.2",
+    "nodemailer": "0.3.37",
     "requirejs": "1.0.8",
     "sass": "0.5.0",
     "sift": "0.0.7",
