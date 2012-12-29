@@ -1,5 +1,6 @@
 APP_ROOT = `pwd`
 GIT_REV = `git rev-parse --verify HEAD`
+USER = "`whoami`+dev"
 
 console:
 	NODE_ENV=dev APP_ROOT=${APP_ROOT} node
@@ -22,7 +23,7 @@ clean:
 
 run-dev:
 	NODE_ENV=dev APP_ROOT=${APP_ROOT} node config/build/mongoIndexes.js
-	NODE_ENV=dev APP_ROOT=${APP_ROOT} node app/server.js
+	NODE_ENV=dev APP_ROOT=${APP_ROOT} USER=${USER} node app/server.js
 
 run-prod:
 	NODE_ENV=prod APP_ROOT=${APP_ROOT} node config/build/mongoIndexes.js

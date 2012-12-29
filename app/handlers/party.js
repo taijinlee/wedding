@@ -30,6 +30,8 @@ module.exports = function(store, history) {
     var party = new PartyModel(_.extend({ id: partyId }, updateData), { parse: true });
     if (!party.isExistingFieldsValid()) { return callback(new Error('invalid: party corrupt: id: ' + partyId + ' data:' + JSON.stringify(updateData))); }
 
+    if (!tokenUserId) { tokenUserId = 'guest'; } // replace this with the email that was used to respond at some point
+
     history.record(tokenUserId, 'party', 'update', partyId, [partyId, updateData], function(error) {
       if (error) { return callback(error); }
       return callback(null);

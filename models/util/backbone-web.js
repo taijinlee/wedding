@@ -87,7 +87,7 @@ define([
 
       var json = Backbone.Model.prototype.toJSON.apply(this);
       var self = this;
-      async.forEach(_.keys(json), function(column, done) {
+      _.each(_.keys(json), function(column, done) {
         if (!self.getSchema().hasOwnProperty(column)) { delete json[column]; return; }
         if (json[column] === undefined) { json[column] = null; }
       });

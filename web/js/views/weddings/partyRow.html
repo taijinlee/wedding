@@ -8,7 +8,8 @@
     <td><%= guest.firstName %> <%= guest.lastName %></td>
     <td><%= guest.email %></td>
     <% if (index === 0) { %>
-      <td rowspan="<%= party.guests.length %>"><%= index === 0 ? address.replace(/\n/g, '<br />') : ''  %></td>
+      <td rowspan="<%= party.guests.length %>"><%= address.replace(/\n/g, '<br />') %></td>
+      <td rowspan="<%= party.guests.length %>"><button class="btn emailAddressVerification">Email address verification</button></td>
     <% } %>
     <td>
       <% if (index === 0) { %>

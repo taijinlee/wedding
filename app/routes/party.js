@@ -1,4 +1,6 @@
 
+var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
+
 module.exports = function(app, middlewares, handlers) {
 
   app.post('/api/party', middlewares.auth.requireLogin,  function(req, res, next) {
@@ -7,12 +9,20 @@ module.exports = function(app, middlewares, handlers) {
   });
 
   app.get('/api/party/:partyId', middlewares.entity.exists('party'), function(req, res, next) {
-    handlers.party.retrieve(res.locals.auth.tokenUserId, req.params.partyId, res.locals.responder.send);
+    var partyId = req.params.partyId;
+    var tokenWithTime = req.query.tokenWithTime.split('-');
+    var isTokenValid = tokenizer.match(partyId, 'addressVerification', decodeURIComponent(tokenWithTime[1]), 604800000 /* 1week */, decodeURIComponent(tokenWithTime[0]));
+    if (!isTokenValid && res.locals.auth.tokenUserId === false) { return next(new Error('unauthorized: require login')); }
+    handlers.party.retrieve(res.locals.auth.tokenUserId, partyId, res.locals.responder.send);
   });
 
-  app.put('/api/party/:partyId', middlewares.auth.requireLogin, middlewares.entity.exists('party'), function(req, res, next) {
+  app.put('/api/party/:partyId', middlewares.entity.exists('party'), function(req, res, next) {
+    var partyId = req.params.partyId;
+    var tokenWithTime = req.body.tokenWithTime.split('-');
+    var isTokenValid = tokenizer.match(partyId, 'addressVerification', decodeURIComponent(tokenWithTime[1]), 604800000 /* 1week */, decodeURIComponent(tokenWithTime[0]));
+    if (!isTokenValid && res.locals.auth.tokenUserId === false) { return next(new Error('unauthorized: require login')); }
     var updateData = req.body;
-    handlers.party.update(res.locals.auth.tokenUserId, req.params.partyId, updateData, res.locals.responder.send);
+    handlers.party.update(res.locals.auth.tokenUserId, partyId, updateData, res.locals.responder.send);
   });
 
   app.del('/api/party/:partyId', middlewares.auth.requireLogin, middlewares.entity.exists('party'), function(req, res, next) {

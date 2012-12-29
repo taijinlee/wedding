@@ -17,6 +17,12 @@ module.exports = {
     secret: 'vQbQB798l2q08UmhwfJADzW-',
     contactScope: 'https://www.google.com/m8/feeds',
     redirectUri: 'http://localhost:4000/api/auth/google/oauth2callback'
-  }
+  },
+
+  smtp: {
+    service: 'Gmail',
+    user: 'weddingbot@apricotwhisk.com',
+    password: 'ApriC0tWh1sk'
+  },
 
 };

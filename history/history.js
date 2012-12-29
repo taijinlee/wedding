@@ -14,16 +14,16 @@ module.exports = function(store) {
       params: params
     });
 
-    history.create(function(error) {
+    history.create(function(error, historyData) {
       if (error) { return callback(error); }
 
       /* Call to historian to interpret history*/
       // log error on error, otherwise no need to do anything
-      params.push(function(error) {if (error) { return logger.error(error);}});
+      params.push(callback); // function(error) { if (error) { return logger.error(error); } });
       var historian = require(process.env.APP_ROOT + '/historian/' + subject + '.js')(store);
       historian[event].apply(null, params);
 
-      return callback(null, history.toJSON());
+      // return callback(null, historyData);
     });
   };
 

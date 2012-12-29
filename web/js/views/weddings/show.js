@@ -3,18 +3,20 @@ define([
   'underscore',
   'backbone',
   'collections/partys',
+  'models/mailAddressVerification',
   './statsPane',
   'text!./emptyTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html',
   'text!./priorityButtons.html',
-], function($, _, Backbone, PartysCollection, StatsPaneView, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
+], function($, _, Backbone, PartysCollection, MailAddressVerificationModel, StatsPaneView, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
 
   var View = Backbone.View.extend({
     events: {
       'click .delete': 'deleteParty',
       'click .setPartyPriority': 'setPartyPriority',
-      'click #party-priority-filter button': 'setPriorityFilter'
+      'click #party-priority-filter button': 'setPriorityFilter',
+      'click .emailAddressVerification': 'emailAddressVerification'
     },
 
     initialize: function(config, vent, pather, cookie, args) {
@@ -30,6 +32,7 @@ define([
         'Guest Name',
         'E-mail',
         'Address',
+        'Confirm Address',
         'Invite Priority',
         'Edit',
         'Delete'
@@ -129,6 +132,15 @@ define([
 
       this.refreshPartys();
     },
+
+    emailAddressVerification: function(event) {
+      event.preventDefault(); event.stopPropagation();
+      var partyId = $(event.target).closest('tr').data('party-id');
+      new MailAddressVerificationModel({
+        userId: this.cookie.get('userId'),
+        partyId: partyId
+      }).save();
+    }
 
   });
 
