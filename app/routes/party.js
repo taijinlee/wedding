@@ -40,7 +40,7 @@ module.exports = function(app, middlewares, handlers) {
   app.get('/api/party', function(req, res, next) {
     var page = req.param('page', 1);
 
-    var limit = 10;
+    var limit = null;
     var skip = (page - 1) * limit;
 
     var filters = req.query;

@@ -34,7 +34,6 @@ define([
         'Address',
         'Confirm Address',
         'Invite Priority',
-        'Edit',
         'Delete'
       ];
     },

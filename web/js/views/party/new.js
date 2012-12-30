@@ -71,47 +71,32 @@ define([
     },
 
     createGuest: function(event) {
-      event.preventDefault();
-      event.stopPropagation();
+      event.preventDefault(); event.stopPropagation();
 
       var values = { weddingId: this.weddingId };
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
       });
 
-      var partyData = {};
-      var guests = {};
-      var guestRegexp = /guest_(\d)_(\w+)/
-      _.each(values, function(value, formKey) {
+      var guestRegexp = /guest_(\d)_(\w+)/;
+      var partyData = _.reduce(values, function(memo, value, formKey) {
+        if (!value) { return memo; }
         if (formKey.indexOf('guest') === -1) {
-          if (value) { partyData[formKey] = value; }
-          return;
+          memo[formKey] = value;
+          return memo;
         }
         var matches = formKey.match(guestRegexp);
         var guestNum = matches[1];
         var guestProp = matches[2];
-        if (!guests[guestNum]) { guests[guestNum] = {}; }
-        guests[guestNum][guestProp] = value;
-      });
+        if (!memo.guests[guestNum]) { memo.guests[guestNum] = {}; }
+        memo.guests[guestNum][guestProp] = value;
+        return memo;
+      }, { guests: {} });
 
-      guests = _.filter(guests, function(guest) {
-        var allEmpty = true;
-        for (var property in guest) {
-          if (guest[property]) { allEmpty = false; }
-        }
-        return !allEmpty;
-      });
-      partyData.guests = guests;
-
-      this.party.set(partyData);
-      // var party = new PartyModel(partyData);
-      if (!this.party.isValid()) {
-        this.vent.trigger('renderNotification', 'blah', 'error');
-        return false;
-      }
+      partyData.guests = _.map(partyData.guests, function(guest) { return guest; });
 
       var self = this;
-      this.party.save({}, {
+      this.party.save(partyData, {
         error: function(model, response) {
           self.vent.trigger('renderNotification', 'Error', 'error');
           console.log(model);
@@ -123,7 +108,9 @@ define([
           console.log(response);
           console.log(self.vent);
           // this.vent.trigger('renderNotification', 'An email has been sent to you', 'success');
-        }
+        },
+        // weird ass shit going on here... partyData.guests gets corrupted when save goes. console.log is async?
+        silent: true
       });
 
       return false;

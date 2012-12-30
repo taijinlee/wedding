@@ -1,24 +1,17 @@
 <% _.each(party.guests, function(guest, index) { %>
   <tr <% if (index === 0) { %>class="table-row"<% } %> data-party-id="<%= party.id %>">
-    <% if (index === 0) { %>
-      <td rowspan="<%= party.guests.length %>">
-        <input type="checkbox" />
-      </td>
-    <% } %>
+    <td><% if (index === 0) { %><a href="<%= editUrl %>">Edit</a><% } %></td>
     <td><%= guest.firstName %> <%= guest.lastName %></td>
     <td><%= guest.email %></td>
     <% if (index === 0) { %>
       <td rowspan="<%= party.guests.length %>"><%= address.replace(/\n/g, '<br />') %></td>
       <td rowspan="<%= party.guests.length %>"><button class="btn emailAddressVerification">Email address verification</button></td>
-    <% } %>
-    <td>
-      <% if (index === 0) { %>
+      <td rowspan="<%= party.guests.length %>">
         <div class="setPartyPriority">
           <%= priorityButtonsTemplate({ priority: party.priority }) %>
         </div>
-      <% } %>
-    </td>
-    <td><% if (index === 0) { %><a href="<%= editUrl %>">Edit</a><% } %></td>
+      </td>
+    <% } %>
     <td>
       <% if (index === 0) { %> <button class="delete btn btn-danger">Delete</button><% } %>
     </td>

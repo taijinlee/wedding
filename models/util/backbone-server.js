@@ -69,7 +69,7 @@ define([
     },
 
     list: function(criteria, limit, skip, callback) {
-      this.store.query(criteria, this.context, { limit:limit, skip: skip }, function(error, items) {
+      this.store.query(criteria, this.context, { limit: limit, skip: skip }, function(error, items) {
         if (error) { return callback(error); }
         return callback(null, items);
       });
