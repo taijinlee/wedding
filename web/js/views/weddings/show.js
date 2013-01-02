@@ -16,7 +16,8 @@ define([
       'click .delete': 'deleteParty',
       'click .setPartyPriority': 'setPartyPriority',
       'click #party-priority-filter button': 'setPriorityFilter',
-      'click .emailAddressVerification': 'emailAddressVerification'
+      'click .emailAddressVerification': 'emailAddressVerification',
+      'click .addressVerify': 'setPartyAddressVerified'
     },
 
     initialize: function(config, vent, pather, cookie, args) {
@@ -129,7 +130,19 @@ define([
         });
       }
 
-      this.refreshPartys();
+      this.renderPartys(this.partys);
+    },
+
+    setPartyAddressVerified: function(event) {
+      event.preventDefault(); event.stopPropagation();
+      var partyId = $(event.target).closest('tr').data('party-id');
+      var party = this.partys.get(partyId);
+      party.set({ addressVerified: true }).save({}, {
+        success: function() {
+          // MAJOR HACK: should make address field a separate view
+          $(event.target).parent().html('Address verified!');
+        }
+      });
     },
 
     emailAddressVerification: function(event) {

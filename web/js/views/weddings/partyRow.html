@@ -5,7 +5,15 @@
     <td><%= guest.email %></td>
     <% if (index === 0) { %>
       <td rowspan="<%= party.guests.length %>"><%= address.replace(/\n/g, '<br />') %></td>
-      <td rowspan="<%= party.guests.length %>"><button class="btn emailAddressVerification">Email address verification</button></td>
+      <td rowspan="<%= party.guests.length %>">
+        <% if (!party.addressVerified) { %>
+          <button class="btn emailAddressVerification">Send email address verification</button>
+          <br />
+          <button class="btn addressVerify">Address verified</button>
+        <% } else { %>
+          Address verified!
+        <% } %>
+      </td>
       <td rowspan="<%= party.guests.length %>">
         <div class="setPartyPriority">
           <%= priorityButtonsTemplate({ priority: party.priority }) %>

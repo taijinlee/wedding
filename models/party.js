@@ -20,6 +20,7 @@ module.exports = function(store) {
         state: { type: 'string', optional: true },
         zip: { type: 'string', optional: true },
         priority: { type: 'string', defaults: 'none' },
+        addressVerified: { type: 'bool', defaults: false },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
 
