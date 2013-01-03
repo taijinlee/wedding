@@ -24,7 +24,7 @@ module.exports = function(app, middlewares, handlers) {
     var partyId = req.params.partyId;
 
     var isTokenValid = false;
-    if (req.query.tokenWithTime) {
+    if (req.body.tokenWithTime) {
       var tokenWithTime = req.body.tokenWithTime.split('-');
       isTokenValid = tokenizer.match(partyId, 'addressVerification', decodeURIComponent(tokenWithTime[1]), 604800000 /* 1week */, decodeURIComponent(tokenWithTime[0]));
     }
