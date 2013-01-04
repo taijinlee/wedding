@@ -37,13 +37,11 @@ module.exports = function(store, history) {
   var retrieve = function(tokenUserId, weddingId, callback) {
     async.auto({
       wedding: function(done) { new WeddingModel({ id: weddingId }).retrieve(done); },
-      /*
       checkUser: ['wedding', function(done, results) {
         if (tokenUserId !== results.wedding.userId) {
           return done(new Error('unauthorized: userId:' + tokenUserId + ' not allowed'));
         }
       }],
-      */
       metadata: ['wedding', function(done, results) { getMetadata(results.wedding, done); }]
     }, function(error, results) {
       if (error) { return callback(error); }

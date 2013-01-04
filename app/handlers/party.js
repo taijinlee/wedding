@@ -4,6 +4,8 @@ module.exports = function(store, history) {
   var async = require('async');
 
   var UserModel = require(process.env.APP_ROOT + '/models/user.js')(store);
+  var WeddingModel = require(process.env.APP_ROOT + '/models/wedding.js')(store);
+
   var PartyModel = require(process.env.APP_ROOT + '/models/party.js')(store);
   var WebPartyModel = require(process.env.APP_ROOT + '/models/webModel.js')(store, 'party');
 
@@ -19,10 +21,17 @@ module.exports = function(store, history) {
   };
 
   var retrieve = function(tokenUserId, partyId, callback) {
-    var party = new PartyModel({ id: partyId });
-    party.retrieve(function(error, partyData) {
+    async.auto({
+      party: function(done) {
+        new PartyModel({ id: partyId }).retrieve(done);
+      },
+      wedding: ['party', function(done, results) {
+        new WeddingModel({ id: results.party.weddingId }).retrieve(done);
+      }],
+    }, function(error, results) {
       if (error) { return callback(error); }
-      return callback(null, partyData);
+      if (tokenUserId !== results.wedding.userId) { return callback(new Error('unauthorized: party does not belong to user: ' + tokenUserId)); }
+      return callback(null, new WebPartyModel(results.party).toJSON());
     });
   };
 
@@ -45,11 +54,27 @@ module.exports = function(store, history) {
     });
   };
 
-  var list = function(filters, limit, pageId, callback) {
-    PartyModel.prototype.list(filters, limit, pageId, function(error, partys) {
+  var list = function(tokenUserId, filters, limit, pageId, callback) {
+    async.auto({
+      partys: function(done) {
+        PartyModel.prototype.list(filters, limit, pageId, done);
+      },
+      weddings: ['partys', function(done, results) {
+        var weddingIds = _.chain(results.partys).pluck('weddingId').unique().value();
+        async.map(weddingIds, function(weddingId, mapDone) {
+          new WeddingModel({ id: weddingId }).retrieve(mapDone);
+        }, function(error, weddings) {
+          if (error) { return done(error); }
+          return done(null, _.object(_.pluck(weddings, 'id'), weddings));
+        });
+      }]
+    }, function(error, results) {
       if (error) { return callback(error); }
-      partys = _.map(partys, function(party) { return new WebPartyModel(party).toJSON(); });
-      return callback(null, partys);
+      results.partys = _.filter(results.partys, function(party) {
+        if (results.weddings[party.weddingId].userId !== tokenUserId) { return false; }
+        return true;
+      });
+      return callback(null, _.map(results.partys, function(party) { return new WebPartyModel(party).toJSON(); }));
     });
   };
 

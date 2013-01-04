@@ -53,7 +53,7 @@ module.exports = function(app, middlewares, handlers) {
     }
     delete filters.keywords;
 
-    handlers.party.list(filters, limit, skip, res.locals.responder.send);
+    handlers.party.list(res.locals.auth.tokenUserId, filters, limit, skip, res.locals.responder.send);
   });
 
 };
