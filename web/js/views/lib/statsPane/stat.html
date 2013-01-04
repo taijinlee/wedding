@@ -1,7 +1,11 @@
 <h3><%= title %></h3>
 <dl class="statsPane">
   <% _.each(stats, function(stat) { %>
-    <dt><%= stat.display %></dt>
-    <dd><%= stat.value %></dd>
+    <% if (_.isEmpty(stat)) { %>
+      <hr />
+    <% } else { %>
+      <dt><%= stat.display %></dt>
+      <dd><%= stat.value %></dd>
+    <% } %>
   <% }) %>
 </dl>

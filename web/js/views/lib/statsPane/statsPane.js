@@ -11,7 +11,8 @@ define([
 
     /**
      * stats in format
-     * [ {key: key, value: value}, ... ] from top downwards
+     * [ {key: key, value: value }, ... ] from top downwards
+     * empty object -> horizontal rule
      */
     render: function(stats, title) {
       this.$el.html(_.template(statTemplate, { stats: stats, title: title }));

@@ -52,3 +52,7 @@ button.btn[type='submit'] { display: block; }
   content: "\A";
   white-space: pre;
 }
+
+.statsPane hr {
+  margin: 2px 0;
+}

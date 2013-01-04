@@ -105,6 +105,7 @@ define([
         var party = this.partys.get(partyId);
         party.destroy();
         this.partys.remove(party);
+        this.renderPartys(this.partys);
       }
     },
 
@@ -143,6 +144,8 @@ define([
           $(event.target).parent().html('Address verified!');
         }
       });
+      this.renderPartys(this.partys);
+
     },
 
     emailAddressVerification: function(event) {
