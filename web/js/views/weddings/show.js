@@ -4,18 +4,18 @@ define([
   'backbone',
   'collections/partys',
   'models/mailAddressVerification',
+  './filters',
   './statsPane',
-  'text!./emptyTable.html',
+  'text!./layout.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html',
   'text!./priorityButtons.html',
-], function($, _, Backbone, PartysCollection, MailAddressVerificationModel, StatsPaneView, emptyTableTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
+], function($, _, Backbone, PartysCollection, MailAddressVerificationModel, FiltersView, StatsPaneView, layoutTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
 
   var View = Backbone.View.extend({
     events: {
       'click .delete': 'deleteParty',
       'click .setPartyPriority': 'setPartyPriority',
-      'click #party-priority-filter button': 'setPriorityFilter',
       'click .emailAddressVerification': 'emailAddressVerification',
       'click .addressVerify': 'setPartyAddressVerified'
     },
@@ -27,6 +27,7 @@ define([
       this.partys.on('reset', this.renderPartys, this);
       this.partys.on('remove', this.removeParty, this);
       this.statsPane = new StatsPaneView(config, vent, pather, cookie, args);
+      this.filters = new FiltersView(config, vent, pather, cookie, args);
 
       this.headers = [
         '',
@@ -37,11 +38,13 @@ define([
         'Invite Priority',
         'Delete'
       ];
+
+      this.vent.on('renderPartys', this.renderPartys, this);
     },
 
     render: function() {
-      this.$el.html(_.template(emptyTableTemplate));
-      this.$el.find('#party-priority-filter').html(_.template(priorityButtonsTemplate, { priority: '' }));
+      this.$el.html(_.template(layoutTemplate));
+      this.filters.setElement(this.$el.find('#filters')).render();
       var $tr = $(this.make('tr', { 'class': 'table-row' }));
       var self = this;
       _.each(this.headers, function(header) {
@@ -59,7 +62,8 @@ define([
       });
     },
 
-    renderPartys: function(partys) {
+    renderPartys: function() {
+      var partys = this.partys;
       partys = partys.map(function(party) { return party.toJSON(); });
 
       var $body = this.$el.find('tbody');
@@ -69,10 +73,9 @@ define([
 
       this.statsPane.setElement(this.$el.find('#weddingStats')).render(partys);
 
-      var priorities = $('#party-priority-filter .btn-group').children().filter('.btn-on').map(function(index, el) { return $(el).data('priority'); }).toArray();
-
-      if (priorities.length) {
-        partys = partys.filter(function(party) { return _.indexOf(priorities, party.priority) !== -1; });
+      var filterValues = this.filters.getFilterValues();
+      if (filterValues.priorities.length) {
+        partys = partys.filter(function(party) { return _.indexOf(filterValues.priorities, party.priority) !== -1; });
       }
 
       _.each(partys, function(party) {
@@ -89,13 +92,6 @@ define([
 
     removeParty: function(model, collection, options) {
       $('tr[data-party-id="' + model.get('id') + '"]').remove();
-    },
-
-    setPriorityFilter: function(event) {
-      event.preventDefault(); event.stopPropagation();
-      var $selectedPriority = $(event.target);
-      $selectedPriority.toggleClass('btn-on');
-      this.renderPartys(this.partys);
     },
 
     deleteParty: function(event) {
