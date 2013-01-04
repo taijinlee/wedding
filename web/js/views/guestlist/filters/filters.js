@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'text!./filters.html',
-  'text!./priorityButtons.html',
+  'text!../priorityButtons.html',
 ], function($, _, Backbone, filtersTemplate, priorityButtonsTemplate) {
   var View = Backbone.View.extend({
     events: {

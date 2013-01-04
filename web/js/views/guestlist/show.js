@@ -4,13 +4,13 @@ define([
   'backbone',
   'collections/partys',
   'models/mailAddressVerification',
-  './filters',
-  './statsPane',
-  'text!./layout.html',
+  './filters/filters',
+  './statsPane/statsPane',
+  'text!./show.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html',
   'text!./priorityButtons.html',
-], function($, _, Backbone, PartysCollection, MailAddressVerificationModel, FiltersView, StatsPaneView, layoutTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
+], function($, _, Backbone, PartysCollection, MailAddressVerificationModel, FiltersView, StatsPaneView, showTemplate, partyRowTemplate, addPartyRowTemplate, priorityButtonsTemplate) {
 
   var View = Backbone.View.extend({
     events: {
@@ -43,7 +43,7 @@ define([
     },
 
     render: function() {
-      this.$el.html(_.template(layoutTemplate));
+      this.$el.html(_.template(showTemplate));
       this.filters.setElement(this.$el.find('#filters')).render();
       var $tr = $(this.make('tr', { 'class': 'table-row' }));
       var self = this;
