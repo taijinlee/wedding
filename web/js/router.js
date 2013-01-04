@@ -14,7 +14,7 @@ define([
         { urlFragment: 'login', view: 'login/login', symName: 'login' },
         { urlFragment: 'logout', view: 'logout/logout', symName: 'logout' },
         { urlFragment: 'signup', view: 'signup/signup', symName: 'signup' },
-        { urlFragment: 'wedding/:id', view: 'weddings/show', symName: 'weddingShow' },
+        { urlFragment: 'guestlist/:weddingId', view: 'guestlist/show', symName: 'guestlist' },
         { urlFragment: 'wedding', view: 'weddings/show', symName: 'weddingShowOwn' },
         { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList' },
         { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew' },

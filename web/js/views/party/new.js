@@ -47,7 +47,7 @@ define([
     },
 
     renderPartyInfo: function() {
-      this.$el.html(_.template(addFormTemplate, { backUrl: this.pather.getUrl('weddingShow', { id: this.weddingId }) }));
+      this.$el.html(_.template(addFormTemplate, { backUrl: this.pather.getUrl('guestlist', { weddingId: this.weddingId }) }));
       var $guestSection = this.$el.find('#addGuests');
       var self = this;
 
@@ -103,7 +103,7 @@ define([
           console.log(response);
         },
         success: function(model, response) {
-          Backbone.history.navigate(self.pather.getUrl('weddingShow', { id: self.weddingId }), { trigger: true });
+          Backbone.history.navigate(self.pather.getUrl('guestlist', { weddingId: self.weddingId }), { trigger: true });
           console.log(model);
           console.log(response);
           console.log(self.vent);

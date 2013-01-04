@@ -3,9 +3,9 @@ define([
   'underscore',
   'backbone',
   'collections/weddings',
-  'text!./emptyTable.html',
+  'text!./list.html',
   'text!./tableRow.html'
-], function($, _, Backbone, WeddingsCollection, emptyTableTemplate, tableRowTemplate) {
+], function($, _, Backbone, WeddingsCollection, listTemplate, tableRowTemplate) {
 
   var View = Backbone.View.extend({
     initialize: function(config, vent, pather, cookie, args) {
@@ -20,7 +20,7 @@ define([
     },
 
     render: function() {
-      this.$el.html(_.template(emptyTableTemplate));
+      this.$el.html(_.template(listTemplate));
       var $tr = $(this.make('tr'));
       var self = this;
       _.each(this.display, function(columnInfo) {
@@ -37,7 +37,7 @@ define([
       var $body = this.$el.find('tbody');
       var self = this;
       weddings.each(function(wedding) {
-        $body.append(_.template(tableRowTemplate, { name: wedding.get('name'), link: self.pather.getUrl('weddingShow', { id: wedding.get('id') }) }));
+        $body.append(_.template(tableRowTemplate, { name: wedding.get('name'), link: self.pather.getUrl('guestlist', { weddingId: wedding.get('id') }) }));
       });
     }
   });
