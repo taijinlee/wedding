@@ -16,13 +16,11 @@ define([
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.partyId = args[0];
       this.tokenWithTime = args[1];
-        console.log("ROGER ROGER ROGER ROGER");
       this.party = new PartyModel({ id: this.partyId });
       this.party.on('change', this.renderAddress, this);
     },
 
     render: function() {
-        console.log("ROGER ROGER ROGER ROGER");
       this.$el.html(_.template(verifyAddressTemplate));
       this.party.fetch({
         data: { tokenWithTime: this.tokenWithTime }
@@ -31,7 +29,6 @@ define([
     },
 
     renderAddress: function() {
-        console.log("ROGER ROGER ROGER ROGER");
       var $addressForm = this.$el.find('#addressForm');
       $addressForm.html(_.template(addressFormTemplate, { party: this.party.toJSON() }));
       $addressForm.append(this.make('button', { type: 'submit', 'class': 'btn', id: 'submit' }, 'Verify'));
@@ -39,7 +36,6 @@ define([
     },
 
     submitAddress: function(event) {
-        console.log("ROGER ROGER ROGER ROGER");
       event.preventDefault(); event.stopPropagation();
       var values = { tokenWithTime: this.tokenWithTime };
       _.each(this.$('form').serializeArray(), function(field) {
