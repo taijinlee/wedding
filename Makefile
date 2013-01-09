@@ -36,4 +36,5 @@ run-dev: build-common
 
 run-prod: build-common build-prod
 	NODE_ENV=prod APP_ROOT=${APP_ROOT} node config/build/mongoIndexes.js
-	NODE_ENV=prod APP_ROOT=${APP_ROOT} GIT_REV=${GIT_REV} node app/server.js
+	NODE_ENV=prod APP_ROOT=${APP_ROOT} GIT_REV=${GIT_REV} ./node_modules/forever/bin/forever stop app/server.js
+	NODE_ENV=prod APP_ROOT=${APP_ROOT} GIT_REV=${GIT_REV} ./node_modules/forever/bin/forever start -l /service/log/forever.log -o /service/log/app.log -e /service/log/app-stderr.log -p /service/tmp --append app/server.js
