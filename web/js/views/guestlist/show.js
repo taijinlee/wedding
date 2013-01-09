@@ -81,7 +81,7 @@ define([
       _.each(partys, function(party) {
         var templateVars = {
           party: party,
-          address: (party.address1 || '') + "\n" + (party.city || '') + ', ' + (party.state || '') + ' ' + (party.zip || ''),
+          address: (party.address || ''),
           editUrl: self.pather.getUrl('partyEdit', { weddingId: self.weddingId, partyId: party.id }),
           priorityButtonsTemplate: priorityButtonsPartial
         };

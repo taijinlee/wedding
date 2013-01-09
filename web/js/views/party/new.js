@@ -27,10 +27,7 @@ define([
         email: 'Email'
       };
       this.addressForm = {
-        address1: 'Address',
-        city: 'City',
-        state: 'State',
-        zip: 'Zip'
+        address: 'Address',
       };
 
       this.party = new PartyModel({ id: this.partyId });
