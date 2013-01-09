@@ -30,7 +30,6 @@ module.exports = function(store, history) {
       }],
     }, function(error, results) {
       if (error) { return callback(error); }
-      if (tokenUserId !== results.wedding.userId) { return callback(new Error('unauthorized: party does not belong to user: ' + tokenUserId)); }
       return callback(null, new WebPartyModel(results.party).toJSON());
     });
   };
