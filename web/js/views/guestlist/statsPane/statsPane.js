@@ -9,9 +9,18 @@ define([
     initialize: function(config, vent, pather, cookie, args) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.statsPane = new StatsPaneView();
+      this.vent.on('guestList:partysUpdate', this.renderStats, this);
     },
 
-    render: function(partys) {
+    render: function() {
+      this.$el.html('loading');
+    },
+
+    renderStats: function(partys) {
+      var stats = partys.map(function(party) {
+        return { priority: party.get('priority'), numGuests: party.get('guests').length, addressVerified: party.get('addressVerified') };
+      });
+
       var defaultMemo = {
         total: { display: 'Total', value: 0 },
         hr1: {},
@@ -23,9 +32,8 @@ define([
         addressVerified: { display: 'Address Verified', value: 0 },
         notAddressVerified: { display: 'Not verified', value: 0 },
       };
-      var stats = _.chain(partys).map(function(party) {
-        return { priority: party.priority, numGuests: party.guests.length, addressVerified: party.addressVerified };
-      }).reduce(function(memo, partyStats) {
+
+      stats = _.reduce(stats, function(memo, partyStats) {
         memo.total.value += partyStats.numGuests;
 
         if (partyStats.priority && memo[partyStats.priority]) {
@@ -41,7 +49,8 @@ define([
         }
 
         return memo;
-      }, defaultMemo).value();
+      }, defaultMemo);
+
       this.statsPane.setElement(this.$el).render(stats, 'Guest counts');
     }
 

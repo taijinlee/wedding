@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'text!./filters.html',
-  'text!../priorityButtons.html',
+  'text!../priorityButtons.html'
 ], function($, _, Backbone, filtersTemplate, priorityButtonsTemplate) {
   var View = Backbone.View.extend({
     events: {
@@ -23,7 +23,7 @@ define([
       event.preventDefault(); event.stopPropagation();
       var $selectedPriority = $(event.target);
       $selectedPriority.toggleClass('btn-on');
-      this.vent.trigger('renderPartys');
+      this.vent.trigger('guestList:filterUpdate', this.getFilterValues());
     },
 
     getFilterValues: function() {

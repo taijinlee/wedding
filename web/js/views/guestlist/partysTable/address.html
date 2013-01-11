@@ -1,0 +1,11 @@
+<section>
+  <%= party.address %>
+  <br />
+  <% if (!party.addressVerified) { %>
+    <button class="btn emailAddressVerification">Send email address verification</button>
+    <br />
+    <button class="btn addressVerify">Verify</button>
+  <% } else { %>
+    <span class="label label-success">Verified</span>
+  <% } %>
+</section>

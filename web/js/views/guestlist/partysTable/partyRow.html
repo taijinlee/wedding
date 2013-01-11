@@ -1,0 +1,14 @@
+<% _.each(party.guests, function(guest, index) { %>
+  <tr <% if (index === 0) { %>class="table-row"<% } %> data-party-id="<%= party.id %>">
+    <td><% if (index === 0) { %><a href="<%= editUrl %>">Edit</a><% } %></td>
+    <td><%= guest.firstName %> <%= guest.lastName %></td>
+    <td><%= guest.email %></td>
+    <% if (index === 0) { %>
+      <td rowspan="<%= party.guests.length %>" id="guestListAddress-<%= party.id %>"></td>
+      <td rowspan="<%= party.guests.length %>" id="guestListPriority-<%= party.id %>"></td>
+    <% } %>
+    <td>
+      <% if (index === 0) { %> <button class="delete btn btn-danger">Delete</button><% } %>
+    </td>
+  </tr>
+<% }) %>

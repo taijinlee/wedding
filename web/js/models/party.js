@@ -15,10 +15,6 @@ define([
       addressVerified: { type: 'bool', defaults: false },
       tokenWithTime: { type: 'string', optional: true },
       created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
-    },
-
-    address: function() {
-      return (this.get('address') || '') ;
     }
 
   });

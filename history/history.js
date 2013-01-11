@@ -17,13 +17,13 @@ module.exports = function(store) {
     history.create(function(error, historyData) {
       if (error) { return callback(error); }
 
+      // for testing purposes, we're not going to check that the historian gets called (mainly because the historian is dynamically required). Not sure if this is a hack or not
+      if (process.env.NODE_ENV === 'test') { return callback(null); }
+
       /* Call to historian to interpret history*/
-      // log error on error, otherwise no need to do anything
-      params.push(callback); // function(error) { if (error) { return logger.error(error); } });
+      params.push(callback);
       var historian = require(process.env.APP_ROOT + '/historian/' + subject + '.js')(store);
       historian[event].apply(null, params);
-
-      // return callback(null, historyData);
     });
   };
 
