@@ -78,13 +78,5 @@ app.configure('prod', function () {
 require(process.env.APP_ROOT + '/app/routes.js')(app, store, history);
 
 // start listening
-app.listen(config.app.port, 'localhost', null, function() {
-  try {
-    if (config.app.user) { process.setuid(config.app.user); }
-    if (config.app.userGroup) { process.setgid(config.app.userGroup); }
-  } catch(error) {
-    console.log(error);
-    process.exit(1);
-  }
-});
+app.listen(config.app.port);
 logger.log({ message: 'server start', port: config.app.port });
