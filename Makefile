@@ -6,10 +6,18 @@ NODE_VERSION = v0.8.16
 PATH := ${PATH}:${APP_ROOT}/vendor/nvm/${NODE_VERSION}/bin
 export PATH
 
+ifneq ($(shell which node), '')
+	ifeq ($(shell node --version), ${NODE_VERSION})
+		NO_BUILD_NODE = 1
+	endif
+endif
+
 build-common:
+ifndef NO_BUILD_NODE
 	git submodule init; git submodule update
 	. ${APP_ROOT}/vendor/nvm/nvm.sh; nvm install ${NODE_VERSION}
 	`which npm` install
+endif
 
 build-prod:
 	APP_ROOT=${APP_ROOT} node config/build/webBuild.js
