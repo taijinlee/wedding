@@ -32,10 +32,8 @@ define([
         return args.hasOwnProperty(key) ? encodeURIComponent(args[key]) : origString;
       });
 
-      // if we still find a : that isn't replaced, then something is wrong with the inputs
-      var parser = document.createElement('a');
-      parser.href = url;
-      if (parser.pathname.indexOf(':') !== -1 || parser.search.indexOf(':') !== -1 || parser.hash.indexOf(':') !== -1) {
+      // if we still find a : that isn't replaced, then something is wrong with the inputs, ignoring http/https
+      if (url.replace(/https?:/g, '').indexOf(':') !== -1) {
         throw new Error('invalid arguments');
       }
 

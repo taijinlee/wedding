@@ -11,7 +11,8 @@ requirejs([
     { urlFragment: 'home', viewName: 'personHome', symName: 'personHome' },
     { urlFragment: 'person/:id', viewName: 'personSummary', symName: 'personSummary' },
     { urlFragment: 'checkin/new/:drinkId', viewName: 'checkinMake', symName: 'checkinMake' },
-    { urlFragment: 'checkin/:id/:name/:test', viewName: 'blah', symName: 'blah' }
+    { urlFragment: 'checkin/:id/:name/:test', viewName: 'blah', symName: 'blah' },
+    { urlFragment: 'http://somewhere.else.com', viewName: '!external', symName: 'somewhereElse' }
   ]);
 
   before(function() {
@@ -25,6 +26,7 @@ requirejs([
       pather.getUrl('personSummary', {id: 18 }).should.equal('/person/18');
       pather.getUrl('checkinMake', {drinkId: '8494abcdef'}).should.equal('/checkin/new/8494abcdef');
       pather.getUrl('blah', {id: '1a2b3c4d5e6f7890', name: 'someName', test: 'coolio'}).should.equal('/checkin/1a2b3c4d5e6f7890/someName/coolio');
+      pather.getUrl('somewhereElse').should.equal('http://somewhere.else.com');
     });
 
     it('will error when there are not enough arguments', function() {
