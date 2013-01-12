@@ -36,9 +36,7 @@ sandbox: build-common
 
 dev: build-common
 	NODE_ENV=dev APP_ROOT=${APP_ROOT} node config/build/mongoIndexes.js
-	NODE_ENV=dev APP_ROOT=${APP_ROOT} USER=${USER} node app/server.js
-	NODE_ENV=dev APP_ROOT=${APP_ROOT} ./node_modules/forever/bin/forever stop app/server.js
-	NODE_ENV=dev APP_ROOT=${APP_ROOT} ./node_modules/forever/bin/forever start -l /service/log/forever.log -o /service/log/app.log -e /service/log/app-stderr.log -p /service/tmp --append app/server.js
+
 	NODE_ENV=dev APP_ROOT=${APP_ROOT} ./node_modules/forever/bin/forever stop devserver.js
 	NODE_ENV=dev APP_ROOT=${APP_ROOT} ./node_modules/forever/bin/forever start -l /service/log/forever.log -o /service/log/app.log -e /service/log/app-stderr.log -p /service/tmp --append devserver.js
 
