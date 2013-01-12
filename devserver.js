@@ -5,7 +5,7 @@ var http = require('http');
 http.createServer(function (req, res) {
   if (req.method === 'POST') {
     async.series([
-      function() {
+      function(callback) {
         exec('git pull --rebase', function(error, stdout, stderror) {
           if (error) { callback(error); }
           console.log("Git pulled latest code");
