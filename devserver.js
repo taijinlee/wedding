@@ -3,7 +3,6 @@ var exec = require('child_process').exec;
 var http = require('http');
 
 http.createServer(function (req, res) {
-  console.log(req);
   if (req.method === 'POST') {
     async.series([
       function() {
