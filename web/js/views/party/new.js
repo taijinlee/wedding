@@ -44,7 +44,8 @@ define([
     },
 
     renderPartyInfo: function() {
-      this.$el.html(_.template(addFormTemplate, { backUrl: this.pather.getUrl('guestlist', { weddingId: this.weddingId }) }));
+      var backUrl = this.pather.getUrl('guestlist', { weddingId: this.weddingId });
+      this.$el.html(_.template(addFormTemplate, { backUrl: backUrl, partyId: this.partyId }));
       var $guestSection = this.$el.find('#addGuests');
       var self = this;
 
@@ -52,12 +53,12 @@ define([
       if (!guests || guests.length === 0) { guests = []; }
       guests.push({});
       _.each(guests, function(guest) {
-        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest  }));
+        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest }));
         self.guestNum++;
       });
 
       var $addressSection = this.$el.find('#addAddress');
-      $addressSection.html(_.template(addressFormTemplate, { party: this.party.toJSON() }));
+      $addressSection.html(_.template(addressFormTemplate, { party: this.party.toJSON(), showButtons: false }));
     },
 
     addGuest: function() {

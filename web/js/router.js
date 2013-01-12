@@ -12,18 +12,17 @@ define([
       return [
         { urlFragment: '', view: 'homepage', symName: 'homepage' },
         { urlFragment: 'login', view: 'login/login', symName: 'login' },
-        { urlFragment: 'logout', view: 'logout/logout', symName: 'logout' },
+        { urlFragment: 'logout', view: 'logout/logout', symName: 'logout', requireLogin: true },
         { urlFragment: 'signup', view: 'signup/signup', symName: 'signup' },
-        { urlFragment: 'guestlist/:weddingId', view: 'guestlist/show', symName: 'guestlist' },
-        { urlFragment: 'wedding', view: 'weddings/show', symName: 'weddingShowOwn' },
-        { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList' },
-        { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew' },
-        { urlFragment: 'wedding/:id/party/new', view: 'party/new', symName: 'partyNew' },
-        { urlFragment: 'wedding/:weddingId/party/:partyId', view: 'party/new', symName: 'partyEdit' },
+
+        { urlFragment: 'guestlist/:weddingId', view: 'guestlist/show', symName: 'guestlist', requireLogin: true },
+        { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList', requireLogin: true },
+        { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew', requireLogin: true },
+        { urlFragment: 'wedding/:weddingId/party/new', view: 'party/new', symName: 'partyNew', requireLogin: true },
+        { urlFragment: 'wedding/:weddingId/party/:partyId', view: 'party/new', symName: 'partyEdit', requireLogin: true },
         { urlFragment: 'account', view: 'account/linkAccount', symName: 'linkAccount', requireLogin: true },
 
-        // public view for verifying your address
-        { urlFragment: 'address/:partyId/:tokenWithTime', view: 'party/verifyAddress', symName: 'verifyAddress' },
+        { urlFragment: 'address/:partyId/:tokenWithTime', view: 'party/verifyAddress', symName: 'verifyAddress' }, // public view for verifying your address
 
         { urlFragment: 'https://accounts.google.com/o/oauth2/auth?response_type=code&scope=' +
           encodeURIComponent(this.config.googleOAuth.contactScope) +

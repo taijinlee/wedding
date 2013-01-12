@@ -13,8 +13,6 @@
 .horizontalLink li { display: inline; margin: 0 10px 0 0; padding: 0 10px 0 0; border-right: 1px solid #ccc; }
 .horizontalLink li:last-child { margin: 0; padding: 0; border: none; }
 
-button.btn[type='submit'] { display: block; }
-
 .table-multirow th, .table-multirow td {
   border: 0;
 }

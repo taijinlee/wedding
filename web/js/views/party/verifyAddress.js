@@ -30,8 +30,7 @@ define([
 
     renderAddress: function() {
       var $addressForm = this.$el.find('#addressForm');
-      $addressForm.html(_.template(addressFormTemplate, { party: this.party.toJSON() }));
-      $addressForm.append(this.make('button', { type: 'submit', 'class': 'btn', id: 'submit' }, 'Verify'));
+      $addressForm.html(_.template(addressFormTemplate, { party: this.party.toJSON(), showButtons: true }));
       return this;
     },
 
@@ -56,7 +55,7 @@ define([
           console.log(response);
         },
         success: function(model, response) {
-          self.$el.html('Thanks!');
+          self.$el.find('#addressVerifyContainer').html('<h2>Thanks!</h2>');
           console.log(model);
           console.log(response);
           console.log(self.vent);

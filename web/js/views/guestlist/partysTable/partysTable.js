@@ -80,7 +80,7 @@ define([
 
         $body.append($row);
       }, this);
-      $body.append(_.template(addPartyRowTemplate, { addPartyUrl: this.pather.getUrl('partyNew', { id: this.weddingId }) }));
+      $body.append(_.template(addPartyRowTemplate, { addPartyUrl: this.pather.getUrl('partyNew', { weddingId: this.weddingId }) }));
     },
 
     removeParty: function(model, collection, options) {
