@@ -3,7 +3,7 @@
     <select class="span1" id="salutation" name="guest_<%=guestNum%>_salutation">
       <option value=""></option>
       <% _.each(_.keys(salutations), function(keyName) { %>
-      <option value="<%=keyName%>" <%=(guest.salutation===keyName ? "selected" : "")%>> <%=salutations[keyName]%> </option>
+        <option value="<%=keyName%>" <%=(guest.salutation===keyName ? "selected" : "")%>> <%=salutations[keyName]%> </option>
       <% }) %>
     </select>
     <input class="span3" type="text" id="firstName" name="guest_<%=guestNum%>_firstName" placeholder="First Name" value="<%= guest.firstName || ''%>" />

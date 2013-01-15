@@ -17,7 +17,7 @@ define([
 
     render: function() {
       var categoriesList = { bride: "Bride", groom: "Groom" };
-      this.$el.html(_.template(categoryTemplate, { category: this.party.get('category'), categories: categoriesList, party: this.party}));
+      this.$el.html(_.template(categoryTemplate, { categories: categoriesList, party: this.party }));
       return this;
     },
 
