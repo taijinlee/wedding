@@ -50,10 +50,15 @@ define([
       var self = this;
 
       var guests = this.party.get('guests');
+      var salutations = { mr: "Mr.",
+                          mrs: "Mrs.",
+                          ms: "Ms.",
+                          miss: "Miss",
+                          dr: "Dr" };
       if (!guests || guests.length === 0) { guests = []; }
       guests.push({});
       _.each(guests, function(guest) {
-        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest }));
+        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest, salutations: salutations }));
         self.guestNum++;
       });
 

@@ -5,10 +5,11 @@ define([
   'collections/partys',
   './address',
   './priority',
+  './category',
   'text!./partysTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html',
-], function($, _, Backbone, PartysCollection, AddressView, PriorityView, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
+], function($, _, Backbone, PartysCollection, AddressView, PriorityView, CategoryView, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
 
   var View = Backbone.View.extend({
     events: {
@@ -27,11 +28,13 @@ define([
         '',
         'Guest Name',
         'E-mail',
+        'Category',
         'Address',
         'Invite Priority',
         'Delete'
       ];
 
+      this.vent.on('guestList:categoryUpdate', this.renderPartys, this);
       this.vent.on('guestList:filterUpdate', this.renderPartys, this);
       this.vent.on('guestList:addressUpdate', this.renderPartys, this);
       this.vent.on('guestList:priorityUpdate', this.renderPartys, this);
@@ -70,6 +73,11 @@ define([
           editUrl: this.pather.getUrl('partyEdit', { weddingId: this.weddingId, partyId: partyJSON.id })
         };
         var $row = $(_.template(partyRowTemplate, templateVars));
+
+        var $categoryEl = $row.find('#guestListCategory-' + partyJSON.id);
+        var categoryView = new CategoryView(this.config, this.vent, this.pather, this.cookie, party);
+        categoryView.setElement($categoryEl).render();
+
         var $addressEl = $row.find('#guestListAddress-' + partyJSON.id);
         var addressView = new AddressView(this.config, this.vent, this.pather, this.cookie, party);
         addressView.setElement($addressEl).render();

@@ -1,0 +1,8 @@
+<div class="setPartyCategory">
+  <select class="span2 partyCategory" id="partyCategory-<%= party.id %>">
+    <option value=""></option>
+    <% _.each(_.keys(categories), function(keyName) { %>
+       <option value="<%=keyName%>" <%=(category==keyName ? "selected" : "")%>><%=categories[keyName]%></option>
+    <% }) %>
+  </select>
+</div>

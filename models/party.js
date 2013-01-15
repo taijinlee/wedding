@@ -14,6 +14,7 @@ module.exports = function(store) {
         id: { type: 'string' },
         weddingId: { type: 'string' },
         guests: { type: 'object' },
+        category: { type: 'string', optional: true },
         address: { type: 'string', optional: true },
         priority: { type: 'string', defaults: 'none' },
         addressVerified: { type: 'bool', defaults: false },

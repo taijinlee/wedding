@@ -2,11 +2,9 @@
   <div class="span10">
     <select class="span1" id="salutation" name="guest_<%=guestNum%>_salutation">
       <option value=""></option>
-      <option value="mr">Mr.</option>
-      <option value="mrs">Mrs.</option>
-      <option value="ms">Ms.</option>
-      <option value="misss">Miss</option>
-      <option value="dr">Dr.</option>
+      <% _.each(_.keys(salutations), function(keyName) { %>
+      <option value="<%=keyName%>" <%=(guest.salutation===keyName ? "selected" : "")%>> <%=salutations[keyName]%> </option>
+      <% }) %>
     </select>
     <input class="span3" type="text" id="firstName" name="guest_<%=guestNum%>_firstName" placeholder="First Name" value="<%= guest.firstName || ''%>" />
     <input class="span3" type="text" id="lastName" name="guest_<%=guestNum%>_lastName" placeholder="Last Name" value="<%= guest.lastName || ''%>" />
