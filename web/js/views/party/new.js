@@ -55,7 +55,8 @@ define([
         mrs: "Mrs.",
         ms: "Ms.",
         miss: "Miss",
-        dr: "Dr" };
+        dr: "Dr"
+      };
       if (!guests || guests.length === 0) { guests = []; }
       guests.push({});
       _.each(guests, function(guest) {
