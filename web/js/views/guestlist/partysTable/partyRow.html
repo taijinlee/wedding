@@ -2,7 +2,7 @@
   <tr <% if (index === 0) { %>class="table-row"<% } %> data-party-id="<%= party.id %>">
     <td><% if (index === 0) { %><a href="<%= editUrl %>">Edit</a><% } %></td>
     <td><%= guest.firstName %> <%= guest.lastName %></td>
-    <td><%= guest.email %></td>
+    <td><%= guest.email ? guest.email : "" %></td>
     <% if (index === 0) { %>
       <td rowspan="<%= party.guests.length %>" id="guestListCategory-<%= party.id %>"></td>
       <td rowspan="<%= party.guests.length %>" id="guestListAddress-<%= party.id %>"></td>

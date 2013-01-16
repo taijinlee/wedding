@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!./category.html'
+  'text!../categorySelector.html'
 ], function($, _, Backbone, categoryTemplate) {
 
   var View = Backbone.View.extend({
@@ -16,8 +16,7 @@ define([
     },
 
     render: function() {
-      var categoriesList = { bride: "Bride", groom: "Groom" };
-      this.$el.html(_.template(categoryTemplate, { categories: categoriesList, party: this.party }));
+      this.$el.html(_.template(categoryTemplate, { selectedCategory: this.party.get('category') }));
       return this;
     },
 

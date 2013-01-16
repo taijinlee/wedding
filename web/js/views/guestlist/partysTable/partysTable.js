@@ -64,8 +64,14 @@ define([
       this.partys.each(function(party) {
         var partyJSON = party.toJSON();
 
-        if (filterValues && filterValues.priorities && filterValues.priorities.length) {
-          if (_.indexOf(filterValues.priorities, partyJSON.priority) === -1) { return; }
+        if (filterValues) {
+          if (filterValues.priorities && filterValues.priorities.length) {
+            if (_.indexOf(filterValues.priorities, partyJSON.priority) === -1) { return; }
+          }
+
+          if (filterValues.category && filterValues.category !== "none") {
+            if (filterValues.category !== partyJSON.category) { return; }
+          }
         }
 
         var templateVars = {

@@ -1,8 +1,3 @@
 <div class="setPartyCategory">
-  <select class="span2 partyCategory" id="partyCategory-<%= party.id %>">
-    <option value="none"></option>
-    <% _.each(categories, function(category, keyName) { %>
-      <option value="<%=keyName%>" <%=(keyName === party.get('category') ? "selected" : "")%>> <%=category%> </option>
-    <% }) %>
-  </select>
+  <%= categorySelectorTemplate({ selectedCategory: party.get('category') }) %>
 </div>
