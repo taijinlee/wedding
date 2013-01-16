@@ -16,8 +16,8 @@ build-common:
 ifndef NO_BUILD_NODE
 	git submodule init; git submodule update
 	. ${APP_ROOT}/vendor/nvm/nvm.sh; nvm install ${NODE_VERSION}
-	`which npm` install
 endif
+	`which npm` install
 
 build-prod:
 	APP_ROOT=${APP_ROOT} node config/build/webBuild.js
