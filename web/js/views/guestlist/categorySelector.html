@@ -1,0 +1,9 @@
+<% var categories = { bride: "Bride" , groom: "Groom" }; %>
+
+<select class="span2 categorySelect">
+  <option value="none"></option>
+  <% _.each(categories, function(category, keyName) { %>
+    <option value="<%=keyName%>" <%=(keyName === selectedCategory ? "selected" : "")%>> <%=category%> </option>
+  <% }) %>
+</select>
+
