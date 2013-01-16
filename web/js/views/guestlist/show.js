@@ -14,7 +14,7 @@ define([
       this.weddingId = args[0];
 
       this.statsPane = new StatsPaneView(config, vent, pather, cookie, args);
-      this.filters = new FiltersView(config, vent, pather, cookie, args);
+      this.filters = new FiltersView(config, vent, pather, cookie, this.weddingId);
       this.partysTable = new PartysTableView(config, vent, pather, cookie, this.weddingId);
     },
 

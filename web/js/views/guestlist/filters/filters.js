@@ -8,10 +8,12 @@ define([
   var View = Backbone.View.extend({
     events: {
       'click #party-priority-filter button': 'setPriorityFilter',
+      'click #filter-export button': 'exportToCsv'
     },
 
-    initialize: function(config, vent, pather, cookie, args) {
+    initialize: function(config, vent, pather, cookie, weddingId) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
+      this.weddingId = weddingId;
     },
 
     render: function() {
@@ -31,6 +33,11 @@ define([
       return {
         priorities: priorities
       };
+    },
+
+    exportToCsv: function(event) {
+      event.preventDefault(); event.stopPropagation();
+      document.location = '//' + this.config.app.host + '/api/party?weddingId=' + this.weddingId + '&download=1';
     }
   });
 

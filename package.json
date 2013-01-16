@@ -24,6 +24,7 @@
     "requirejs": "1.0.8",
     "sass": "0.5.0",
     "sift": "0.0.7",
+    "tmp": "0.0.16",
     "underscore": "1.4.3",
     "validator": "0.4.9"
   },
