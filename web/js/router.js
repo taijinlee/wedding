@@ -22,7 +22,8 @@ define([
         { urlFragment: 'wedding/:weddingId/party/:partyId', view: 'party/new', symName: 'partyEdit', requireLogin: true },
         { urlFragment: 'account', view: 'account/linkAccount', symName: 'linkAccount', requireLogin: true },
 
-        { urlFragment: 'address/:partyId/:tokenWithTime', view: 'party/verifyAddress', symName: 'verifyAddress' }, // public view for verifying your address
+        { urlFragment: 'address/:partyId/:accessToken', view: 'party/verifyAddress', symName: 'verifyAddress' }, // public view for verifying your address
+        { urlFragment: 'rsvpStd/:partyId/:accessToken', view: 'party/rsvpStd', symName: 'rsvpStd' }, // public view for RSVP'ing
 
         { urlFragment: 'https://accounts.google.com/o/oauth2/auth?response_type=code&scope=' +
           encodeURIComponent(this.config.googleOAuth.contactScope) +

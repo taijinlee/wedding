@@ -14,7 +14,7 @@ define([
       priority: { type: 'string', optional: true },
       category: { type: 'string', optional: true },
       addressVerified: { type: 'bool', defaults: false },
-      tokenWithTime: { type: 'string', optional: true },
+      accessToken: { type: 'string', optional: true },
       created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
     }
 

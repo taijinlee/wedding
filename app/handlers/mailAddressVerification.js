@@ -17,10 +17,8 @@ module.exports = function(store, history) {
       party: function(done) { new PartyModel({ id: partyId }).retrieve(done); },
       wedding: ['party', function(done, results) { new WeddingModel({ weddingId: results.weddingId }).retrieve(done); }],
       addressVerificationLink: function(done) {
-        var ttl = 604800000;
-        var time = new Date().getTime();
-        var token = tokenizer.generate(partyId, 'addressVerification', time, ttl);
-        return done(null, 'http://' + config.app.host + '/address/' + encodeURIComponent(partyId) + '/' + encodeURIComponent(token + '-' + time));
+        var token = tokenizer.generate(partyId, 'addressVerification', 0, 0);
+        return done(null, 'http://' + config.app.host + '/address/' + encodeURIComponent(partyId) + '/' + encodeURIComponent(token));
       }
     }, function(error, results) {
       if (error) { return callback(error); }

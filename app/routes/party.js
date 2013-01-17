@@ -16,11 +16,7 @@ module.exports = function(app, middlewares, handlers) {
   app.get('/api/party/:partyId', middlewares.entity.exists('party'), function(req, res, next) {
     var partyId = req.params.partyId;
 
-    var isTokenValid = false;
-    if (req.query.tokenWithTime) {
-      var tokenWithTime = req.query.tokenWithTime.split('-');
-      isTokenValid = tokenizer.match(partyId, 'addressVerification', decodeURIComponent(tokenWithTime[1]), 604800000 /* 1week */, decodeURIComponent(tokenWithTime[0]));
-    }
+    var isTokenValid = req.query.accessToken ? tokenizer.match(partyId, 'addressVerification', 0, 0, decodeURIComponent(req.query.accessToken)) : false;
     if (!isTokenValid && res.locals.auth.tokenUserId === false) { return next(new Error('unauthorized: require login')); }
     handlers.party.retrieve(res.locals.auth.tokenUserId, partyId, res.locals.responder.send);
   });
@@ -28,11 +24,7 @@ module.exports = function(app, middlewares, handlers) {
   app.put('/api/party/:partyId', middlewares.entity.exists('party'), function(req, res, next) {
     var partyId = req.params.partyId;
 
-    var isTokenValid = false;
-    if (req.body.tokenWithTime) {
-      var tokenWithTime = req.body.tokenWithTime.split('-');
-      isTokenValid = tokenizer.match(partyId, 'addressVerification', decodeURIComponent(tokenWithTime[1]), 604800000 /* 1week */, decodeURIComponent(tokenWithTime[0]));
-    }
+    var isTokenValid = req.body.accessToken ? tokenizer.match(partyId, 'addressVerification', 0, 0, decodeURIComponent(req.body.accessToken)) : false;
     if (!isTokenValid && res.locals.auth.tokenUserId === false) { return next(new Error('unauthorized: require login')); }
     var updateData = req.body;
     handlers.party.update(res.locals.auth.tokenUserId, partyId, updateData, res.locals.responder.send);

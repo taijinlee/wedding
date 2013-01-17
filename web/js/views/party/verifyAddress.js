@@ -15,7 +15,7 @@ define([
     initialize: function(config, vent, pather, cookie, args) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.partyId = args[0];
-      this.tokenWithTime = args[1];
+      this.accessToken = args[1];
       this.party = new PartyModel({ id: this.partyId });
       this.party.on('change', this.renderAddress, this);
     },
@@ -23,7 +23,7 @@ define([
     render: function() {
       this.$el.html(_.template(verifyAddressTemplate));
       this.party.fetch({
-        data: { tokenWithTime: this.tokenWithTime }
+        data: { accessToken: this.accessToken }
       });
       return this;
     },
@@ -36,7 +36,7 @@ define([
 
     submitAddress: function(event) {
       event.preventDefault(); event.stopPropagation();
-      var values = { tokenWithTime: this.tokenWithTime };
+      var values = { accessToken: this.accessToken };
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
       });
