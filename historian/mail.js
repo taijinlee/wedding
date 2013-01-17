@@ -7,7 +7,7 @@ module.exports = function(store) {
 
   var create = function(mailData, callback) {
     async.auto({
-      sendMail: function(done) { mailer.send(mailData.from, mailData.to, mailData.subject, mailData.body, done) },
+      sendMail: function(done) { mailer.send(mailData.from, mailData.to, mailData.subject, mailData.body, done); },
       logMail: ['sendMail', function(done) { new MailModel(mailData).create(callback); }]
     }, callback);
   };
