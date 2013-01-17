@@ -11,7 +11,7 @@ module.exports = function(store, history) {
   var PartyModel = require(process.env.APP_ROOT + '/models/party.js')(store);
 
   var assetManager = require(process.env.APP_ROOT + '/assetManager/assetManager.js')(store);
-  var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
+  var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
 
   /* Basic crud */
   var create = function(email, firstName, lastName, secret, callback) {

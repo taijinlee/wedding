@@ -1,5 +1,5 @@
 
-var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
+var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
 
 describe('Tokenizer:', function() {
   var tokenize = '73#4$jsu%x9&2k(1h@xoq_;1"jdo2';

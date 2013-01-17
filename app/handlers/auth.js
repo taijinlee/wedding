@@ -3,7 +3,7 @@ module.exports = function(store, history) {
   var async = require('async');
 
   var AuthModel = require(process.env.APP_ROOT + '/models/auth.js')(store);
-  var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
+  var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
 
   /* Basic crud */
   var create = function(tokenUserId, type, identifier, secret, expires, shouldHashSecret, callback) {

@@ -5,7 +5,7 @@ module.exports = function(store, cookieJar) {
   var AuthModel = require(process.env.APP_ROOT + '/models/auth.js')(store);
   var UserModel = require(process.env.APP_ROOT + '/models/user.js')(store);
   var salt = 'Plubrl#mla!2lUCleFluSTouW@i@SWoA';
-  var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
+  var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
 
   // called globally before all routing
   var getTokenUserId = function(req, res, next) {

@@ -4,7 +4,7 @@ var async = require('async');
 var tmp = require('tmp');
 var fs = require('fs');
 
-var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
+var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
 
 module.exports = function(app, middlewares, handlers) {
 

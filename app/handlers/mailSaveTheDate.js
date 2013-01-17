@@ -11,7 +11,6 @@ module.exports = function(store, history) {
 
   var WeddingModel = require(process.env.APP_ROOT + '/models/wedding.js')(store);
   var WebMailModel = require(process.env.APP_ROOT + '/models/webModel.js')(store, 'mail');
-  var tokenizer = require(process.env.APP_ROOT + '/tokenizer/tokenizer.js')();
 
   var create = function(tokenUserId, partyId, callback) {
     async.auto({
