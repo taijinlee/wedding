@@ -24,7 +24,7 @@ module.exports = function(store, history) {
       var weddingName = results.wedding.name.split('&');
 
       subject = 'Save the Date!';
-      body = _.template(template, { firstName: weddingName.shift().trim(), secondName: weddingName.shift().trim(), config: config });
+      body = _.template(template, { name1: weddingName.shift().trim(), name2: weddingName.shift().trim(), config: config });
 
       var mailData = {
         id: store.generateId(),

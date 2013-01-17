@@ -57,7 +57,7 @@ module.exports = function(app, middlewares, handlers) {
       if (!isDownload) { return res.locals.responder.send(null, partys); }
 
       var csv = [
-        { headerName: 'Name' , value: function(party, guest) { return guest.firstName + ' ' + guest.lastName; } },
+        { headerName: 'Name' , value: function(party, guest) { return guest.name; } },
         { headerName: 'E-mail', value: function(party, guest) { return guest.email; } },
         { headerName: 'Category', value: function(party, guest) { return party.category; } },
         { headerName: 'Address', value: function(party, guest) { return party.address; } },

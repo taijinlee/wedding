@@ -22,8 +22,7 @@ define([
 
       this.guestTable = {
         salutation: 'Salutation',
-        firstName: 'First Name',
-        lastName: 'Last Name',
+        name: 'Name',
         email: 'Email'
       };
       this.addressForm = {
@@ -50,17 +49,10 @@ define([
       var self = this;
 
       var guests = this.party.get('guests');
-      var salutations = {
-        mr: "Mr.",
-        mrs: "Mrs.",
-        ms: "Ms.",
-        miss: "Miss",
-        dr: "Dr"
-      };
       if (!guests || guests.length === 0) { guests = []; }
       guests.push({});
       _.each(guests, function(guest) {
-        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest, salutations: salutations }));
+        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest }));
         self.guestNum++;
       });
 

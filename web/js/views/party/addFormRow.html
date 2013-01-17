@@ -1,3 +1,13 @@
+<%
+var salutations = {
+  mr: 'Mr.',
+  mrs: 'Mrs.',
+  ms: 'Ms.',
+  miss: 'Miss',
+  dr: 'Dr'
+};
+%>
+
 <div class="row">
   <div class="span10">
     <select class="span1" id="salutation" name="guest_<%=guestNum%>_salutation">
@@ -6,8 +16,7 @@
         <option value="<%=keyName%>" <%=(guest.salutation===keyName ? "selected" : "")%>> <%=salutations[keyName]%> </option>
       <% }) %>
     </select>
-    <input class="span3" type="text" id="firstName" name="guest_<%=guestNum%>_firstName" placeholder="First Name" value="<%= guest.firstName || ''%>" />
-    <input class="span3" type="text" id="lastName" name="guest_<%=guestNum%>_lastName" placeholder="Last Name" value="<%= guest.lastName || ''%>" />
-    <input class="span3" type="email" id="email" name="guest_<%=guestNum%>_email" placeholder="E-mail" value="<%= guest.email || ''%>" />
+    <input class="span4" type="text" id="name" name="guest_<%=guestNum%>_name" placeholder="Name" value="<%= guest.name || ''%>" />
+    <input class="span4" type="email" id="email" name="guest_<%=guestNum%>_email" placeholder="E-mail" value="<%= guest.email || ''%>" />
   </div>
 </div>

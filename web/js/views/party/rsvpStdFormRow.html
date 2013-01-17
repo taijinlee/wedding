@@ -1,0 +1,7 @@
+<tr>
+  <td><%= guest.name %></td>
+  <td>
+    <label class="radio inline" for="attendingYes-<%= index %>"><input type="radio" name="attending-<%= index %>" id="attendingYes-<%= index %>" value="1" <%= (guest.isAttending === true ? 'checked="checked"' : '') %>/>Yes</label>
+    <label class="radio inline" for="attendingNo-<%= index %>"><input type="radio" name="attending-<%= index %>" id="attendingNo-<%= index %>" value="0" <%= (guest.isAttending === false ? 'checked="checked"' : '') %>/>No</label>
+  </td>
+</tr>

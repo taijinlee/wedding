@@ -111,8 +111,8 @@ module.exports = function(store, history) {
       id: weddingData.mainPartyId,
       weddingId: weddingData.id,
       guests: [
-        { salutation: '', firstName: firstName, lastName: lastName, email: email },
-        { salutation: '', firstName: fianceFirstName, lastName: fianceLastName, email: '' }
+        { salutation: '', name: firstName + ' ' + lastName, email: email },
+        { salutation: '', name: fianceFirstName + ' ' + lastName, email: '' }
       ]
     };
 
