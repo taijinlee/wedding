@@ -1,8 +1,4 @@
-<div class="row">
-  <div class="span5">
-    <textarea class="span5" rows="3" placeholder="Address as shown on invitation" name="address"><%= party.address || '' %></textarea>
-  </div>
-</div>
+<textarea class="span5" rows="3" placeholder="Address as shown on invitation" name="address"><%= address || '' %></textarea>
 <% if (showButtons) { %>
-   <button type="submit" id="submit" class="btn btn-success">Verify</button>
+  <button type="submit" id="submit" class="btn btn-success">Verify</button>
 <% } %>

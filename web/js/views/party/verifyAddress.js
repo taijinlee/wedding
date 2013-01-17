@@ -30,7 +30,7 @@ define([
 
     renderAddress: function() {
       var $addressForm = this.$el.find('#addressForm');
-      $addressForm.html(_.template(addressFormTemplate, { party: this.party.toJSON(), showButtons: true }));
+      $addressForm.html(_.template(addressFormTemplate, { address: this.party.get('address'), showButtons: true }));
       return this;
     },
 

@@ -37,7 +37,7 @@ define([
       var $body = this.$el.find('tbody');
       var self = this;
       weddings.each(function(wedding) {
-        $body.append(_.template(tableRowTemplate, { name: wedding.get('name'), link: self.pather.getUrl('guestlist', { weddingId: wedding.get('id') }) }));
+        $body.append(_.template(tableRowTemplate, { name: wedding.get('name'), link: self.pather.getUrl('guestlist', { weddingId: wedding.get('id') }), settings_link: self.pather.getUrl('weddingSettings', { weddingId: wedding.get('id') }) }));
       });
     }
   });

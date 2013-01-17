@@ -7,6 +7,7 @@ var config = {
     'async': 'lib/async/async',
     'backbone': 'lib/backbone/backbone-amd',
     'backbone-web': 'lib/backbone/backbone-web',
+    'datepicker': 'lib/datepicker/bootstrap-datepicker',
     'humanize': 'lib/humanize',
     'json2': 'lib/json2',
     'jquery': 'lib/jquery/jquery-1.8.3',
@@ -17,6 +18,7 @@ var config = {
     'validator': 'lib/validator/validator-min'
   },
   shim: {
+    'datepicker': ['jquery'],
     'select2': ['jquery']
   }
 };

@@ -1,0 +1,42 @@
+<form class="span12 form-horizontal">
+  <section id="settings-form"></section>
+
+  <div class="control-group">
+    <label class="control-label" for="weddingName"> Wedding Name</label>
+    <div class="controls">
+      <input type="text" id="weddingName1" name="weddingName1" placeholder="Participant 1 Name" value="">
+      &
+      <input type="text" id="weddingName2" name="weddingName2" placeholder="Participant 2 Name" value=""/>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" id="dateLabel"> Date of Event</label>
+    <div class="controls">
+      <div class="date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+        <input class="span2" id="weddingDate" name="weddingDate" size="16" type="text" value="" placeholder="12/25/2013">
+      </div>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="weddingTime"> Time </label>
+    <div class="controls">
+      <input type="text" id="weddingTime" name="weddingTime" placeholder="3:00 PM" value="">
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="weddingLocation"> Location </label>
+    <div class="controls">
+      <section id="weddingLocation"></section>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div clas="controls">
+      <a href="<%= backUrl %>" class="btn">Cancel</a>
+      <button id="settingsSubmit" type="submit" class="btn btn-success">Save changes</button>
+    </div>
+  </div>
+</form>

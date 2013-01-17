@@ -57,7 +57,7 @@ define([
       });
 
       var $addressSection = this.$el.find('#addAddress');
-      $addressSection.html(_.template(addressFormTemplate, { party: this.party.toJSON(), showButtons: false }));
+      $addressSection.html(_.template(addressFormTemplate, { address: this.party.get('address'), showButtons: false }));
     },
 
     addGuest: function() {

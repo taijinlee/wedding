@@ -18,6 +18,7 @@ define([
         { urlFragment: 'guestlist/:weddingId', view: 'guestlist/show', symName: 'guestlist', requireLogin: true },
         { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList', requireLogin: true },
         { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew', requireLogin: true },
+        { urlFragment: 'wedding/:weddingId/settings', view: 'weddings/settings', symName: 'weddingSettings', requireLogin: true },
         { urlFragment: 'wedding/:weddingId/party/new', view: 'party/new', symName: 'partyNew', requireLogin: true },
         { urlFragment: 'wedding/:weddingId/party/:partyId', view: 'party/new', symName: 'partyEdit', requireLogin: true },
         { urlFragment: 'account', view: 'account/linkAccount', symName: 'linkAccount', requireLogin: true },

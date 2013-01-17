@@ -2,7 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'select2'
+  'select2',
+  'datepicker'
 ], function() {
   var $ = window.$.noConflict();
   var _ = window._.noConflict();
