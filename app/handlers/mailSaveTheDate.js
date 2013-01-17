@@ -3,6 +3,7 @@ var async = require('async');
 var _ = require('underscore');
 var fs = require('fs');
 var config = require(process.env.APP_ROOT + '/config/config.js')();
+var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
 
 module.exports = function(store, history) {
 
@@ -16,7 +17,12 @@ module.exports = function(store, history) {
     async.auto({
       party: function(done) { new PartyModel({ id: partyId }).retrieve(done); },
       wedding: ['party', function(done, results) { new WeddingModel({ weddingId: results.weddingId }).retrieve(done); }],
-      template: function(done, result) { fs.readFile(process.env.APP_ROOT + '/mailer/templates/saveTheDate.html', done); }
+      template: function(done, result) { fs.readFile(process.env.APP_ROOT + '/mailer/templates/saveTheDate.html', done); },
+      rsvpUrl: function(done) {
+        // TODO: don't reuse same token!
+        var token = tokenizer.generate(partyId, 'addressVerification', 0, 0);
+        return done(null, 'http://' + config.app.host + '/rsvpStd/' + encodeURIComponent(partyId) + '/' + encodeURIComponent(token));
+      }
     }, function(error, results) {
       if (error) { return callback(error); }
 
@@ -24,7 +30,7 @@ module.exports = function(store, history) {
       var weddingName = results.wedding.name.split('&');
 
       subject = 'Save the Date!';
-      body = _.template(template, { name1: weddingName.shift().trim(), name2: weddingName.shift().trim(), config: config });
+      body = _.template(template, { name1: weddingName.shift().trim(), name2: weddingName.shift().trim(), config: config, rsvpUrl: results.rsvpUrl });
 
       var mailData = {
         id: store.generateId(),
