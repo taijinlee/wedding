@@ -3,8 +3,9 @@ define([
   'underscore',
   'backbone',
   'models/signup',
+  'models/authBase',
   'text!./form.html'
-], function($, _, Backbone, SignupModel, formTemplate) {
+], function($, _, Backbone, SignupModel, AuthBaseModel, formTemplate) {
 
   var SignupView = Backbone.View.extend({
     events: {
@@ -38,10 +39,17 @@ define([
             $input.closest('.control-group').addClass('error');
             $input.after(self.make('span', { 'class': 'help-inline' }, 'Required' ));
           });
-          // self.vent.trigger('renderNotification', 'Error', 'error');
         },
         success: function(model, response) {
-          self.vent.trigger('renderNotification', 'You have successfully registered! Please log in.', 'success');
+          // auto login
+          new AuthBaseModel().save({ type: 'base', identifier: values.email, secret: values.secret }, {
+            success: function() {
+              Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
+            },
+            error: function() {
+              self.vent.trigger('renderNotification', 'You have successfully registered! Please login', 'success');
+            }
+          });
         }
       });
       return false;

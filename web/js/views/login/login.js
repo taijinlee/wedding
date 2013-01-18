@@ -27,9 +27,8 @@ define([
         values[field.name] = field.value;
       });
 
-      var authBase = new AuthBaseModel(values);
       var self = this;
-      authBase.save(values, {
+      new AuthBaseModel().save(values, {
         success: function() {
           Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
         },
