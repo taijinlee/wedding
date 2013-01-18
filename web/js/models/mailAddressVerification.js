@@ -7,7 +7,7 @@ define([
     urlRoot: '/api/mailAddressVerification',
 
     schema: {
-      id: { type: 'string' },
+      id: { type: 'string', optional: true },
       userId: { type: 'string' },
       partyId: { type: 'string' },
       created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }

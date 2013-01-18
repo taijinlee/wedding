@@ -24,21 +24,29 @@ define([
 
     setPartyAddressVerified: function(event) {
       event.preventDefault(); event.stopPropagation();
+      var self = this;
       this.party.set({ addressVerified: true }).save({}, {
         success: function() {
-          // MAJOR HACK: should make address field a separate view
-          $(event.target).parent().html('Address verified!');
+          self.vent.trigger('guestList:addressUpdate');
         }
       });
-      this.renderPartys(this.partys);
     },
 
     emailAddressVerification: function(event) {
       event.preventDefault(); event.stopPropagation();
-      new MailAddressVerificationModel({
+
+      var $button = $(event.target);
+      $button.attr('disabled', 'disabled');
+      $button.html('sending...');
+
+      new MailAddressVerificationModel().save({
         userId: this.cookie.get('userId'),
         partyId: this.party.get('id')
-      }).save();
+      }, {
+        success: function() {
+          $button.html('Email sent!');
+        }
+      });
     }
 
   });
