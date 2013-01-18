@@ -15,7 +15,7 @@ module.exports = function(store, history) {
   var create = function(tokenUserId, partyId, callback) {
     async.auto({
       party: function(done) { new PartyModel({ id: partyId }).retrieve(done); },
-      wedding: ['party', function(done, results) { new WeddingModel({ weddingId: results.weddingId }).retrieve(done); }],
+      wedding: ['party', function(done, results) { new WeddingModel({ id: results.party.weddingId }).retrieve(done); }],
       addressVerificationLink: function(done) {
         var token = tokenizer.generate(partyId, 'addressVerification', 0, 0);
         return done(null, 'http://' + config.app.host + '/address/' + encodeURIComponent(partyId) + '/' + encodeURIComponent(token));

@@ -16,7 +16,7 @@ module.exports = function(store, history) {
   var create = function(tokenUserId, partyId, callback) {
     async.auto({
       party: function(done) { new PartyModel({ id: partyId }).retrieve(done); },
-      wedding: ['party', function(done, results) { new WeddingModel({ weddingId: results.weddingId }).retrieve(done); }],
+      wedding: ['party', function(done, results) { new WeddingModel({ id: results.party.weddingId }).retrieve(done); }],
       template: function(done, result) { fs.readFile(process.env.APP_ROOT + '/mailer/templates/saveTheDate.html', done); },
       rsvpUrl: function(done) {
         // TODO: don't reuse same token!
