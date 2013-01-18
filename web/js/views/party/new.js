@@ -91,22 +91,19 @@ define([
       }, { guests: {} });
 
       partyData.guests = _.map(partyData.guests, function(guest) { return guest; });
+      if (!partyData.guests.length) {
+        this.vent.trigger('renderNotification', 'Please add a guest', 'error');
+        return;
+      }
 
       var self = this;
       this.party.save(partyData, {
         error: function(model, response) {
-          self.vent.trigger('renderNotification', 'Error', 'error');
-          console.log(model);
-          console.log(response);
+          self.vent.trigger('renderNotification', 'Server error', 'error');
         },
         success: function(model, response) {
           Backbone.history.navigate(self.pather.getUrl('guestlist', { weddingId: self.weddingId }), { trigger: true });
-          console.log(model);
-          console.log(response);
-          console.log(self.vent);
-          // this.vent.trigger('renderNotification', 'An email has been sent to you', 'success');
         },
-        // weird ass shit going on here... partyData.guests gets corrupted when save goes. console.log is async?
         silent: true
       });
 
