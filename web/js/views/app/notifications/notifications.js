@@ -16,11 +16,11 @@ define([
 
     render: function() {
       this.vent.on('renderNotification', this.renderNotification, this);
+      this.$el.empty();
     },
 
-    renderNotification: function(messages, alertType) {
-      if (!_.isArray(messages)) { messages = [messages]; }
-      this.$el.append(_.template(notificationsTemplate, { messages: messages, alertType: alertType }));
+    renderNotification: function(message, alertType) {
+      this.$el.append(_.template(notificationsTemplate, { message: message, alertType: alertType }));
     },
 
     closeNotification: function() {

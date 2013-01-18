@@ -8,7 +8,7 @@ define([
 
   var SignupView = Backbone.View.extend({
     events: {
-      'click #signup_button': 'signup'
+      'click #signupButton': 'signup'
     },
 
     initialize: function(config, vent, pather, cookie, args) {
@@ -20,29 +20,28 @@ define([
       return this;
     },
 
-    signup: function() {
+    signup: function(event) {
+      event.preventDefault; event.stopPropagation();
       var values = {};
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
       });
 
       var self = this;
-      var signup = new SignupModel(values);
-      if (!signup.isValid()) {
-        this.vent.trigger('renderNotification');
-      }
-
-      signup.save({}, {
+      new SignupModel().save(values, {
         error: function(model, response) {
-          self.vent.trigger('renderNotification', 'Error', 'error');
-          console.log(model);
-          console.log(response);
+          self.$el.find('.help-inline').remove();
+          self.$el.find('.control-group').removeClass('error');
+          var errors = model.validate(values);
+          _.each(errors, function(errorInfo) {
+            var $input = self.$el.find('#' + errorInfo.column);
+            $input.closest('.control-group').addClass('error');
+            $input.after(self.make('span', { 'class': 'help-inline' }, 'Required' ));
+          });
+          // self.vent.trigger('renderNotification', 'Error', 'error');
         },
         success: function(model, response) {
-          console.log(model);
-          console.log(response);
-          console.log(self.vent);
-          // this.vent.trigger('renderNotification', 'An email has been sent to you', 'success');
+          self.vent.trigger('renderNotification', 'You have successfully registered! Please log in.', 'success');
         }
       });
       return false;

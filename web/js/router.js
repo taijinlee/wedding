@@ -82,9 +82,7 @@ define([
       require([
         'views/' + view
       ], function(View) {
-        $(window).unbind('scroll'); // need this for now because of infinite scroll
         self.vent.unbind();
-        // self.AppView.bindNotifications();
         self.app.render(new View(self.config, self.vent, self.pather, self.cookie, args));
       });
     }

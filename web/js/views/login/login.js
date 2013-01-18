@@ -28,23 +28,15 @@ define([
       });
 
       var authBase = new AuthBaseModel(values);
-      var errors = authBase.validate(values);
-      if (errors) {
-        _.each(errors, function(error) {
-          $('#' + error.column).addClass('error');
-        });
-        this.vent.trigger('renderNotification', 'Error', 'error');
-        return false;
-      }
-
       var self = this;
-      authBase.on('error', function(model, response, options) {
-        self.vent.trigger('renderNotification', 'Error', 'error');
+      authBase.save(values, {
+        success: function() {
+          Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
+        },
+        error: function() {
+          self.vent.trigger('renderNotification', 'Incorrect username or password.', 'error');
+        }
       });
-      authBase.on('sync', function(model, response, options) {
-        Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
-      });
-      authBase.save();
 
       return false;
     }

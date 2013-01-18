@@ -1,6 +1,4 @@
-<ul class="span10 offset1 alert alert-<%= alertType %>">
+<div class="span10 offset1 alert alert-<%= alertType %>">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <% _.each(messages, function(message) { %>
-    <li><%= message %></li>
-  <% }); %>
-</ul>
+  <%= message %>
+</div>
