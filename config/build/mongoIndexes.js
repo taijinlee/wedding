@@ -2,12 +2,13 @@
 var mongo = require('mongodb');
 var async = require('async');
 var _ = require('underscore');
+var mongoConfig = require(process.env.APP_ROOT + '/config/config.js')().store.mongo;
 
 var indexes = [
   { database: 'wedding', collection: 'users', index: { email: 1 }, options: { unique: true }},
 ];
 
-var mongoServer = new mongo.Server('localhost', 27017);
+var mongoServer = new mongo.Server(mongoConfig.host, mongoConfig.port);
 var conn = new mongo.Db('main' /* default db */, mongoServer);
 
 conn.open(function(error, client) {
