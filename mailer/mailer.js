@@ -8,16 +8,13 @@ module.exports = function() {
 
   var send = function(from, emails, subject, body, callback) {
     if (process.env.NODE_ENV === 'dev') {
+      emails = _.isArray(emails) ? emails : [ emails ];
       if (!process.env.USER) { return callback(new Error('server: No user set, email not sent')); }
-      subject += ' [to: [' + (_.isArray(emails) ? emails.join(', ') : emails) + ']]';
-      if (_.isArray(emails)) {
-        var safeEmails = emails.map( function (email, index, emails) {
-          emails[index] = email.indexOf('apricotwhisk') === -1 ? process.env.USER + '@apricotwhisk.com' : email;
-        });
-      } else {
-        emails = emails.indexOf('apricotwhisk') === -1 ? process.env.USER + '@apricotwhisk.com' : emails;
-    }
-
+      subject += ' [to: [' + emails.join(', ') + ']]';
+      emails = _.map(emails, function (email) {
+        console.log(email);
+        return email.indexOf('apricotwhisk') === -1 ? process.env.USER + '@apricotwhisk.com' : email;
+      });
     }
 
     var transport = nodeMailer.createTransport('SMTP', {

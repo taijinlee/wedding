@@ -41,6 +41,7 @@ module.exports = function(store, history) {
         if (tokenUserId !== results.wedding.userId) {
           return done(new Error('unauthorized: userId:' + tokenUserId + ' not allowed'));
         }
+        return done(null);
       }],
       metadata: ['wedding', function(done, results) { getMetadata(results.wedding, done); }]
     }, function(error, results) {

@@ -15,12 +15,9 @@ module.exports = function(store) {
         userId: { type: 'string' },
         name: { type: 'string' },
         mainPartyId: { type: 'string' },
-        date: { type: 'timestamp', optional: true },
-        address1: { type: 'string', optional: true },
-        address2: { type: 'string', optional: true },
-        city: { type: 'string', optional: true },
-        state: { type: 'string', optional: true },
-        zip: { type: 'string', optional: true },
+        date: { type: 'string', optional: true },
+        time: { type: 'string', optional: true },
+        address: { type: 'string', optional: true },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
 
