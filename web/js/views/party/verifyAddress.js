@@ -29,8 +29,8 @@ define([
     },
 
     renderAddress: function() {
-      var $addressForm = this.$el.find('#addressForm');
-      $addressForm.html(_.template(addressFormTemplate, { address: this.party.get('address'), showButtons: true }));
+      var $addressInput = this.$el.find('#addressInput');
+      $addressInput.html(_.template(addressFormTemplate, { address: this.party.get('address'), showButtons: true }));
       return this;
     },
 
