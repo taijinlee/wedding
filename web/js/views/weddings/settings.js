@@ -46,12 +46,7 @@ define([
         }
       });
 
-      if (values['weddingName1'] || values['weddingName2']) {
-        values['name'] = (values['weddingName1'] ? values['weddingName1'] : '') + ' & ' + (values['weddingName2'] ? values['weddingName2'] : '');
-      }
-
-      if (typeof values[weddingName1] !== 'undefined') { delete values.weddingName1; }
-      if (typeof values[weddingName2] !== 'undefined') { delete values.weddingName2; }
+      values['name'] = (values['weddingName1'] ? values['weddingName1'] : '') + ' & ' + (values['weddingName2'] ? values['weddingName2'] : '');
 
       var self = this;
 

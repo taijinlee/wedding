@@ -7,7 +7,7 @@ define([
 
   var View = Backbone.View.extend({
     events: {
-      'change .partyCategory': 'setPartyCategory'
+      'change .categorySelect': 'setPartyCategory'
     },
 
     initialize: function(config, vent, pather, cookie, party) {

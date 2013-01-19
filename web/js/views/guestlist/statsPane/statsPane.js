@@ -18,7 +18,21 @@ define([
 
     renderStats: function(partys) {
       var stats = partys.map(function(party) {
-        return { priority: party.get('priority'), numGuests: party.get('guests').length, addressVerified: party.get('addressVerified') };
+        var guests = party.get('guests');
+        var guestStats = _.reduce(guests, function(memo, guestStats) {
+          if (guestStats['isAttending']) {
+            memo['isAttending'] += 1;
+          } else {
+            if (typeof guestStats['isAttending'] === 'undefined') {
+              memo['none'] += 1;
+            } else {
+              memo['notAttending'] += 1;
+            }
+          }
+          return memo;
+        }, {isAttending: 0, none: 0, notAttending: 0 });
+
+        return { priority: party.get('priority'), numGuests: party.get('guests').length, addressVerified: party.get('addressVerified'), category: party.get('category'), guestStats: guestStats }
       });
 
       var defaultMemo = {
@@ -31,11 +45,18 @@ define([
         hr2: {},
         addressVerified: { display: 'Address Verified', value: 0 },
         notAddressVerified: { display: 'Not verified', value: 0 },
+        hr3: {},
+        bride: {display: 'Bride', value: 0 },
+        groom: {display: 'Groom', value: 0 },
+        noCategory: {display: 'None', value: 0},
+        hr4: {},
+        stdRsvpYes: {display: 'Responded Yes to Save the Date', value: 0},
+        stdRsvpNo: {display: 'Responded No to Save the Date', value: 0},
+        stdRsvpNone: {display: 'No response to Save the Date', value: 0}
       };
 
       stats = _.reduce(stats, function(memo, partyStats) {
         memo.total.value += partyStats.numGuests;
-
         if (partyStats.priority && memo[partyStats.priority]) {
           memo[partyStats.priority].value += partyStats.numGuests;
         } else {
@@ -46,6 +67,24 @@ define([
           memo.addressVerified.value += partyStats.numGuests;
         } else {
           memo.notAddressVerified.value += partyStats.numGuests;
+        }
+
+        if (partyStats.category && memo[partyStats.category]) {
+          memo[partyStats.category].value += partyStats.numGuests;
+        } else {
+          memo.noCategory.value += partyStats.numGuests;
+        }
+
+        if (partyStats.guestStats.isAttending) {
+          memo.stdRsvpYes.value += partyStats.guestStats.isAttending;
+        }
+
+        if (partyStats.guestStats.notAttending) {
+          memo.stdRsvpNo.value += partyStats.guestStats.notAttending;
+        }
+
+        if (partyStats.guestStats.none) {
+          memo.stdRsvpNone.value += partyStats.guestStats.none;
         }
 
         return memo;
