@@ -12,7 +12,7 @@ module.exports = function() {
       if (!process.env.USER) { return callback(new Error('server: No user set, email not sent')); }
       subject += ' [to: [' + emails.join(', ') + ']]';
       emails = _.map(emails, function (email) {
-        console.log(email);
+        if (!email) { return ""; }
         return email.indexOf('apricotwhisk') === -1 ? process.env.USER + '@apricotwhisk.com' : email;
       });
     }

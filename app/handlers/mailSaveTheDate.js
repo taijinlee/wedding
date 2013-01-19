@@ -30,7 +30,7 @@ module.exports = function(store, history) {
       var weddingName = results.wedding.name.split('&');
 
       subject = 'Save the Date!';
-      body = _.template(template, { name1: weddingName.shift().trim(), name2: weddingName.shift().trim(), config: config, rsvpUrl: results.rsvpUrl });
+      body = _.template(template, { name1: weddingName.shift().trim(), name2: weddingName.shift().trim(), config: config, rsvpUrl: results.rsvpUrl, location: results.wedding.address, date: results.wedding.date, time: results.wedding.time });
 
       var mailData = {
         id: store.generateId(),

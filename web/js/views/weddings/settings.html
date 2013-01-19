@@ -1,18 +1,12 @@
-<% var weddingName = wedding.get('name');
-   var participantNames = ["",""];
-   if (weddingName && weddingName.indexOf('&') !== -1) {
-     participantNames = weddingName.split(' & ');
-   }
-%>
 <form class="span12 form-horizontal">
   <section id="settings-form"></section>
 
   <div class="control-group">
     <label class="control-label" for="weddingName"> Wedding Name</label>
     <div class="controls">
-      <input type="text" id="weddingName1" name="weddingName1" placeholder="Participant 1 Name" value="<%=participantNames[0] ? participantNames[0] : ''%>">
+      <input type="text" id="weddingName1" name="weddingName1" placeholder="Participant 1 Name" value="<%=participant1Name ? participant1Name : ''%>">
       &
-      <input type="text" id="weddingName2" name="weddingName2" placeholder="Participant 2 Name" value="<%=participantNames[1] ? participantNames[1] : ''%>"/>
+      <input type="text" id="weddingName2" name="weddingName2" placeholder="Participant 2 Name" value="<%=participant2Name ? participant2Name : ''%>"/>
     </div>
   </div>
   

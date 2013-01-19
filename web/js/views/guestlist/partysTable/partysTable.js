@@ -6,14 +6,16 @@ define([
   './address',
   './priority',
   './category',
+  'models/mailSaveTheDate',
   'text!./partysTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html',
-], function($, _, Backbone, PartysCollection, AddressView, PriorityView, CategoryView, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
+], function($, _, Backbone, PartysCollection, AddressView, PriorityView, CategoryView, MailSaveTheDateModel, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
 
   var View = Backbone.View.extend({
     events: {
-      'click .delete': 'deleteParty'
+      'click .delete': 'deleteParty',
+      'click .send': 'sendStd'
     },
 
     initialize: function(config, vent, pather, cookie, weddingId) {
@@ -31,6 +33,8 @@ define([
         'Category',
         'Address',
         'Invite Priority',
+        'Save the Date',
+        'Attending?',
         'Delete'
       ];
 
@@ -110,6 +114,15 @@ define([
         this.partys.remove(party);
         this.renderPartys(this.partys);
       }
+    },
+
+    sendStd: function(event) {
+      event.preventDefault(); event.stopPropagation();
+      var partyId = $(event.currentTarget).closest('tr').data('party-id');
+      new MailSaveTheDateModel({
+        userId: this.cookie.get('userId'),
+        partyId: partyId
+      }).save();
     }
 
   });

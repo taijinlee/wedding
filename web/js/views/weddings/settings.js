@@ -27,7 +27,12 @@ define([
 
     renderWeddingSettings: function() {
       var backUrl = this.pather.getUrl('weddingsList');
-      this.$el.html(_.template(settingsFormTemplate, { wedding: this.wedding, backUrl: backUrl }));
+      var weddingName = this.wedding.get('name');
+      var participantNames = ["",""];
+      if (weddingName && weddingName.indexOf('&') !== -1) {
+        participantNames = weddingName.split(' & ');
+      }
+      this.$el.html(_.template(settingsFormTemplate, { wedding: this.wedding, backUrl: backUrl, participant1Name: participantNames[0], participant2Name: participantNames[1] }));
       $(this.$el.find('#date')).datepicker();
       this.$el.find('#weddingLocation').html(_.template(addressFormTemplate, {address: this.wedding.get('address'), showButtons: false }));
     },
@@ -42,10 +47,11 @@ define([
       });
 
       if (values['weddingName1'] || values['weddingName2']) {
-        values['name'] = values['weddingName1'] + ' & ' + values['weddingName2'];
-        delete values.weddingName1;
-        delete values.weddingName2;
+        values['name'] = (values['weddingName1'] ? values['weddingName1'] : '') + ' & ' + (values['weddingName2'] ? values['weddingName2'] : '');
       }
+
+      if (typeof values[weddingName1] !== 'undefined') { delete values.weddingName1; }
+      if (typeof values[weddingName2] !== 'undefined') { delete values.weddingName2; }
 
       var self = this;
 
