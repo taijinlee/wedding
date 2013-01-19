@@ -4,7 +4,7 @@
     <title>Save the date!</title>
   </head>
   <body>
-    <table height="611" width="611px" style="background: url(http://<%= config.app.host %>/images/saveTheDate.png) 0 0 no-repeat; padding: 0; margin: 0;">
+    <table height="611" width="611px" style="background: url(http://<%= config.app.host %>/<%= process.env.GIT_REV ? process.env.GIT_REV + '/' : ''%>images/saveTheDate.png) 0 0 no-repeat; padding: 0; margin: 0;">
       <tr>
         <td height="250"></td>
       </tr>
