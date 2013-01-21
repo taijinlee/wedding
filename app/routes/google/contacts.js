@@ -21,7 +21,7 @@ module.exports = function(app, middlewares, handlers) {
     path += params.type + '/';
     path += params.email + '/';
     path += params.projection;
-    path += '?' + qs.stringify(query);
+    path += '?' + querystring.stringify(query);
     return path;
   };
 

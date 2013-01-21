@@ -46,7 +46,7 @@ define([
         }
       });
 
-      values['name'] = (values['weddingName1'] ? values['weddingName1'] : '') + ' & ' + (values['weddingName2'] ? values['weddingName2'] : '');
+      values.name = (values.weddingName1 ? values.weddingName1 : '') + ' & ' + (values.weddingName2 ? values.weddingName2 : '');
 
       var self = this;
 

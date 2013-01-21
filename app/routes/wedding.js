@@ -1,4 +1,6 @@
 
+var _ = require('underscore');
+
 module.exports = function(app, middlewares, handlers) {
 
   app.post('/api/wedding', middlewares.auth.requireLogin, function(req, res, next) {
@@ -28,7 +30,7 @@ module.exports = function(app, middlewares, handlers) {
     var filters = req.query;
     delete filters.page;
     if (filters.keywords) {
-      filters['$and'] = _.chain(filters.keywords.split('+'))
+      filters.$and = _.chain(filters.keywords.split('+'))
         .map(function(keyword) { return keyword ? { keywords: { $regex: '^' + keyword } } : null; })
         .compact()
         .value();

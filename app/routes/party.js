@@ -75,7 +75,7 @@ module.exports = function(app, middlewares, handlers) {
     delete filters.download;
     delete filters.page;
     if (filters.keywords) {
-      filters['$and'] = _.chain(filters.keywords.split('+'))
+      filters.$and = _.chain(filters.keywords.split('+'))
         .map(function(keyword) { return keyword ? { keywords: { $regex: '^' + keyword } } : null; })
         .compact()
         .value();

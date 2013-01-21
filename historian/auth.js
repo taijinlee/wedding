@@ -11,4 +11,4 @@ module.exports = function(store) {
   return {
     create: create
   };
-}
+};

@@ -49,7 +49,7 @@ module.exports = function(store, history) {
     var user = new UserModel({ id: userId });
     if (!user.isExistingFieldsValid()) { return callback(new Error('invalid: user corrupt: id: ' + userId)); }
 
-    getMetadata(user, function(error, user) {
+    getMetaData(user, function(error, user) {
       if (error) { return callback(error); }
       return callback(null, new WebUserModel(user.toJSON()).toJSON());
     });
@@ -77,7 +77,7 @@ module.exports = function(store, history) {
       if (error) { return callback(error); }
       async.map(users, getMetaData, function(error, users) {
         if (error) { return callback(error); }
-        return callback(null, _.map(users, function(uwer) { return new WebUserModel(user).toJSON(); }));
+        return callback(null, _.map(users, function(user) { return new WebUserModel(user).toJSON(); }));
       });
     });
   };

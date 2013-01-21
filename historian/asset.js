@@ -13,6 +13,9 @@ module.exports = function(store) {
           var user = new UserModel({ imageAssetId: assetId });
           user.update({ id: refId }, next);
           break;
+        default: // do nothing for now
+
+
         }
       },
       function(next) {

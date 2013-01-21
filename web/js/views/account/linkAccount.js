@@ -23,10 +23,9 @@ define([
     },
 
     renderGoogleAuth: function(model) {
-      console.log(model);
       var data = { googleOAuthUrl: '' };
       if (!model.get('identifier')) {
-        data = { googleOAuthUrl: this.pather.getUrl('googleOAuth', { state: window.location.href }) }
+        data = { googleOAuthUrl: this.pather.getUrl('googleOAuth', { state: window.location.href }) };
       }
       this.$el.find('#googleLink').append(_.template(googleLinkTemplate, data));
     }

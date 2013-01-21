@@ -24,8 +24,8 @@ module.exports = function(store, history) {
       if (error) { return callback(error); }
       var weddingName = results.wedding.name;
 
-      subject = 'We need your address!';
-      body = "We're planning our wedding and we need to verify your address! Please go here to help us out:<br /><br />" + results.addressVerificationLink + "<br /><br />" + weddingName;
+      var subject = 'We need your address!';
+      var body = "We're planning our wedding and we need to verify your address! Please go here to help us out:<br /><br />" + results.addressVerificationLink + "<br /><br />" + weddingName;
 
       var mailData = {
         id: store.generateId(),

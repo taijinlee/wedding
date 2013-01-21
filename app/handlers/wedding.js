@@ -8,27 +8,15 @@ module.exports = function(store, history) {
   var WebWeddingModel = require(process.env.APP_ROOT + '/models/webModel.js')(store, 'wedding');
 
   var create = function(tokenUserId, fianceFirstName, fianceLastName, callback) {
-    var fianceGuestId = store.generateId();
     var weddingData = {
       id: store.generateId(),
-      userId: tokenUserId,
-      fianceGuestId: fianceGuestId
+      userId: tokenUserId
     };
-
-    var fianceGuestData = {
-      id: fianceGuestId,
-      weddingId: weddingData.id,
-      firstName: fianceFirstName,
-      lastName: fianceLastName
-    };
-
-    var guest = new GuestModel(fianceGuestData);
-    if (!guest.isValid()) { return callback(new Error('invalid:invalid input')); }
 
     var wedding = new WeddingModel(weddingData);
     if (!wedding.isValid()) { return callback(new Error('invalid:invalid input')); }
 
-    history.record(tokenUserId, 'wedding', 'create', weddingData.id, [wedding.toJSON(), guest.toJSON()], function(error, historyData) {
+    history.record(tokenUserId, 'wedding', 'create', weddingData.id, [wedding.toJSON()], function(error, historyData) {
       if (error) { return callback(error); }
       return callback(null, new WebWeddingModel(wedding.toJSON()).toJSON());
     });

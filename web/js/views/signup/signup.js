@@ -22,7 +22,7 @@ define([
     },
 
     signup: function(event) {
-      event.preventDefault; event.stopPropagation();
+      event.preventDefault(); event.stopPropagation();
       var values = {};
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
