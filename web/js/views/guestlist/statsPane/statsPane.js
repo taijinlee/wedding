@@ -20,19 +20,17 @@ define([
       var stats = partys.map(function(party) {
         var guests = party.get('guests');
         var guestStats = _.reduce(guests, function(memo, guestStats) {
-          if (guestStats['isAttending']) {
-            memo['isAttending'] += 1;
+          if (guestStats.isAttending === true) {
+            memo.isAttending += 1;
+          } else if (guestStats.isAttending === false) {
+            memo.notAttending += 1;
           } else {
-            if (typeof guestStats['isAttending'] === 'undefined') {
-              memo['none'] += 1;
-            } else {
-              memo['notAttending'] += 1;
-            }
+            memo.none += 1;
           }
           return memo;
         }, {isAttending: 0, none: 0, notAttending: 0 });
 
-        return { priority: party.get('priority'), numGuests: party.get('guests').length, addressVerified: party.get('addressVerified'), category: party.get('category'), guestStats: guestStats }
+        return { priority: party.get('priority'), numGuests: party.get('guests').length, addressVerified: party.get('addressVerified'), category: party.get('category'), guestStats: guestStats };
       });
 
       var defaultMemo = {
