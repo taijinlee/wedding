@@ -9,7 +9,7 @@ define([
   }
   validator.Validator.prototype.error = function(msg) { this._errors.push(new Error(msg)); return this; };
   validator.Validator.prototype.isString = function() {
-    if (String(this.str) !== this.str || this.str.length === 0) { return this.error(this.msg || 'Not a string'); }
+    if (String(this.str) !== this.str) { return this.error(this.msg || 'Not a string'); }
     return this;
   };
 

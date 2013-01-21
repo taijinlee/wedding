@@ -34,6 +34,36 @@ module.exports = function(app, middlewares, handlers) {
     handlers.party.destroy(res.locals.auth.tokenUserId, req.params.partyId, res.locals.responder.send);
   });
 
+  /* address verification routes */
+  app.get('/api/party/address/:partyId', middlewares.entity.exists('party'), function(req, res, next) {
+    if (!req.query.accessToken) { return next(new Error('unauthorized: require token')); }
+    var partyId = req.params.partyId;
+
+    if (!tokenizer.match(partyId, 'addressVerification', 0, 0, decodeURIComponent(req.query.accessToken))) {
+      return next(new Error('unauthorized: token invalid'));
+    }
+
+    // replace 'guest' with the email that was used to respond at some point
+    handlers.party.retrieve('guest', partyId, function(error, partyData) {
+      if (error) { return res.locals.responder.send(error); }
+      return res.locals.responder.send(null, { id: partyData.id, address: (partyData.address || ''), created: partyData.created });
+    });
+  });
+
+  app.put('/api/party/address/:partyId', middlewares.entity.exists('party'), function(req, res, next) {
+    if (!req.body.accessToken) { return next(new Error('unauthorized: require token')); }
+    var partyId = req.params.partyId;
+
+    if (!tokenizer.match(partyId, 'addressVerification', 0, 0, decodeURIComponent(req.body.accessToken))) {
+      return next(new Error('unauthorized: token invalid'));
+    }
+
+    // replace 'guest' with the email that was used to respond at some point
+    handlers.party.update('guest', partyId, { address: req.body.address, addressVerified: true }, res.locals.responder.send);
+  });
+
+
+
   app.get('/api/party', function(req, res, next) {
     var page = req.param('page', 1);
 

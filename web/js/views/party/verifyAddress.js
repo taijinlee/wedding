@@ -2,10 +2,10 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'models/party',
+  'models/partyAddressVerification',
   'text!./verifyAddress.html',
   'text!./addressForm.html',
-], function($, _, Backbone, PartyModel, verifyAddressTemplate, addressFormTemplate) {
+], function($, _, Backbone, PartyAddressVerificationModel, verifyAddressTemplate, addressFormTemplate) {
 
   var View = Backbone.View.extend({
     events: {
@@ -16,13 +16,13 @@ define([
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.partyId = args[0];
       this.accessToken = args[1];
-      this.party = new PartyModel({ id: this.partyId });
-      this.party.on('change', this.renderAddress, this);
+      this.partyAddressVerification = new PartyAddressVerificationModel({ id: this.partyId });
+      this.partyAddressVerification.on('change', this.renderAddress, this);
     },
 
     render: function() {
       this.$el.html(_.template(verifyAddressTemplate));
-      this.party.fetch({
+      this.partyAddressVerification.fetch({
         data: { accessToken: this.accessToken }
       });
       return this;
@@ -30,7 +30,7 @@ define([
 
     renderAddress: function() {
       var $addressInput = this.$el.find('#addressInput');
-      $addressInput.html(_.template(addressFormTemplate, { address: this.party.get('address'), showButtons: true }));
+      $addressInput.html(_.template(addressFormTemplate, { address: this.partyAddressVerification.get('address'), showButtons: true }));
       return this;
     },
 
@@ -41,14 +41,8 @@ define([
         values[field.name] = field.value;
       });
 
-      this.party.set(values);
-      if (!this.party.isValid()) {
-        this.vent.trigger('renderNotification', 'blah', 'error');
-        return false;
-      }
-
       var self = this;
-      this.party.save({}, {
+      this.partyAddressVerification.save(values, {
         error: function(model, response) {
           self.vent.trigger('renderNotification', 'Error', 'error');
           console.log(model);
