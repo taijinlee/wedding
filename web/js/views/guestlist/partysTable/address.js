@@ -25,9 +25,13 @@ define([
     setPartyAddressVerified: function(event) {
       event.preventDefault(); event.stopPropagation();
       var self = this;
-      this.party.set({ addressVerified: true }).save({}, {
+      this.party.save({ addressVerified: true }, {
         success: function() {
           self.vent.trigger('guestList:addressUpdate');
+        },
+        error: function() {
+          // something went wrong...
+          console.log(self.party);
         }
       });
     },

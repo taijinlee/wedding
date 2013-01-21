@@ -15,7 +15,7 @@ var config = {
     'text': 'lib/require/text',
     'types': 'lib/backbone/types',
     'underscore': 'lib/underscore/underscore',
-    'validator': 'lib/validator/validator-min'
+    'validator': 'lib/validator/validator-edited'
   },
   shim: {
     'datepicker': ['jquery'],

@@ -24,9 +24,7 @@ define([
       checkType: function(value) { return _validator().check(value).isIn(['base', 'google']); }
     },
     bool: {
-      // HACK: TODO: make this actually validate. the problem is that currently validator converts everything to string
-      // so true boolean value is lost
-      // checkType: function(value) { return _validator()},
+      checkType: function(value) { return _validator().check(value).isIn([true, false]); },
       sanitize: function(value) { return _sanitize(value).toBooleanStrict(); }
     },
     crud: {
