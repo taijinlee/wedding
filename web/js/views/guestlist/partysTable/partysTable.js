@@ -6,16 +6,15 @@ define([
   './address',
   './priority',
   './category',
-  'models/mailSaveTheDate',
+  './saveTheDate',
   'text!./partysTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html',
-], function($, _, Backbone, PartysCollection, AddressView, PriorityView, CategoryView, MailSaveTheDateModel, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
+], function($, _, Backbone, PartysCollection, AddressView, PriorityView, CategoryView, SaveTheDateView, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
 
   var View = Backbone.View.extend({
     events: {
       'click .delete': 'deleteParty',
-      'click .send': 'sendStd'
     },
 
     initialize: function(config, vent, pather, cookie, weddingId) {
@@ -96,6 +95,10 @@ define([
         var priorityView = new PriorityView(this.config, this.vent, this.pather, this.cookie, party);
         priorityView.setElement($priorityEl).render();
 
+        var $stdEl = $row.find('#guestListStd-' + partyJSON.id);
+        var stdView = new SaveTheDateView(this.config, this.vent, this.pather, this.cookie, party);
+        stdView.setElement($stdEl).render();
+
         $body.append($row);
       }, this);
       $body.append(_.template(addPartyRowTemplate, { addPartyUrl: this.pather.getUrl('partyNew', { weddingId: this.weddingId }) }));
@@ -115,16 +118,6 @@ define([
         this.renderPartys(this.partys);
       }
     },
-
-    sendStd: function(event) {
-      event.preventDefault(); event.stopPropagation();
-      var partyId = $(event.currentTarget).closest('tr').data('party-id');
-      new MailSaveTheDateModel({
-        userId: this.cookie.get('userId'),
-        partyId: partyId
-      }).save();
-    }
-
   });
 
   return View;
