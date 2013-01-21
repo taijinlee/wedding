@@ -45,6 +45,7 @@
 
 #filtersAndStats td {
   vertical-align: bottom;
+  padding-bottom: 40px;
 }
 
 #filtersAndStats dl dt, #filtersAndStats dl dd {
