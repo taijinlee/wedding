@@ -11,7 +11,7 @@ define([
 
     /**
      * stats in format
-     * [ {key: key, value: value }, ... ] from top downwards
+     * [ {display: display, value: value }, ... ] from top downwards
      * empty object -> horizontal rule
      */
     render: function(stats, title) {
