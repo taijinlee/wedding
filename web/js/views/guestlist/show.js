@@ -21,6 +21,10 @@ define([
             AddressView, PriorityView, CategoryView, SaveTheDateView, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
 
   var View = Backbone.View.extend({
+    events: {
+      'click .delete': 'deleteParty',
+    },
+
     initialize: function(config, vent, pather, cookie, args) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.weddingId = args[0];
