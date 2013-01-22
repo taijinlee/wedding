@@ -2,7 +2,7 @@
   <%= party.address ? party.address : "" %>
   <br />
   <% if (!party.addressVerified) { %>
-    <button class="btn emailAddressVerification">Send email address verification</button>
+    <button class="btn emailAddressVerification">Send address verification email</button>
     <br />
     <button class="btn addressVerify">Verify</button>
   <% } else { %>
