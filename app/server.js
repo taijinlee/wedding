@@ -43,7 +43,7 @@ app.configure('dev', function () {
   app.use(express['static'](process.env.APP_ROOT + process.env.WEB_ROOT));
   app.use(cookieJarMiddleware.init);
   app.use(function(req, res, next) {
-    res.locals.responder = require(process.env.APP_ROOT + '/responder/responder.js')();
+    res.locals.responder = require(process.env.APP_ROOT + '/lib/responder.js')();
     res.locals.responder.initialize(res);
     return next();
   });
@@ -64,7 +64,7 @@ app.configure('prod', function () {
 
   app.use(cookieJarMiddleware.init);
   app.use(function(req, res, next) {
-    res.locals.responder = require(process.env.APP_ROOT + '/responder/responder.js')();
+    res.locals.responder = require(process.env.APP_ROOT + '/lib/responder.js')();
     res.locals.responder.initialize(res);
     return next();
   });

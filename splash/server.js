@@ -31,7 +31,7 @@ app.use(express.logger(logger.serverLogFormatDev()));
 app.use(express['static'](process.env.APP_ROOT + process.env.WEB_ROOT));
 
 app.post('/subscribe', function(req, res, next) {
-  res.locals.responder = require(process.env.APP_ROOT + '/responder/responder.js')();
+  res.locals.responder = require(process.env.APP_ROOT + '/lib/responder.js')();
   res.locals.responder.initialize(res);
   if (!req.body.email) { return res.locals.responder.send(new Error('No email')); }
   new SplashSubscribeModel({ email: req.body.email }).create(res.locals.responder.send);
