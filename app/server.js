@@ -4,7 +4,7 @@ if (process.env.APP_ROOT === undefined) { throw new Error('APP_ROOT not set. Try
 
 var express = require('express');
 var config = require(process.env.APP_ROOT + '/config/config.js')();
-var logger = require(process.env.APP_ROOT + '/logger/logger.js')();
+var logger = require(process.env.APP_ROOT + '/lib/logger.js')();
 var app = express();
 
 // overwriting default date token definition

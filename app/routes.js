@@ -4,7 +4,7 @@ module.exports = function(app, store, history) {
   var fs = require('fs');
   var async = require('async');
   var _ = require('underscore');
-  var logger = require(process.env.APP_ROOT + '/logger/logger.js')();
+  var logger = require(process.env.APP_ROOT + '/lib/logger.js')();
   var cookieJar = require(process.env.APP_ROOT + '/cookieJar/cookieJar.js')();
 
   var recursiveReaddirSync = function(path) {

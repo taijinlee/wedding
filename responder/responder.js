@@ -1,5 +1,5 @@
 
-var logger = require(process.env.APP_ROOT + '/logger/logger.js')();
+var logger = require(process.env.APP_ROOT + '/lib/logger.js')();
 
 module.exports = function() {
 

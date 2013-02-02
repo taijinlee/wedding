@@ -2,7 +2,7 @@
 module.exports = function(store) {
 
   var HistoryModel = require(process.env.APP_ROOT + '/models/history.js')(store);
-  var logger = require(process.env.APP_ROOT + '/logger/logger.js')();
+  var logger = require(process.env.APP_ROOT + '/lib/logger.js')();
 
   var record = function(userId, subject, event, subjectId, params, callback) {
     var history = new HistoryModel({
