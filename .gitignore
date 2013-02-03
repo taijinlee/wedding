@@ -1,5 +1,4 @@
 *~
 *.swp
 /mytests
-/node_modules
 /web-build
