@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="http://fonts.googleapis.com/css?family=Arizonia" rel="stylesheet" type="text/css">
-
-    <style type="text/css">
+    <link href="/css/hint.css" rel="stylesheet" type="text/css" />
+    <style type="text/css" rel="stylesheet">
       body {
         font-family: 'Helvetica Neue', sans-serif !important;
         margin: 0;
@@ -55,7 +55,7 @@
         text-shadow: 1px 1px 2px #000;
       }
 
-      #banner h2 {
+      #banner h2, h3 {
         color: #fff;
         text-shadow: 1px 1px 2px #000;
       }
@@ -85,17 +85,33 @@ display:inline-block;*display:inline;*zoom:1;padding:4px 12px;margin:0;font-size
         <h1>Before I Do</h1>
         <h2>Create your perfect moment</h2>
 
-        <form class="form-inline" action="/subscribe">
-          <input type="text" placeholder="inLove@beforeIDo.com" />
-          <button class="btn" type="submit">Subscribe</button>
-        </form>
+        <section id="subscribeForm" >
+          <form class="form-inline" action="/subscribe">
+            <span id="emailWrapper">
+              <input id="subscribeEmail" type="text" placeholder="inLove@beforeIDo.com"/>
+            </span>
+            <button class="btn" type="submit">Subscribe</button>
+          </form>
+          </section>
       </section>
     </div>
     <script type="text/javascript" src="/js/jquery-1.8.3.js"></script>
     <script type="text/javascript">
       $('form').on('submit', function(event) {
         event.preventDefault(); event.stopPropagation();
-        console.log('hi');
+        $.ajax({
+          url: '/subscribe',
+          data: {
+            email: $('#subscribeEmail').val()
+          },
+          type: 'post',
+          success: function() {
+            $('#subscribeForm').html("<h3>Thanks for signing up! We'll keep you updated</h3>");
+          },
+          error: function() {
+            $('#emailWrapper').attr('data-hint', 'Please enter a valid email address').addClass('hint hint--bottom hint--error hint--always');
+          }
+        });
         return false;
       });
 

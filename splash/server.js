@@ -34,11 +34,14 @@ app.post('/subscribe', function(req, res, next) {
   res.locals.responder = require(process.env.APP_ROOT + '/lib/responder.js')();
   res.locals.responder.initialize(res);
   if (!req.body.email) { return res.locals.responder.send(new Error('No email')); }
-  new SplashSubscribeModel({ email: req.body.email }).create(res.locals.responder.send);
+  var subscribe = new SplashSubscribeModel({ email: req.body.email });
+  if (!subscribe.isValid()) { return res.locals.responder.send(new Error('Invalid email')); }
+
+  subscribe.create(res.locals.responder.send);
 });
 
 app.use(function(error, req, res, next) { res.locals.responder.send(error); });
 
 // start listening
-app.listen(config.app.port, 'apricotwhisk.com');
+app.listen(config.app.port);
 logger.log({ message: 'server start', port: config.app.port });
