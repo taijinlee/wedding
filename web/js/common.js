@@ -2,6 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'backbone-web',
+  'types',
   'select2',
   'datepicker'
 ], function() {

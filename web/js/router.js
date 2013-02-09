@@ -1,37 +1,25 @@
 define([
+  'text!./routes.json',
   'jquery',
   'underscore',
   'backbone',
   'pather',
   'models/cookie',
   'views/app/app'
-], function($, _, Backbone, Pather, CookieModel, AppView) {
+], function(routes, $, _, Backbone, Pather, CookieModel, AppView) {
   var Router = Backbone.Router.extend({
 
     paths: function() {
-      return [
-        { urlFragment: '', view: 'homepage', symName: 'homepage' },
-        { urlFragment: 'login', view: 'login/login', symName: 'login' },
-        { urlFragment: 'logout', view: 'logout/logout', symName: 'logout', requireLogin: true },
-        { urlFragment: 'signup', view: 'signup/signup', symName: 'signup' },
+      var parsedRoutes = JSON.parse(routes).routes;
 
-        { urlFragment: 'guestlist/:weddingId', view: 'guestlist/show', symName: 'guestlist', requireLogin: true },
-        { urlFragment: 'weddings', view: 'weddings/list', symName: 'weddingsList', requireLogin: true },
-        { urlFragment: 'weddings/new', view: 'weddings/new', symName: 'weddingsNew', requireLogin: true },
-        { urlFragment: 'wedding/:weddingId/settings', view: 'weddings/settings', symName: 'weddingSettings', requireLogin: true },
-        { urlFragment: 'wedding/:weddingId/party/new', view: 'party/new', symName: 'partyNew', requireLogin: true },
-        { urlFragment: 'wedding/:weddingId/party/:partyId', view: 'party/new', symName: 'partyEdit', requireLogin: true },
-        { urlFragment: 'account', view: 'account/linkAccount', symName: 'linkAccount', requireLogin: true },
-
-        { urlFragment: 'address/:partyId/:accessToken', view: 'party/verifyAddress', symName: 'verifyAddress' }, // public view for verifying your address
-        { urlFragment: 'rsvpStd/:partyId/:accessToken', view: 'party/rsvpStd', symName: 'rsvpStd' }, // public view for RSVP'ing
-
+      // add external routes
+      return parsedRoutes.concat([
         { urlFragment: 'https://accounts.google.com/o/oauth2/auth?response_type=code&scope=' +
           encodeURIComponent(this.config.googleOAuth.contactScope) +
           '&redirect_uri=' + encodeURIComponent(this.config.googleOAuth.redirectUri) +
           '&client_id=' + encodeURIComponent(this.config.googleOAuth.clientId) +
           '&access_type=offline&state=:state', view: '!external', symName: 'googleOAuth' }
-      ];
+      ]);
     },
 
     initialize: function(config) {

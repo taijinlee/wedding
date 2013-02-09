@@ -1,5 +1,6 @@
 var requirejs = require('requirejs');
 var fs = require('fs');
+var _ = require('underscore');
 var exec = require('child_process').exec;
 
 var config = {
@@ -24,9 +25,23 @@ var config = {
   },
 
   modules: [
-    { name: 'common' }
+    { name: 'common' },
+    { name: 'init', exclude: ['common'] }
   ]
 };
+
+var routes = JSON.parse(fs.readFileSync(process.env.APP_ROOT + '/web/js/routes.json')).routes;
+_.each(routes, function(route) {
+  var currModuleName = 'views/' + route.view;
+  var isDefined = _.find(config.modules, function(module) {
+    return module.name == currModuleName;
+  });
+  if (isDefined) { return; }
+  config.modules.push({
+    name: currModuleName,
+    exclude: ['common']
+  });
+})
 
 exec('git rev-parse --verify HEAD', function(error, stdout, stderror) {
   if (error) { return console.log(error); }
