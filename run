@@ -12,7 +12,6 @@ buildCommon() {
     git submodule init; git submodule update
     . ${APP_ROOT}/vendor/nvm/nvm.sh; nvm install ${NODE_VERSION}
   fi
-  npm install
 }
 
 buildProd() {
