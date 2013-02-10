@@ -29,7 +29,7 @@ define([
         priority = $priorityButton.data('priority'); // only need button priority if we're switching to on
       }
 
-      this.party.set({ priority: priority }).save({}, {
+      this.party.save({ priority: priority }, {
         success: function() {
           if (priority === 'none') {
             $priorityButton.removeClass('btn-on');

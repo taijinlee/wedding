@@ -5,7 +5,8 @@ define([
   'backbone-web',
   'types',
   'select2',
-  'datepicker'
+  'datepicker',
+  'text'
 ], function() {
   var $ = window.$.noConflict();
   var _ = window._.noConflict();

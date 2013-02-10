@@ -21,7 +21,7 @@ var config = {
     'text': 'lib/require/text',
     'types': 'lib/backbone/types',
     'underscore': 'lib/underscore/underscore',
-    'validator': 'lib/validator/validator-min'
+    'validator': 'lib/validator/validator-edited'
   },
 
   modules: [
@@ -34,14 +34,14 @@ var routes = JSON.parse(fs.readFileSync(process.env.APP_ROOT + '/web/js/routes.j
 _.each(routes, function(route) {
   var currModuleName = 'views/' + route.view;
   var isDefined = _.find(config.modules, function(module) {
-    return module.name == currModuleName;
+    return module.name === currModuleName;
   });
   if (isDefined) { return; }
   config.modules.push({
     name: currModuleName,
     exclude: ['common']
   });
-})
+});
 
 exec('git rev-parse --verify HEAD', function(error, stdout, stderror) {
   if (error) { return console.log(error); }
