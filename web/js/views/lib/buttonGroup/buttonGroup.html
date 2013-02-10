@@ -1,0 +1,5 @@
+<div class="btn-group">
+  <% _.each(buttonConfig, function(config) { %>
+    <button class="btn <%= _.contains(initValues, config.value) ? 'btn-on' : '' %>" data-value="<%= config.value %>"><%= config.display %></button>
+  <% }); %>
+</div>

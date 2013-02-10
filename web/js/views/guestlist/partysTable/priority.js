@@ -2,21 +2,22 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!../priorityButtons.html'
-], function($, _, Backbone, priorityButtonsTemplate) {
+  'views/lib/buttonGroup/priority'
+], function($, _, Backbone, PriorityButtonsView) {
 
   var View = Backbone.View.extend({
     events: {
-      'click .invitePriority': 'setPartyPriority'
+      'click button': 'setPartyPriority'
     },
 
     initialize: function(config, vent, pather, cookie, party) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.party = party;
+      this.partyButtons = new PriorityButtonsView();
     },
 
     render: function() {
-      this.$el.html(_.template(priorityButtonsTemplate, { priority: this.party.get('priority') }));
+      this.partyButtons.setElement(this.$el).render(false, this.party.get('priority'));
       return this;
     },
 
@@ -26,7 +27,7 @@ define([
 
       var priority = 'none';
       if (!$priorityButton.hasClass('btn-on')) {
-        priority = $priorityButton.data('priority'); // only need button priority if we're switching to on
+        priority = $priorityButton.data('value'); // only need button priority if we're switching to on
       }
 
       this.party.save({ priority: priority }, {

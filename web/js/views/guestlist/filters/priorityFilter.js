@@ -2,11 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'views/lib/buttonGroup/priority',
-  'text!./filters.html',
-  'text!../priorityButtons.html',
-  'text!../categorySelector.html'
-], function($, _, Backbone, PriorityButtonsView, filtersTemplate, priorityButtonsTemplate, categorySelectorTemplate) {
+  'views/lib/buttonGroup/buttonGroup'
+], function($, _, Backbone, ButtonGroupView) {
   var View = Backbone.View.extend({
     events: {
       'click #party-priority-filter button': 'setPriorityFilter',
@@ -17,12 +14,11 @@ define([
     initialize: function(config, vent, pather, cookie, weddingId) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.weddingId = weddingId;
-      this.priorityFilter = new PriorityButtonsView(config, vent, pather, cookie);
     },
 
     render: function() {
       this.$el.html(_.template(filtersTemplate));
-      this.priorityFilter.setElement(this.$el.find('#party-priority-filter')).render(true);
+      this.$el.find('#party-priority-filter').html(_.template(priorityButtonsTemplate, { priority: '' }));
       this.$el.find('#party-category-filter').html(_.template(categorySelectorTemplate, { selectedCategory: '' }));
     },
 
@@ -39,10 +35,11 @@ define([
     },
 
     getFilterValues: function() {
+      var priorities = this.$el.find('#party-priority-filter .btn-group').children().filter('.btn-on').map(function(index, el) { return $(el).data('priority'); }).toArray();
       var category = this.$el.find('#party-category-filter .categorySelect').val();
       return {
-        priorities: this.priorityFilter.getValues(),
-        category: category
+        priorities: priorities,
+        category : category
       };
     },
 
