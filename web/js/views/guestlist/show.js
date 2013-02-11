@@ -13,12 +13,14 @@ define([
   './partysTable/priority',
   './partysTable/category',
   './partysTable/saveTheDate',
+  './partysTable/addressed',
   'text!./partysTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html'
 ], function($, _, Backbone, PartysCollection,
             FiltersView, StatsView, StatsCategoryView, StatsAddressView, StatsPriorityView, StatsStdRsvpView,
-            AddressView, PriorityView, CategoryView, SaveTheDateView, partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
+            AddressView, PriorityView, CategoryView, SaveTheDateView, AddressedView,
+            partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
 
   var View = Backbone.View.extend({
     events: {
@@ -43,7 +45,8 @@ define([
         'Address',
         'Invite Priority',
         'Save the Date',
-        'Attending?',
+        'Save the Date Response',
+        'Addressed?',
         'Delete'
       ];
 
@@ -57,6 +60,7 @@ define([
       this.vent.on('guestList:filterUpdate', this.renderPartys, this);
       this.vent.on('guestList:addressUpdate', this.renderPartys, this);
       this.vent.on('guestList:priorityUpdate', this.renderPartys, this);
+      this.vent.on('guestList:addressedUpdate', this.renderPartys, this);
     },
 
     render: function() {
@@ -118,6 +122,10 @@ define([
         var $stdEl = $row.find('#guestListStd-' + partyJSON.id);
         var stdView = new SaveTheDateView(this.config, this.vent, this.pather, this.cookie, party);
         stdView.setElement($stdEl).render();
+
+        var $addressedEl = $row.find('#guestListAddressed-' + partyJSON.id);
+        var addressedView = new AddressedView(this.config, this.vent, this.pather, this.cookie, party);
+        addressedView.setElement($addressedEl).render();
 
         $body.append($row);
       }, this);
