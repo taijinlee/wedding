@@ -4,9 +4,8 @@ define([
   'backbone',
   'views/lib/buttonGroup/priority',
   'text!./filters.html',
-  'text!../priorityButtons.html',
   'text!../categorySelector.html'
-], function($, _, Backbone, PriorityButtonsView, filtersTemplate, priorityButtonsTemplate, categorySelectorTemplate) {
+], function($, _, Backbone, PriorityButtonsView, filtersTemplate, categorySelectorTemplate) {
   var View = Backbone.View.extend({
     events: {
       'click #party-priority-filter button': 'setPriorityFilter',

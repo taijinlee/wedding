@@ -5,6 +5,7 @@
 
 #header nav { text-align: right; }
 
+.inline { display: inline-block; padding-right: 10px; }
 
 .horizontalList { margin: 0; list-style: none; }
 .horizontalList li { display: inline; margin: 0 10px 0 0; padding: 0 10px 0 0; }

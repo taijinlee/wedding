@@ -69,19 +69,37 @@ define([
       var self = this;
       async.auto({
         wedding: function(done) {
-          if (self.weddingId) { return done(); }
-          new WeddingModel().fetch({
-            data: {
-              userId: self.cookie.get('userId')
-            },
-            success: function(wedding) {
-              self.weddingId = wedding.get('id');
-              done();
-            }
-          });
+          if (self.weddingId) {
+            new WeddingModel({ id: self.weddingId }).fetch({
+              success: function(wedding) {
+                return done(null, wedding);
+              },
+              error: function() {
+                return done(new Error('generic error?'));
+              }
+            });
+          } else {
+            new WeddingModel().fetch({
+              data: {
+                userId: self.cookie.get('userId')
+              },
+              success: function(wedding) {
+                self.weddingId = wedding.get('id');
+                return done(null, wedding);
+              },
+              error: function() {
+                return done(new Error('generic error?'));
+              }
+            });
+          }
         }
-      }, function() {
-        self.$el.html(_.template(partysTableTemplate));
+      }, function(error, results) {
+        if (error) { return; } // do something?
+        var partysTableTemplateVars = {
+          wedding: results.wedding,
+          settingsLink: self.pather.getUrl('weddingSettings', { weddingId: self.weddingId })
+        };
+        self.$el.html(_.template(partysTableTemplate, partysTableTemplateVars));
         self.filters.setElement(self.$el.find('#filters')).render();
 
         var $tr = $(self.make('tr', { 'class': 'table-row' }));
