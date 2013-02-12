@@ -5,8 +5,8 @@
     { "urlFragment": "logout", "view": "logout/logout", "symName": "logout", "requireLogin": true },
     { "urlFragment": "signup", "view": "signup/signup", "symName": "signup" },
 
-    { "urlFragment": "guestlist", "view": "guestlist/userRedirect", "symName": "userGuestlist", "requireLogin": true },
     { "urlFragment": "guestlist/:weddingId", "view": "guestlist/show", "symName": "guestlist", "requireLogin": true },
+    { "urlFragment": "guestlist", "view": "guestlist/show", "symName": "userGuestlist", "requireLogin": true },
     { "urlFragment": "weddings/new", "view": "weddings/new", "symName": "weddingsNew", "requireLogin": true },
     { "urlFragment": "wedding/:weddingId/settings", "view": "weddings/settings", "symName": "weddingSettings", "requireLogin": true },
     { "urlFragment": "wedding/:weddingId/party/new", "view": "party/new", "symName": "partyNew", "requireLogin": true },

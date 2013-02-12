@@ -2,6 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'async',
+  'models/wedding',
   'collections/partys',
   './filters/filters',
   './stats/stats',
@@ -17,7 +19,7 @@ define([
   'text!./partysTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html'
-], function($, _, Backbone, PartysCollection,
+], function($, _, Backbone, async, WeddingModel, PartysCollection,
             FiltersView, StatsView, StatsCategoryView, StatsAddressView, StatsPriorityView, StatsStdRsvpView,
             AddressView, PriorityView, CategoryView, SaveTheDateView, AddressedView,
             partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
@@ -64,23 +66,38 @@ define([
     },
 
     render: function() {
-      this.$el.html(_.template(partysTableTemplate));
-      this.filters.setElement(this.$el.find('#filters')).render();
-
-      var $tr = $(this.make('tr', { 'class': 'table-row' }));
       var self = this;
-      _.each(this.headers, function(header) {
-        $tr.append(self.make('th', {}, header));
-      });
-      this.$el.find('thead').append($tr);
+      async.auto({
+        wedding: function(done) {
+          if (self.weddingId) { return done(); }
+          new WeddingModel().fetch({
+            data: {
+              userId: self.cookie.get('userId')
+            },
+            success: function(wedding) {
+              self.weddingId = wedding.get('id');
+              done();
+            }
+          });
+        }
+      }, function() {
+        self.$el.html(_.template(partysTableTemplate));
+        self.filters.setElement(self.$el.find('#filters')).render();
 
-      this.statsCategory.setElement(this.$el.find('#statsCategory')).render();
-      this.statsAddress.setElement(this.$el.find('#statsAddress')).render();
-      this.statsPriority.setElement(this.$el.find('#statsPriority')).render();
-      this.statsStdRsvp.setElement(this.$el.find('#statsStdRsvp')).render();
+        var $tr = $(self.make('tr', { 'class': 'table-row' }));
+        _.each(self.headers, function(header) {
+          $tr.append(self.make('th', {}, header));
+        });
+        self.$el.find('thead').append($tr);
 
-      this.partys.fetch({
-        data: { weddingId: this.weddingId }
+        self.statsCategory.setElement(self.$el.find('#statsCategory')).render();
+        self.statsAddress.setElement(self.$el.find('#statsAddress')).render();
+        self.statsPriority.setElement(self.$el.find('#statsPriority')).render();
+        self.statsStdRsvp.setElement(self.$el.find('#statsStdRsvp')).render();
+
+        self.partys.fetch({
+          data: { weddingId: self.weddingId }
+        });
       });
       return this;
     },
