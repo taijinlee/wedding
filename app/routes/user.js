@@ -26,7 +26,7 @@ module.exports = function(app, middlewares, handlers) {
     handlers.user.destroy(res.locals.auth.tokenUserId, req.params.userId, res.locals.responder.send);
   });
 
-  app.get('/api/user', function(req, res, next) {
+  app.get('/api/users', function(req, res, next) {
     var page = req.param('page', 1);
 
     var limit = 10;

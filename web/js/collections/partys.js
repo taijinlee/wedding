@@ -5,7 +5,7 @@ define([
 ], function(BaseCollection, PartyModel) {
 
   return BaseCollection.extend({
-    url: '/api/party',
+    url: '/api/partys',
     model: PartyModel
   });
 

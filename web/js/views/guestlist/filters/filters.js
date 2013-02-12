@@ -14,13 +14,14 @@ define([
       'click #filter-export button': 'exportToCsv'
     },
 
-    initialize: function(config, vent, pather, cookie, weddingId) {
+    initialize: function(config, vent, pather, cookie) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
-      this.weddingId = weddingId;
       this.priorityFilter = new PriorityButtonsView(config, vent, pather, cookie);
     },
 
-    render: function() {
+    render: function(weddingId) {
+      this.weddingId = weddingId;
+
       this.$el.html(_.template(filtersTemplate));
       this.priorityFilter.setElement(this.$el.find('#party-priority-filter')).render(true);
       this.$el.find('#party-category-filter').html(_.template(categorySelectorTemplate, { selectedCategory: '' }));

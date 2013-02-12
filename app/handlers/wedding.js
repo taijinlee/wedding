@@ -22,9 +22,12 @@ module.exports = function(store, history) {
     });
   };
 
-  var retrieve = function(tokenUserId, weddingId, callback) {
+  var retrieve = function(tokenUserId, weddingId, filters, callback) {
     async.auto({
-      wedding: function(done) { new WeddingModel({ id: weddingId }).retrieve(done); },
+      wedding: function(done) {
+        if (weddingId) { filters.id = weddingId; }
+        new WeddingModel(filters).retrieve(done);
+      },
       checkUser: ['wedding', function(done, results) {
         if (tokenUserId !== results.wedding.userId) {
           return done(new Error('unauthorized: userId:' + tokenUserId + ' not allowed'));

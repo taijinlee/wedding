@@ -44,7 +44,7 @@ define([
           // auto login
           new AuthBaseModel().save({ type: 'base', identifier: values.email, secret: values.secret }, {
             success: function() {
-              Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
+              Backbone.history.navigate(self.pather.getUrl('userGuestlist'), true);
             },
             error: function() {
               self.vent.trigger('renderNotification', 'You have successfully registered! Please login', 'success');

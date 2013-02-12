@@ -30,7 +30,7 @@ define([
       var self = this;
       new AuthBaseModel().save(values, {
         success: function() {
-          Backbone.history.navigate(self.pather.getUrl('weddingsList'), true);
+          Backbone.history.navigate(self.pather.getUrl('userGuestlist'), true);
         },
         error: function() {
           self.vent.trigger('renderNotification', 'Incorrect username or password.', 'error');

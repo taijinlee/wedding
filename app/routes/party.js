@@ -68,7 +68,7 @@ module.exports = function(app, middlewares, handlers) {
 
 
 
-  app.get('/api/party', function(req, res, next) {
+  app.get('/api/partys', function(req, res, next) {
     var page = req.param('page', 1);
 
     var limit = null;

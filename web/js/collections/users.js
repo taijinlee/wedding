@@ -5,7 +5,7 @@ define([
 ], function(BaseCollection, UserModel) {
 
   return BaseCollection.extend({
-    url: '/api/user',
+    url: '/api/users',
     model: UserModel
   });
 

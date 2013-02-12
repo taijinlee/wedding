@@ -31,7 +31,7 @@ define([
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.weddingId = args[0];
 
-      this.filters = new FiltersView(config, vent, pather, cookie, this.weddingId);
+      this.filters = new FiltersView(config, vent, pather, cookie);
 
       this.partys = new PartysCollection();
       this.partys.on('reset', this.renderPartys, this);

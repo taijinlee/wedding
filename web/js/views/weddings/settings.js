@@ -26,7 +26,7 @@ define([
     },
 
     renderWeddingSettings: function() {
-      var backUrl = this.pather.getUrl('weddingsList');
+      var backUrl = this.pather.getUrl('userGuestlist');
       var weddingName = this.wedding.get('name');
       var participantNames = ["",""];
       if (weddingName && weddingName.indexOf('&') !== -1) {
@@ -57,7 +57,7 @@ define([
           console.log(response);
         },
         success: function(model, response) {
-          Backbone.history.navigate(self.pather.getUrl('weddingsList'), { trigger: true });
+          Backbone.history.navigate(self.pather.getUrl('userGuestlist'), { trigger: true });
           console.log(model);
           console.log(response);
           console.log(self.vent);
