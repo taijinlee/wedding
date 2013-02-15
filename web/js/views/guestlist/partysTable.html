@@ -1,9 +1,11 @@
-<div class="span12">
-  <h2 class="inline"><%= wedding.get('name') %></h2>
-  <h4 class="inline"><a href="<%= settingsLink %>">Settings</a></h4>
-</div>
-<table class="span12 table table-condensed table-multirow">
+<table class="span12 table table-condensed table-multirow guestlist">
   <thead>
+    <tr class="banner">
+      <td colspan="0">
+        <h2 class="inline"><%= wedding.get('name') %></h2>
+        <h4 class="inline"><a href="<%= settingsLink %>">Settings</a></h4>
+      </td>
+    </tr>
     <tr id="filtersAndStats">
       <td colspan="3" id="filters"></td>
       <td id="statsCategory"></td>
