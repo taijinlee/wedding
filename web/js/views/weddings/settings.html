@@ -1,8 +1,6 @@
 <form class="span12 form-horizontal">
-  <section id="settings-form"></section>
-
   <div class="control-group">
-    <label class="control-label" for="weddingName"> Wedding Name</label>
+    <label class="control-label" for="weddingName1">Wedding Name</label>
     <div class="controls">
       <input type="text" id="weddingName1" name="weddingName1" placeholder="Participant 1 Name" value="<%=participant1Name ? participant1Name : ''%>">
       &
@@ -11,7 +9,7 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label" id="dateLabel"> Date of Event</label>
+    <label class="control-label" id="dateLabel" for="date">Date of Event</label>
     <div class="controls">
       <div class="date" id="dp" data-date-format="dd-mm-yyyy">
         <input class="span2" id="date" name="date" size="16" type="text" value="<%=wedding.get('date') ? wedding.get('date') : ''%>" placeholder="12/25/2013">
@@ -20,23 +18,34 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="time"> Time </label>
+    <label class="control-label" for="time">Time</label>
     <div class="controls">
       <input type="text" id="time" name="time" placeholder="3:00 PM" value="<%=wedding.get('time') ? wedding.get('time') : ''%>">
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="weddingLocation"> Address </label>
+    <label class="control-label" for="weddingLocation">Address</label>
     <div class="controls">
       <section id="weddingLocation"></section>
     </div>
   </div>
 
+  <div id="mealContainer">
+    <div class="control-group">
+      <label class="control-label" for="weddingMealsInput">Meal Options</label>
+      <div class="controls" id="weddingMeals">
+      </div>
+    </div>
+  </div>
+
+
   <div class="control-group">
-    <div clas="controls">
+    <div class="controls">
       <a href="<%= backUrl %>" class="btn">Cancel</a>
       <button id="settingsSubmit" type="submit" class="btn btn-success">Save changes</button>
     </div>
   </div>
+
+
 </form>

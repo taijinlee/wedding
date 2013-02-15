@@ -9,7 +9,8 @@ define([
 
   var View = Backbone.View.extend({
     events: {
-      'click #settingsSubmit': 'saveSettings'
+      'click #settingsSubmit': 'saveSettings',
+      'focus #weddingMeals div:last-child': 'addMealInput'
     },
 
     initialize: function(config, vent, pather, cookie, args) {
@@ -18,6 +19,7 @@ define([
       this.wedding = new WeddingModel({ id: this.weddingId });
 
       this.wedding.on('change', this.renderWeddingSettings, this);
+      this.meals = 0;
     },
 
     render: function() {
@@ -33,8 +35,24 @@ define([
         participantNames = weddingName.split(' & ');
       }
       this.$el.html(_.template(settingsFormTemplate, { wedding: this.wedding, backUrl: backUrl, participant1Name: participantNames[0], participant2Name: participantNames[1] }));
-      $(this.$el.find('#date')).datepicker();
+      this.$el.find('#date').datepicker();
       this.$el.find('#weddingLocation').html(_.template(addressFormTemplate, {address: this.wedding.get('address'), showButtons: false }));
+      var meals = this.wedding.get('meals');
+      if (!meals || meals.length === 0) { meals = []; }
+      meals.push('');
+      var $mealsSection = this.$el.find('#weddingMeals');
+      _.each(meals, function(meal) {
+        var input = this.make('input', { type: 'text', placeholder: 'Meal name', name: 'meal_' + this.meals, class: 'span5', value: meal });
+        $mealsSection.append(this.make('div', {}, input));
+        this.meals += 1;
+      }, this);
+    },
+
+    addMealInput: function(meal) {
+      var $mealsSection = this.$el.find('#weddingMeals');
+      var input = this.make('input', { type: 'text', placeholder: 'Meal name', name: 'meal_' + this.meals, class: 'span5' });
+      $mealsSection.append(this.make('div', {}, input));
+      this.meals += 1;
     },
 
     saveSettings: function(event) {
@@ -45,12 +63,22 @@ define([
           values[field.name] = field.value;
         }
       });
-
       values.name = (values.weddingName1 ? values.weddingName1 : '') + ' & ' + (values.weddingName2 ? values.weddingName2 : '');
 
-      var self = this;
+      var mealRegexp = /meal_(\d)/;
+      var weddingData = _.reduce(values, function(memo, value, formKey) {
+        if (!value) { return memo; }
+        if (formKey.indexOf('meal') === -1) {
+          memo[formKey] = value;
+          return memo;
+        }
+        var matches = formKey.match(mealRegexp);
+        memo.meals.push(value);
+        return memo;
+      }, { meals: [] });
 
-      this.wedding.save(values, {
+      var self = this;
+      this.wedding.save(weddingData, {
         error: function(model, response) {
           self.vent.trigger('renderNotification', 'Error', 'error');
           console.log(model);

@@ -34,7 +34,7 @@ module.exports = function(store, history) {
         }
         return done(null);
       }],
-      metadata: ['wedding', function(done, results) { getMetadata(results.wedding, done); }]
+      metadata: ['wedding', function(done, results) { return getMetadata(results.wedding, done); }]
     }, function(error, results) {
       if (error) { return callback(error); }
       return callback(null, new WebWeddingModel(results.metadata).toJSON());
