@@ -1,7 +1,0 @@
-<% var addressedValues = { 'y': 'Y', 'n': 'N' }; %>
-
-<div class="btn-group addressedSelector">
-  <% _.each(addressedValues, function(display, key) { %>
-    <button class="btn <%= (key === isAddressed) ? 'btn-on' : '' %>" data-addressed="<%= key %>"><%= display %></button>
-  <% }); %>
-</div>
