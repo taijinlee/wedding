@@ -132,10 +132,12 @@ define([
         if (filterValues.priorities && filterValues.priorities.length) {
           if (_.indexOf(filterValues.priorities, partyJSON.priority) === -1) { return; }
         }
-        if (filterValues.category && filterValues.category !== "none") {
-          if (filterValues.category !== partyJSON.category) { return; }
+        if (filterValues.categories && filterValues.categories.length) {
+          if (_.indexOf(filterValues.categories, partyJSON.category) === -1) { return; }
         }
-
+        if (filterValues.addresseds && filterValues.addresseds.length) {
+          if (_.indexOf(filterValues.addresseds, partyJSON.isAddressed) === -1) { return; }
+        }
         var templateVars = {
           party: partyJSON,
           editUrl: this.pather.getUrl('partyEdit', { weddingId: this.weddingId, partyId: partyJSON.id })

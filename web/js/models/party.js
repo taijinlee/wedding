@@ -12,7 +12,7 @@ define([
       guests: { type: 'object' },
       address: { type: 'string', optional: true },
       priority: { type: 'string', optional: true },
-      category: { type: 'string', optional: true },
+      category: { type: 'string', defaults: 'none' },
       addressVerified: { type: 'bool', defaults: false },
       isAddressed: { type: 'bool', defaults: false },
       accessToken: { type: 'string', optional: true }, /* remove later */

@@ -13,7 +13,7 @@ define([
 
       this.display = [
         { key: 'verified', display: 'Verified' },
-        { key: 'notVerified', display: 'Not Verified' }
+        { key: 'notVerified', display: 'Unverified' }
       ];
       this.statsPane = new StatsPaneView(this.config, this.vent, this.pather, this.cookie, args);
     },
