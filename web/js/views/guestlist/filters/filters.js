@@ -56,7 +56,7 @@ define([
       return {
         priorities: this.priorityFilter.getValues(),
         categories: this.categoryFilter.getValues(),
-        addresseds: this.addressedFilter.getValues(), // RH: terrible name - but consistent
+        addresseds: this.addressedFilter.getValues(), // RH: terrible name - but consistent.
       };
     },
 
