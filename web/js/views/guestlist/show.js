@@ -164,6 +164,21 @@ define([
         var addressedView = new AddressedView(this.config, this.vent, this.pather, this.cookie, party);
         addressedView.setElement($addressedEl).render();
 
+        $row.find('.email').editable({
+          type: 'text',
+          url: function(data) {
+            var d = new $.Deferred;
+            var guests = party.get('guests');
+            guests[data.pk].email = data.value;
+            party.save({ guests: guests }, {
+              success: function() { return d.resolve(); },
+              error: function() { return d.reject('error!'); }
+            });
+            return d.promise();
+          },
+          title: 'Enter Email'
+        });
+
         $body.append($row);
       }, this);
       $body.append(_.template(addPartyRowTemplate, { addPartyUrl: this.pather.getUrl('partyNew', { weddingId: this.weddingId }) }));

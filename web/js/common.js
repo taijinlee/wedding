@@ -4,6 +4,8 @@ define([
   'backbone',
   'backbone-web',
   'types',
+  'bootstrap',
+  'bootstrap-editable',
   'select2',
   'datepicker',
   'text'
@@ -27,6 +29,7 @@ define([
   });
 
 
+  $.fn.editable.defaults.mode = 'inline';
 
 
 !function ($) {
