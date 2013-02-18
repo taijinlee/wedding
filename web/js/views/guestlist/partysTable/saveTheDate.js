@@ -8,7 +8,7 @@ define([
 
   var View = Backbone.View.extend({
     events: {
-      'click .sendStd': 'sendStd',
+      'click #sendStd': 'sendStd',
     },
 
     initialize: function(config, vent, pather, cookie, party) {
@@ -16,17 +16,16 @@ define([
       this.party = party;
     },
 
-    render: function() {
-      this.$el.html(_.template(saveTheDateTemplate, { party: this.party.toJSON() }));
+    render: function(guest, guestIndex) {
+      this.$el.html(_.template(saveTheDateTemplate, { guest: guest, guestIndex: guestIndex }));
       return this;
     },
 
     sendStd: function(event) {
       event.preventDefault(); event.stopPropagation();
-      
+
       var $button = $(event.target);
-      $button.attr('disabled', 'disabled');
-      $button.html('Sending...');
+      $button.attr('disabled', 'disabled').html('Sending...');
       new MailSaveTheDateModel().save({
         userId: this.cookie.get('userId'),
         partyId: this.party.get('id')

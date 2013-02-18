@@ -47,8 +47,6 @@ define([
         'Address',
         'Priority',
         'Save the Date',
-        'Save the Date Response',
-        'Addressed?',
         'Delete'
       ];
 
@@ -156,9 +154,11 @@ define([
         var priorityView = new PriorityView(this.config, this.vent, this.pather, this.cookie, party);
         priorityView.setElement($priorityEl).render();
 
-        var $stdEl = $row.find('#guestListStd-' + partyJSON.id);
-        var stdView = new SaveTheDateView(this.config, this.vent, this.pather, this.cookie, party);
-        stdView.setElement($stdEl).render();
+        _.each(partyJSON.guests, function(guest, index) {
+          var $stdEl = $row.find('#guestListStd-' + partyJSON.id + '-' + index);
+          var stdView = new SaveTheDateView(this.config, this.vent, this.pather, this.cookie, party);
+          stdView.setElement($stdEl).render(guest, index);
+        });
 
         var $addressedEl = $row.find('#guestListAddressed-' + partyJSON.id);
         var addressedView = new AddressedView(this.config, this.vent, this.pather, this.cookie, party);

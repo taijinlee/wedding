@@ -7,16 +7,8 @@
       <td rowspan="<%= party.guests.length %>" id="guestListCategory-<%= party.id %>"></td>
       <td rowspan="<%= party.guests.length %>" id="guestListAddress-<%= party.id %>"></td>
       <td rowspan="<%= party.guests.length %>" id="guestListPriority-<%= party.id %>"></td>
-      <td rowspan="<%= party.guests.length %>" id="guestListStd-<%= party.id %>"></td>
     <% } %>
-    <td>
-      <% if (guest.isAttending !== undefined) { %>
-        <%= guest.isAttending ? 'Yes' : 'No' %>
-      <% } %>
-    </td>
-    <% if (index === 0) { %> <td rowspan="<%= party.guests.length %>" id="guestListAddressed-<%= party.id %>"> <% } else { %>
-      <td></td>
-<% } %>
+    <td id="guestListStd-<%= party.id %>-<%= index %>"></td>
     <td>
       <% if (index === 0) { %><button class="delete btn btn-danger">Delete</button><% } %>
     </td>
