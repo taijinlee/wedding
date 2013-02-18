@@ -1,11 +1,9 @@
 <section>
-  <%= party.address ? party.address : "" %>
+  <a href="#" id="partyAddress"><%= party.address ? party.address.replace(/\n/g, "<br />") : "" %></a>
   <br />
   <% if (!party.addressVerified) { %>
-    <button class="btn emailAddressVerification">Send address verification email</button>
+    <button class="btn emailAddressVerification">Email</button>
     <br />
     <button class="btn addressVerify">Verify</button>
-  <% } else { %>
-    <span class="label label-success">Verified</span>
   <% } %>
 </section>

@@ -19,6 +19,21 @@ define([
 
     render: function() {
       this.$el.html(_.template(addressTemplate, { party: this.party.toJSON() }));
+
+      var self = this;
+      this.$el.find('#partyAddress').editable({
+        type: 'textarea',
+        url: function(data) {
+          var d = new $.Deferred;
+          console.log(data.value);
+          self.party.save({ address: data.value }, {
+            success: function() { return d.resolve(); },
+            error: function() { return d.reject('error!'); }
+          });
+          return d.promise();
+        },
+        title: 'Address'
+      });
       return this;
     },
 
