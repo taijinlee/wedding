@@ -7,7 +7,7 @@ define([
 
   var View = Backbone.View.extend({
     events: {
-      'click .categoryChoice': 'setPartyCategory'
+      'change #categoryChoice': 'setPartyCategory'
     },
 
     initialize: function(config, vent, pather, cookie, party) {
@@ -24,9 +24,6 @@ define([
     setPartyCategory: function(event) {
       event.preventDefault(); event.stopPropagation();
       var category = $(event.target).val();
-      if (category === this.party.get('category')) {
-        category = 'none';
-      }
       this.party.set({ category: category }).save();
       this.vent.trigger('guestList:categoryUpdate');
     }

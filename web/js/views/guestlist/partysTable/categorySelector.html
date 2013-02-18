@@ -1,8 +1,7 @@
-<% var categories = { bride: "Bride" , groom: "Groom" }; %>
+<% var categories = { none: 'None', bride: 'Bride', groom: 'Groom' }; %>
 
-<% _.each(categories, function(category, keyName) { %>
-  <label class="radio" for="party_<%=partyId%>_<%=category%>">
-    <input type="radio" id="party_<%=partyId%>_<%=category%>" name="party_<%=partyId%>_category" value="<%=keyName%>" class="inline radio categoryChoice <%=(keyName === selectedCategory) ? 'checked' : ''%>" <%=(keyName === selectedCategory) ? 'checked' : ''%>>
-    <%=category%>
-  </label>
-<% }) %>
+<select class="span2" id="categoryChoice">
+  <% _.each(categories, function(category, keyName) { %>
+    <option value="<%= keyName %>" <%=(keyName === selectedCategory) ? 'selected="selected"' : ''%>><%= category %></option>
+  <% }) %>
+</select>
