@@ -1,8 +1,8 @@
 <% _.each(party.guests, function(guest, index) { %>
   <tr <% if (index === 0) { %>class="table-row"<% } %> data-party-id="<%= party.id %>">
     <td><% if (index === 0) { %><a href="<%= editUrl %>">Edit</a><% } %></td>
-    <td><%= guest.name %></td>
-    <td><a href="#" class="email" data-pk="<%= index %>"><%= guest.email ? guest.email : "" %></a></td>
+    <td><a href="#" class="guestName" data-pk="<%= index %>"><%= guest.name %></a></td>
+    <td><a href="#" class="guestEmail" data-pk="<%= index %>"><%= guest.email ? guest.email : "" %></a></td>
     <% if (index === 0) { %>
       <td rowspan="<%= party.guests.length %>" id="guestListCategory-<%= party.id %>"></td>
       <td rowspan="<%= party.guests.length %>" id="guestListAddress-<%= party.id %>"></td>
@@ -14,7 +14,7 @@
         <%= guest.isAttending ? 'Yes' : 'No' %>
       <% } %>
     </td>
-    <% if (index ===0) { %> <td rowspan="<%= party.guests.length %>" id="guestListAddressed-<%= party.id %>"> <% } else { %>
+    <% if (index === 0) { %> <td rowspan="<%= party.guests.length %>" id="guestListAddressed-<%= party.id %>"> <% } else { %>
       <td></td>
 <% } %>
     <td>

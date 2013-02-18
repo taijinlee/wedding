@@ -164,7 +164,7 @@ define([
         var addressedView = new AddressedView(this.config, this.vent, this.pather, this.cookie, party);
         addressedView.setElement($addressedEl).render();
 
-        $row.find('.email').editable({
+        $row.find('.guestEmail').editable({
           type: 'text',
           url: function(data) {
             var d = new $.Deferred;
@@ -176,8 +176,24 @@ define([
             });
             return d.promise();
           },
-          title: 'Enter Email'
+          title: 'Guest email'
         });
+
+        $row.find('.guestName').editable({
+          type: 'text',
+          url: function(data) {
+            var d = new $.Deferred;
+            var guests = party.get('guests');
+            guests[data.pk].name = data.value;
+            party.save({ guests: guests }, {
+              success: function() { return d.resolve(); },
+              error: function() { return d.reject('error!'); }
+            });
+            return d.promise();
+          },
+          title: 'Guest name'
+        });
+
 
         $body.append($row);
       }, this);
