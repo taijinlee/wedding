@@ -1,0 +1,5 @@
+<% var categories = { bride: "Bride" , groom: "Groom" }; %>
+
+<% _.each(categories, function(category, keyName) { %>
+<input type="radio" name="party_<%=partyId%>_category" value="<%=keyName%>" class="categoryChoice <%=(keyName === selectedCategory) ? 'checked' : ''%>" <%=(keyName === selectedCategory) ? 'checked' : ''%>> <%=category%> <br>
+<% }) %>

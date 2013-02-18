@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!../categorySelector.html'
+  'text!./categorySelector.html'
 ], function($, _, Backbone, categoryTemplate) {
 
   var View = Backbone.View.extend({
