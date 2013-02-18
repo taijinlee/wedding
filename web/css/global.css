@@ -3,6 +3,8 @@ body {
   background: url("/images/creampaper/creampaper.png") repeat scroll 0 0 transparent;
 }
 
+.inline { display: inline-block; padding-right: 10px; }
+
 .container { padding-top: 10px; }
 
 .container > section { padding-top: 30px; }
