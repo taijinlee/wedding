@@ -45,7 +45,7 @@ define([
         'E-mail',
         'Category',
         'Address',
-        'Invite Priority',
+        'Priority',
         'Save the Date',
         'Save the Date Response',
         'Addressed?',

@@ -1,0 +1,17 @@
+<%
+var prioritys = [
+  { display: 'None', value: 'none' },
+  { display: 'A', value: 'a' },
+  { display: 'B', value: 'b' },
+  { display: 'C', value: 'c' },
+  { display: 'Not coming', value: 'not_coming' }
+];
+%>
+
+<select class="span1" id="priorityDropdown">
+  <% _.each(prioritys, function(priorityConfig) { %>
+    <option value="<%= priorityConfig.value %>" <%= priorityConfig.value === priority ? 'selected="selected"' : '' %>>
+      <%= priorityConfig.display %>
+    </option>
+  <% }) %>
+</select>
