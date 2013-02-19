@@ -1,6 +1,6 @@
 
 body {
-  background: url("/images/creampaper/creampaper.png") repeat scroll 0 0 transparent;
+  background: url("../images/creampaper/creampaper.png") repeat scroll 0 0 transparent;
 }
 
 .inline { display: inline-block; padding-right: 10px; }
@@ -68,7 +68,7 @@ body {
 
 .banner {
   padding-top: 20px;
-  background: url("/images/background-banner.png") repeat-x scroll 0 8px transparent;
+  background: url("../images/background-banner.png") repeat-x scroll 0 8px transparent;
 }
 
 /* hack */
