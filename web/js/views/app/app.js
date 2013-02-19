@@ -23,7 +23,8 @@ define([
       this.notifications.setElement(this.$('#app-notifications')).render();
       this.$('#app-body').unbind();
       view.setElement(this.$('#app-body')).render();
-      this.footer.setElement(this.$('#app-footer')).render();
+      // Maybe add this back in the future...
+      // this.footer.setElement(this.$('#app-footer')).render();
       return this;
     },
 

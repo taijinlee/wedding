@@ -1,4 +1,4 @@
-<textarea class="span5" rows="3" placeholder="Address as shown on invitation" name="address"><%= address || '' %></textarea>
+<textarea class="<%= showButtons ? 'span5' : 'span4' %>" rows="3" placeholder="Address as shown on invitation" name="address"><%= address || '' %></textarea>
 <% if (showButtons) { %>
   <button type="submit" id="submit" class="btn btn-success">Verify</button>
 <% } %>

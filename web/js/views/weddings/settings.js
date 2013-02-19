@@ -42,7 +42,7 @@ define([
       meals.push('');
       var $mealsSection = this.$el.find('#weddingMeals');
       _.each(meals, function(meal) {
-        var input = this.make('input', { type: 'text', placeholder: 'Meal name', name: 'meal_' + this.meals, class: 'span5', value: meal });
+        var input = this.make('input', { type: 'text', placeholder: 'Meal name', name: 'meal_' + this.meals, class: 'span4', value: meal });
         $mealsSection.append(this.make('div', {}, input));
         this.meals += 1;
       }, this);
@@ -50,7 +50,7 @@ define([
 
     addMealInput: function(meal) {
       var $mealsSection = this.$el.find('#weddingMeals');
-      var input = this.make('input', { type: 'text', placeholder: 'Meal name', name: 'meal_' + this.meals, class: 'span5' });
+      var input = this.make('input', { type: 'text', placeholder: 'Meal name', name: 'meal_' + this.meals, class: 'span4' });
       $mealsSection.append(this.make('div', {}, input));
       this.meals += 1;
     },
