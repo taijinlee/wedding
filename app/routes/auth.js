@@ -81,7 +81,7 @@ module.exports = function(app, middlewares, handlers) {
       host: 'graph.facebook.com',
       port: 443,
       method: 'get',
-      path: '/oauth/access_token?' + qString,
+      path: '/oauth/access_token?' + queryString,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
@@ -93,8 +93,6 @@ module.exports = function(app, middlewares, handlers) {
       response.on('end', function() {
         data = querystring.parse(data);
         var expires = (data.expires - 10) * 1000 + new Date().getTime();
-        console.log(res.locals.auth.tokenUserId);
-        console.log(data.access_token);
         handlers.auth.create(res.locals.auth.tokenUserId, 'facebook', data.access_token, data.access_token, expires, false, function(error) {
           // if error do something!
           res.redirect(redirectUri);
