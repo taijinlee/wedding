@@ -13,7 +13,7 @@ define([
         { symName: 'userGuestlist', name: 'My Guest List', loggedIn: true },
         { symName: 'login', name: 'Login', loggedIn: false },
         { symName: 'signup', name: 'Signup', loggedIn: false },
-        { symName: 'linkAccount', name: 'Link google account', loggedIn: true },
+        { symName: 'linkAccount', name: 'Link social accounts', loggedIn: true },
         { symName: 'logout', name: 'Sign out', loggedIn: true, id: 'logout' }
       ];
 

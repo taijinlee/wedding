@@ -62,6 +62,45 @@ module.exports = function(app, middlewares, handlers) {
         });
       });
     }).end(postData);
+  });
+
+  app.get('/api/auth/facebook/oauthcallback', middlewares.auth.requireLogin, function(req, res, next) {
+    var code = req.query.code;
+    var redirectUri = req.query.state;
+    if (!code) { return next(new Error('no code for facebook')); }
+    if (!redirectUri) { return next(new Error('no state for facebook')); }
+
+    var queryString = querystring.stringify({
+      code: code,
+      client_id: config.facebookOAuth.clientId,
+      client_secret: config.facebookOAuth.secret,
+      redirect_uri: 'http://localhost:4000/api/auth/facebook/oauthcallback'
+    });
+
+    var request = https.request({
+      host: 'graph.facebook.com',
+      port: 443,
+      method: 'get',
+      path: '/oauth/access_token?' + qString,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }, function(response) {
+      var data = '';
+      response.on('data', function(chunk) {
+        data += chunk;
+      });
+      response.on('end', function() {
+        data = querystring.parse(data);
+        var expires = (data.expires - 10) * 1000 + new Date().getTime();
+        console.log(res.locals.auth.tokenUserId);
+        console.log(data.access_token);
+        handlers.auth.create(res.locals.auth.tokenUserId, 'facebook', data.access_token, data.access_token, expires, false, function(error) {
+          // if error do something!
+          res.redirect(redirectUri);
+        });
+      });
+    }).end();
 
   });
 

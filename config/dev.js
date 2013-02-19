@@ -19,6 +19,14 @@ module.exports = {
     redirectUri: 'http://localhost:4000/api/auth/google/oauth2callback'
   },
 
+  facebookOAuth: {
+    clientId: '266039076862542',
+    secret: '3fc1f4abc2677b1afc5039cf6cda8db3',
+    responseType: 'token',
+    contactScope: '',
+    redirectUri: 'http://localhost:4000/api/auth/facebook/oauthcallback'
+  },
+
   smtp: {
     service: 'Gmail',
     user: 'weddingbot@apricotwhisk.com',

@@ -18,8 +18,12 @@ define([
           encodeURIComponent(this.config.googleOAuth.contactScope) +
           '&redirect_uri=' + encodeURIComponent(this.config.googleOAuth.redirectUri) +
           '&client_id=' + encodeURIComponent(this.config.googleOAuth.clientId) +
-          '&access_type=offline&state=:state', view: '!external', symName: 'googleOAuth' }
-      ]);
+          '&access_type=offline&state=:state', view: '!external', symName: 'googleOAuth' },
+        { urlFragment: 'http://www.facebook.com/dialog/oauth/?' +
+          encodeURIComponent(this.config.facebookOAuth.contactScope) +
+          '&redirect_uri=' + encodeURIComponent(this.config.facebookOAuth.redirectUri) +
+          '&client_id=' + encodeURIComponent(this.config.facebookOAuth.clientId) +
+          '&state=:state', view: '!external', symName: 'facebookOAuth' }]);
     },
 
     initialize: function(config) {
