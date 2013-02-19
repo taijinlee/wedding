@@ -36,7 +36,7 @@ module.exports = function(app, middlewares, handlers) {
       code: code,
       client_id: config.googleOAuth.clientId,
       client_secret: config.googleOAuth.secret,
-      redirect_uri: 'http://localhost:4000/api/auth/google/oauth2callback',
+      redirect_uri: config.googleOAuth.redirectUri,
       grant_type: 'authorization_code'
     });
 
@@ -74,7 +74,7 @@ module.exports = function(app, middlewares, handlers) {
       code: code,
       client_id: config.facebookOAuth.clientId,
       client_secret: config.facebookOAuth.secret,
-      redirect_uri: 'http://localhost:4000/api/auth/facebook/oauthcallback'
+      redirect_uri: config.facebookOAuth.redirectUri
     });
 
     var request = https.request({
