@@ -60,7 +60,7 @@ define([
       this.vent.on('guestList:filterUpdate', this.renderPartys, this);
       this.vent.on('guestList:addressUpdate', this.renderPartys, this);
       this.vent.on('guestList:priorityUpdate', this.renderPartys, this);
-      this.vent.on('guestList:addressedUpdate', this.renderPartys, this);
+//      this.vent.on('guestList:addressedUpdate', this.renderPartys, this);
     },
 
     render: function() {
@@ -120,6 +120,12 @@ define([
 
     renderPartys: function(filterValues) {
       this.vent.trigger('guestList:partysUpdate', this.partys);
+
+      // Captures cases when we call renderPartys on changing collection
+      if (typeof filterValues === 'undefined') {
+        filterValues = this.filters.getFilterValues();
+      }
+
       var $body = this.$el.find('tbody');
       $body.empty();
       filterValues = filterValues || {};
@@ -133,9 +139,9 @@ define([
         if (filterValues.categories && filterValues.categories.length) {
           if (_.indexOf(filterValues.categories, partyJSON.category) === -1) { return; }
         }
-        if (filterValues.addresseds && filterValues.addresseds.length) {
-          if (_.indexOf(filterValues.addresseds, partyJSON.isAddressed) === -1) { return; }
-        }
+//        if (filterValues.addresseds && filterValues.addresseds.length) {
+//          if (_.indexOf(filterValues.addresseds, partyJSON.isAddressed) === -1) { return; }
+//        }
         var templateVars = {
           party: partyJSON,
           editUrl: this.pather.getUrl('partyEdit', { weddingId: this.weddingId, partyId: partyJSON.id })
@@ -160,9 +166,9 @@ define([
           stdView.setElement($stdEl).render(guest, index);
         }, this);
 
-        var $addressedEl = $row.find('#guestListAddressed-' + partyJSON.id);
-        var addressedView = new AddressedView(this.config, this.vent, this.pather, this.cookie, party);
-        addressedView.setElement($addressedEl).render();
+//        var $addressedEl = $row.find('#guestListAddressed-' + partyJSON.id);
+//        var addressedView = new AddressedView(this.config, this.vent, this.pather, this.cookie, party);
+//        addressedView.setElement($addressedEl).render();
 
         $row.find('.guestEmail').editable({
           type: 'text',
@@ -213,7 +219,6 @@ define([
         this.partys.remove(party);
       }
     }
-
   });
 
   return View;

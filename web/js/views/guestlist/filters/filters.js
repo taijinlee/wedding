@@ -11,7 +11,7 @@ define([
     events: {
       'click #party-priority-filter button': 'setPriorityFilter',
       'click #party-category-filter button' : 'setCategoryFilter',
-      'click #party-addressed-filter button' : 'setAddressedFilter',
+ //     'click #party-addressed-filter button' : 'setAddressedFilter',
       'click #filter-export button': 'exportToCsv'
     },
 
@@ -19,7 +19,7 @@ define([
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.priorityFilter = new PriorityButtonsView(config, vent, pather, cookie);
       this.categoryFilter = new CategoryButtonsView(config, vent, pather, cookie);
-      this.addressedFilter = new AddressedButtonsView(config, vent, pather, cookie);
+//      this.addressedFilter = new AddressedButtonsView(config, vent, pather, cookie);
     },
 
     render: function(weddingId) {
@@ -27,7 +27,7 @@ define([
       this.$el.html(_.template(filtersTemplate));
       this.priorityFilter.setElement(this.$el.find('#party-priority-filter')).render(true);
       this.categoryFilter.setElement(this.$el.find('#party-category-filter')).render(true);
-      this.addressedFilter.setElement(this.$el.find('#party-addressed-filter')).render(true);
+//      this.addressedFilter.setElement(this.$el.find('#party-addressed-filter')).render(true);
     },
 
     setPriorityFilter: function(event) {
@@ -55,7 +55,7 @@ define([
       return {
         priorities: this.priorityFilter.getValues(),
         categories: this.categoryFilter.getValues(),
-        addresseds: this.addressedFilter.getValues(), // RH: terrible name - but consistent.
+//        addresseds: this.addressedFilter.getValues(), // RH: terrible name - but consistent.
       };
     },
 
