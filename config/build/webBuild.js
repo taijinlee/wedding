@@ -13,6 +13,8 @@ var config = {
     'async': 'lib/async/async',
     'backbone': 'lib/backbone/backbone-amd',
     'backbone-web': 'lib/backbone/backbone-web',
+    'bootstrap': 'lib/bootstrap/bootstrap',
+    'bootstrap-editable': 'lib/bootstrap-editable/bootstrap-editable',
     'datepicker': 'lib/datepicker/bootstrap-datepicker',
     'humanize': 'lib/humanize',
     'json2': 'lib/json2',

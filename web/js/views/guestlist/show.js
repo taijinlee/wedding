@@ -158,7 +158,7 @@ define([
           var $stdEl = $row.find('#guestListStd-' + partyJSON.id + '-' + index);
           var stdView = new SaveTheDateView(this.config, this.vent, this.pather, this.cookie, party);
           stdView.setElement($stdEl).render(guest, index);
-        });
+        }, this);
 
         var $addressedEl = $row.find('#guestListAddressed-' + partyJSON.id);
         var addressedView = new AddressedView(this.config, this.vent, this.pather, this.cookie, party);
