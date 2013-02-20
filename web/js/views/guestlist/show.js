@@ -118,14 +118,10 @@ define([
       return this;
     },
 
-    renderPartys: function(filterValues) {
+    renderPartys: function() {
       this.vent.trigger('guestList:partysUpdate', this.partys);
 
-      // Captures cases when we call renderPartys on changing collection
-      if (typeof filterValues === 'undefined') {
-        filterValues = this.filters.getFilterValues();
-      }
-
+      var filterValues = this.filters.getFilterValues();
       var $body = this.$el.find('tbody');
       $body.empty();
       filterValues = filterValues || {};

@@ -34,21 +34,21 @@ define([
       event.preventDefault(); event.stopPropagation();
       var $selectedPriority = $(event.target);
       $selectedPriority.toggleClass('btn-on');
-      this.vent.trigger('guestList:filterUpdate', this.getFilterValues());
+      this.vent.trigger('guestList:filterUpdate');
     },
 
     setCategoryFilter: function(event) {
       event.preventDefault(); event.stopPropagation();
       var $selectedCategory = $(event.target);
       $selectedCategory.toggleClass('btn-on');
-      this.vent.trigger('guestList:filterUpdate', this.getFilterValues());
+      this.vent.trigger('guestList:filterUpdate');
     },
 
     setAddressedFilter: function(event) {
       event.preventDefault(); event.stopPropagation();
       var $selectedAddressed = $(event.target);
       $selectedAddressed.toggleClass('btn-on');
-      this.vent.trigger('guestList:filterUpdate', this.getFilterValues());
+      this.vent.trigger('guestList:filterUpdate');
     },
 
     getFilterValues: function() {
