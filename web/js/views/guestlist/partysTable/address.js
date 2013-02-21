@@ -24,7 +24,7 @@ define([
       this.$el.find('#partyAddress').editable({
         type: 'textarea',
         url: function(data) {
-          var d = new $.Deferred;
+          var d = new $.Deferred();
           console.log(data.value);
           self.party.save({ address: data.value }, {
             success: function() { return d.resolve(); },

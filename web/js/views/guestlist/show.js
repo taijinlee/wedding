@@ -169,7 +169,7 @@ define([
         $row.find('.guestEmail').editable({
           type: 'text',
           url: function(data) {
-            var d = new $.Deferred;
+            var d = new $.Deferred();
             var guests = party.get('guests');
             guests[data.pk].email = data.value;
             party.save({ guests: guests }, {
@@ -184,7 +184,7 @@ define([
         $row.find('.guestName').editable({
           type: 'text',
           url: function(data) {
-            var d = new $.Deferred;
+            var d = new $.Deferred();
             var guests = party.get('guests');
             guests[data.pk].name = data.value;
             party.save({ guests: guests }, {
