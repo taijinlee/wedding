@@ -1,5 +1,7 @@
 
+var GoogleContacts = require(process.env.APP_ROOT + '/lib/oauth/google.js');
 var async = require('async');
+var _ = require('underscore');
 
 module.exports = function(store) {
   var AuthModel = require(process.env.APP_ROOT + '/models/auth.js')(store);
@@ -11,7 +13,20 @@ module.exports = function(store) {
   };
 
   var fetchGoogleContacts = function(authData) {
-    params.keywords = _.unique([].concat(params.company.split(' '), params.name.split(' ')));
+    var gContacts = new GoogleContacts(authData.identifier);
+    gContacts.getContacts(function(error, contacts) {
+      if (error) { return console.log(error); }
+      _.each(contacts, function(contact, index) {
+        setTimeout(function() {
+          contact.id = store.generateId();
+          contact.userId = authData.userId;
+          contact.keywords = _.unique(contact.name.toLowerCase().split(' '));
+          new ContactModel(contact).create(function() {
+            if (error) { return console.log(error); }
+          });
+        }, index * 1000);
+      });
+    });
   };
 
   return {
