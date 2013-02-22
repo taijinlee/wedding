@@ -1,7 +1,11 @@
 <% if (guest.isAttending === undefined) { %>
   <% if (guestIndex === 0) { %>
-    <button id="sendStd" class="btn btn-success">Send!</button>
-  <% } %>
+   <% if (!stdSentDate) { %>
+     <button id="sendStd" class="btn btn-success">Send!</button>
+   <% } else { %>
+     Sent
+   <% } %>
+ <% } %>
 <% } else { %>
   <%= guest.isAttending ? 'Yes' : 'No' %>
 <% } %>

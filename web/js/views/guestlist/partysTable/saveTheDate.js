@@ -17,11 +17,12 @@ define([
     },
 
     render: function(guest, guestIndex) {
-      this.$el.html(_.template(saveTheDateTemplate, { guest: guest, guestIndex: guestIndex }));
+      this.$el.html(_.template(saveTheDateTemplate, { guest: guest, guestIndex: guestIndex, stdSentDate: this.party.get('stdSentDate') }));
       return this;
     },
 
     sendStd: function(event) {
+      self = this;
       event.preventDefault(); event.stopPropagation();
 
       var $button = $(event.target);
@@ -32,6 +33,7 @@ define([
       }, {
         success: function() {
           $button.html('Sent!');
+          self.party.save({stdSentDate : new Date().getTime() });
         }
       });
     }

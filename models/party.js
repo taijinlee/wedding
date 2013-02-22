@@ -18,6 +18,7 @@ module.exports = function(store) {
         address: { type: 'string', optional: true },
         priority: { type: 'string', defaults: 'none' },
         addressVerified: { type: 'bool', defaults: false },
+        stdSentDate: {type: 'timestamp', defaults: 0 },
         isAddressed: {type: 'bool', defaults: false },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
