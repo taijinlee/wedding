@@ -61,7 +61,7 @@ define([
 
     exportToCsv: function(event) {
       event.preventDefault(); event.stopPropagation();
-      document.location = '//' + this.config.app.host + '/api/party?weddingId=' + this.weddingId + '&download=1';
+      document.location = '//' + this.config.app.host + '/api/partys?weddingId=' + this.weddingId + '&download=1';
     }
   });
 

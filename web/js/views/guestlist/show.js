@@ -98,7 +98,7 @@ define([
           settingsLink: self.pather.getUrl('weddingSettings', { weddingId: self.weddingId })
         };
         self.$el.html(_.template(partysTableTemplate, partysTableTemplateVars));
-        self.filters.setElement(self.$el.find('#filters')).render();
+        self.filters.setElement(self.$el.find('#filters')).render(self.weddingId);
 
         var $tr = $(self.make('tr', { 'class': 'table-row' }));
         _.each(self.headers, function(header) {
