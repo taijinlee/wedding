@@ -1,6 +1,7 @@
 
 module.exports = function(app, middlewares, handlers) {
 
+  var config = require(process.env.APP_ROOT + '/config/config.js')();
   var querystring = require('querystring');
   var https = require('https');
 
@@ -49,10 +50,9 @@ module.exports = function(app, middlewares, handlers) {
 
     var post_data = querystring.stringify({
       code: '4/HbBnk1KdWcHJqrS16IqHPkfBZZcF.IqxKmYgiNocdaDn_6y0ZQNj-eutzdwI',
-      client_id: '669677576804-oiqgaqu5qao3606jlqpjij2vln6l4sh5.apps.googleusercontent.com',
-      // client_id: '669677576804@developer.gserviceaccount.com',
-      client_secret: 'vQbQB798l2q08UmhwfJADzW-',
-      redirect_uri: 'http://localhost:4000/api/auth/google/oauth2callback',
+      client_id: config.googleOAuth.clientId,
+      client_secret: config.googleOAuth.secret,
+      redirect_uri: config.googleOAuth.redirect_uri,
       grant_type: 'authorization_code'
     });
     request.write(post_data);
