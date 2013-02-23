@@ -3,11 +3,10 @@ define([
   'underscore',
   'backbone',
   'models/party',
-  'collections/contacts',
   'text!./new.html',
   'text!./addFormRow.html',
   'text!./addressForm.html'
-], function($, _, Backbone, PartyModel, ContactsCollection, addFormTemplate, addFormRowTemplate, addressFormTemplate) {
+], function($, _, Backbone, PartyModel, addFormTemplate, addFormRowTemplate, addressFormTemplate) {
 
   var View = Backbone.View.extend({
     events: {
