@@ -43,8 +43,10 @@ module.exports = function(store, history) {
 
       var mail = new MailModel(mailData);
       if (!mail.isValid()) { return callback(new Error('invalid:invalid input')); } // TODO: make this clearer
+      var params = [mail.toJSON()];
+      params.push(results.party.id);
 
-      history.record(tokenUserId, 'mail', 'create', mailData.id, [mail.toJSON()], function(error, historyData) {
+      history.record(tokenUserId, 'mail', 'createSaveTheDate', mailData.id, params, function(error, historyData) {
         if (error) { return callback(error); }
         return callback(null, new WebMailModel(mail.toJSON()).toJSON());
       });

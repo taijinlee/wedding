@@ -33,7 +33,6 @@ define([
       }, {
         success: function() {
           $button.html('Sent!');
-          self.party.save({stdSentDate : new Date().getTime() });
         }
       });
     }
