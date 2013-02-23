@@ -43,9 +43,9 @@ define([
         '',
         'Guest Name',
         'E-mail',
+        'Priority',
         'Category',
         'Address',
-        'Priority',
         'Save the Date',
         'Delete'
       ];
