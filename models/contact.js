@@ -17,6 +17,7 @@ module.exports = function(store) {
         avatarUrl: { typd: 'string', optional: true },
         email: { type: 'email', optional: true },
         address: { type: 'string', optional: true },
+        keywords: { type: 'object' },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
 

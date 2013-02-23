@@ -4,6 +4,7 @@ define([
   'backbone',
   'backbone-web',
   'types',
+  'autocomplete',
   'bootstrap',
   'bootstrap-editable',
   'select2',

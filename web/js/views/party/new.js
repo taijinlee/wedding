@@ -3,15 +3,16 @@ define([
   'underscore',
   'backbone',
   'models/party',
+  'collections/contacts',
   'text!./new.html',
   'text!./addFormRow.html',
   'text!./addressForm.html'
-], function($, _, Backbone, PartyModel, addFormTemplate, addFormRowTemplate, addressFormTemplate) {
+], function($, _, Backbone, PartyModel, ContactsCollection, addFormTemplate, addFormRowTemplate, addressFormTemplate) {
 
   var View = Backbone.View.extend({
     events: {
       'click #addSubmit': 'createGuest',
-      'focus #addGuests div.row:last-child': 'addGuest'
+      'focus #addGuests div.row:last-child': 'addGuestEvent'
     },
 
     initialize: function(config, vent, pather, cookie, args) {
@@ -19,15 +20,6 @@ define([
       this.weddingId = args[0];
       this.partyId = args[1];
       this.guestNum = 0;
-
-      this.guestTable = {
-        salutation: 'Salutation',
-        name: 'Name',
-        email: 'Email'
-      };
-      this.addressForm = {
-        address: 'Address',
-      };
 
       this.party = new PartyModel({ id: this.partyId });
       this.party.on('change', this.renderPartyInfo, this);
@@ -51,18 +43,39 @@ define([
       var guests = this.party.get('guests');
       if (!guests || guests.length === 0) { guests = []; }
       guests.push({});
-      _.each(guests, function(guest) {
-        $guestSection.append(_.template(addFormRowTemplate, { guestNum: self.guestNum, guest: guest }));
-        self.guestNum++;
-      });
+      _.each(guests, function(guest) { self.addGuest(guest); });
 
       var $addressSection = this.$el.find('#addAddress');
       $addressSection.html(_.template(addressFormTemplate, { address: this.party.get('address'), showButtons: false }));
     },
 
-    addGuest: function() {
+    addGuestEvent: function() {
+      this.addGuest({});
+    },
+
+    addGuest: function(guest) {
       var $guestSection = this.$el.find('#addGuests');
-      $guestSection.append(_.template(addFormRowTemplate, { guestNum: this.guestNum, guest: {} }));
+      var $guestRow = $(_.template(addFormRowTemplate, { guestNum: this.guestNum, guest: guest }));
+
+      $guestRow.find('#name').autocomplete('/api/contacts', {
+        processData: function(response) {
+          return _.map(response.data, function(contact) {
+            return { value: contact.name, data: contact };
+          });
+        },
+        matchSubset: false,
+        queryParamName: 'keywords',
+        remoteDataType: 'json',
+        minChars: 1,
+        onItemSelect: function(elemData) {
+          var contact = elemData.data;
+          if (contact.email) {
+            $guestRow.find('#email').val(contact.email);
+          }
+        }
+      });
+      $guestSection.append($guestRow);
+
       this.guestNum++;
       return false;
     },

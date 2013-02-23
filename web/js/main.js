@@ -3,6 +3,7 @@ var config = {
 
   paths: {
     'async': 'lib/async/async',
+    'autocomplete': 'lib/jquery/jquery.autocomplete',
     'backbone': 'lib/backbone/backbone-amd',
     'backbone-web': 'lib/backbone/backbone-web',
     'bootstrap': 'lib/bootstrap/bootstrap',
@@ -18,6 +19,7 @@ var config = {
     'validator': 'lib/validator/validator-edited'
   },
   shim: {
+    'autocomplete': ['jquery'],
     'bootstrap': ['jquery'],
     'bootstrap-editable': ['jquery', 'bootstrap'],
     'datepicker': ['jquery'],

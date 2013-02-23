@@ -8,6 +8,7 @@ var indexes = [
   { database: 'wedding', collection: 'users', index: { email: 1 }, options: { unique: true }},
   { database: 'wedding', collection: 'weddings', index: { userId: 1 } },
   { database: 'wedding', collection: 'partys', index: { weddingId: 1 } },
+  { database: 'wedding', collection: 'contacts', index: { userId: 1 } },
 ];
 
 var mongoServer = new mongo.Server(mongoConfig.host, mongoConfig.port);
