@@ -12,7 +12,7 @@ define([
     initialize: function(config, vent, pather, cookie, args) {
       this.config = config; this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.googleAuth = new AuthModel({ id: this.cookie.get('userId') + '|' + 'google' });
-      this.facebookAuth = new AuthModel({ id: this.cookie.get('userId') + '|' + 'facebook' });
+      // this.facebookAuth = new AuthModel({ id: this.cookie.get('userId') + '|' + 'facebook' });
     },
 
     render: function() {
@@ -22,10 +22,12 @@ define([
         success: _.bind(this.renderGoogleAuth, this),
         error: _.bind(this.renderGoogleAuth, this)
       });
+      /*
       this.facebookAuth.fetch({
         success: _.bind(this.renderFacebookAuth, this),
         error: _.bind(this.renderFacebookAuth, this)
       });
+      */
     },
 
     renderGoogleAuth: function(model) {
