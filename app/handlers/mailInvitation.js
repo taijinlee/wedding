@@ -30,7 +30,9 @@ module.exports = function(store, history) {
       var weddingName = results.wedding.name.split('&');
       var subject = results.wedding.name; // TODO: Come up with a better subject
       var invText = results.wedding.invText;
-      invText = invText.replace(/\r\n/g, "<br />");
+      if (invText) {
+        invText = invText.replace(/\r\n/g, "<br />");
+      }
       var body = _.template(template, { invText: invText, config: config, rsvpUrl: results.rsvpUrl, location: results.wedding.address, date: results.wedding.date, time: results.wedding.time, meals: results.wedding.meals });
 
       var mailData = {

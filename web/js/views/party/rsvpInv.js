@@ -22,7 +22,6 @@ define([
       this.accessToken = args[3];
       this.party = new PartyModel({ id: this.partyId });
       this.wedding = new WeddingModel({ id: this.weddingId });
-      this.party.on('change', this.renderFormTable, this);
     },
 
     render: function() {
@@ -56,6 +55,7 @@ define([
         }
       }, function (error, results) {
         if (error) { return; }
+        self.renderFormTable();
         return this;
       });
     },
@@ -64,7 +64,11 @@ define([
       var $tableBody = this.$el.find('#rsvpInvForm tbody');
       var self = this;
       var meals = this.wedding.get('meals');
-      meals.unshift('None');
+      if (meals) {
+        meals.unshift('None');
+      } else {
+        meals = ['None']
+      }
       $tableBody.empty();
       _.each(this.party.get('guests'), function(guest, index) {
         if (guest.isAttendingInv === undefined || guest.isAttendingInv === null) {

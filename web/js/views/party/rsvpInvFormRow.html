@@ -6,7 +6,7 @@
   </td>
   <td> 
     <select class="span2" id="mealChoice" name="meal-<%= index %>">
-      <% _.each(meals, function(meal, keyName) { console.log(keyName) ; console.log(meal); console.log('meal_' + keyName == guest.meal); console.log(guest.meal);%>
+      <% _.each(meals, function(meal, keyName) { %>
       <option value="meal_<%= keyName %>" <%=('meal_' + keyName == guest.meal) ? 'selected="selected"' : ''%>><%= meal %></option>
       <% }) %>
     </select>
