@@ -13,6 +13,7 @@ define([
       date: { type: 'string', optional: true },
       time: { type: 'string', optional: true },
       address: { type: 'string', optional: true },
+      invText: { type: 'string', optional: true },
       meals: { type: 'object', optional: true },
       created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
     }

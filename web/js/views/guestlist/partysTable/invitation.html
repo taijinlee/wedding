@@ -1,0 +1,11 @@
+<% if (guest.isAttendingInv === undefined) { %>
+  <% if (guestIndex === 0) { %>
+   <% if (!invSentDate) { %>
+     <button id="sendInv" class="btn btn-success">Send!</button>
+   <% } else { %>
+     Sent
+   <% } %>
+ <% } %>
+<% } else { %>
+  <%= guest.isAttendingInv ? 'Yes' : 'No' %>
+<% } %>

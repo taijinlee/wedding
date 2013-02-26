@@ -16,12 +16,13 @@ define([
   './partysTable/category',
   './partysTable/saveTheDate',
   './partysTable/addressed',
+  './partysTable/invitation',
   'text!./partysTable.html',
   'text!./partyRow.html',
   'text!./addPartyRow.html'
 ], function($, _, Backbone, async, WeddingModel, PartysCollection,
             FiltersView, StatsView, StatsCategoryView, StatsAddressView, StatsPriorityView, StatsStdRsvpView,
-            AddressView, PriorityView, CategoryView, SaveTheDateView, AddressedView,
+            AddressView, PriorityView, CategoryView, SaveTheDateView, AddressedView, InvitationView,
             partysTableTemplate, partyRowTemplate, addPartyRowTemplate) {
 
   var View = Backbone.View.extend({
@@ -47,6 +48,7 @@ define([
         'Category',
         'Address',
         'Save the Date',
+        'Invitation',
         'Delete'
       ];
 
@@ -160,6 +162,10 @@ define([
           var $stdEl = $row.find('#guestListStd-' + partyJSON.id + '-' + index);
           var stdView = new SaveTheDateView(this.config, this.vent, this.pather, this.cookie, party);
           stdView.setElement($stdEl).render(guest, index);
+
+          var $invEl = $row.find('#guestListInv-' + partyJSON.id + '-' + index);
+          var invView = new InvitationView(this.config, this.vent, this.pather, this.cookie, party);
+          invView.setElement($invEl).render(guest, index);
         }, this);
 
 //        var $addressedEl = $row.find('#guestListAddressed-' + partyJSON.id);

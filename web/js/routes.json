@@ -14,6 +14,7 @@
     { "urlFragment": "account", "view": "account/linkAccount", "symName": "linkAccount", "requireLogin": true },
 
     { "urlFragment": "address/:partyId/:accessToken", "view": "party/verifyAddress", "symName": "verifyAddress" },
-    { "urlFragment": "rsvpStd/:partyId/:accessToken", "view": "party/rsvpStd", "symName": "rsvpStd" }
+    { "urlFragment": "rsvpStd/:partyId/:accessToken", "view": "party/rsvpStd", "symName": "rsvpStd" },
+    { "urlFragment": "rsvpInv/:weddingId/:weddingToken/:partyId/:accessToken", "view": "party/rsvpInv", "symName": "rsvpInv" }
   ]
 }

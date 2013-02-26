@@ -4,8 +4,9 @@ define([
   'backbone',
   'models/wedding',
   'text!./settings.html',
-  'text!../party/addressForm.html'
-], function($, _, Backbone, WeddingModel, settingsFormTemplate, addressFormTemplate) {
+  'text!../party/addressForm.html',
+  'text!./invTextForm.html'
+], function($, _, Backbone, WeddingModel, settingsFormTemplate, addressFormTemplate, invTextFormTemplate) {
 
   var View = Backbone.View.extend({
     events: {
@@ -37,6 +38,7 @@ define([
       this.$el.html(_.template(settingsFormTemplate, { wedding: this.wedding, backUrl: backUrl, participant1Name: participantNames[0], participant2Name: participantNames[1] }));
       this.$el.find('#date').datepicker();
       this.$el.find('#weddingLocation').html(_.template(addressFormTemplate, {address: this.wedding.get('address'), showButtons: false }));
+      this.$el.find('#weddingInvText').html(_.template(invTextFormTemplate, { invText: this.wedding.get('invText') }));
       var meals = this.wedding.get('meals');
       if (!meals || meals.length === 0) { meals = []; }
       meals.push('');

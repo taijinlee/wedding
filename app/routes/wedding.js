@@ -1,6 +1,8 @@
 
 var _ = require('underscore');
 
+var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
+
 module.exports = function(app, middlewares, handlers) {
 
   app.post('/api/wedding', middlewares.auth.requireLogin, function(req, res, next) {
@@ -8,11 +10,14 @@ module.exports = function(app, middlewares, handlers) {
     handlers.wedding.create(res.locals.auth.tokenUserId, fianceData.fianceFirstName, fianceData.fianceLastName, res.locals.responder.send);
   });
 
-  app.get('/api/wedding', middlewares.auth.requireLogin, function(req, res, next) {
+  app.get('/api/wedding', /*middlewares.auth.requireLogin,*/ function(req, res, next) {
     handlers.wedding.retrieve(res.locals.auth.tokenUserId, req.params.weddingId, req.query, res.locals.responder.send);
   });
 
-  app.get('/api/wedding/:weddingId', middlewares.auth.requireLogin, middlewares.entity.exists('wedding'), function(req, res, next) {
+  app.get('/api/wedding/:weddingId', /*middlewares.auth.requireLogin,*/ middlewares.entity.exists('wedding'), function(req, res, next) {
+    var weddingId = req.params.weddingId;
+    var isTokenValid = req.query.accessToken ? tokenizer.match(weddingId, 'rsvpInvitation', 0, 0, decodeURIComponent(req.query.accessToken)) : false;
+    if (!isTokenValid && res.locals.auth.tokenUserId === false) { return next(new Error('unauthorized: require login')); }
     handlers.wedding.retrieve(res.locals.auth.tokenUserId, req.params.weddingId, req.query, res.locals.responder.send);
   });
 
@@ -25,7 +30,7 @@ module.exports = function(app, middlewares, handlers) {
     handlers.wedding.destroy(res.locals.auth.tokenUserId, req.params.weddingId, res.locals.responder.send);
   });
 
-  app.get('/api/weddings', middlewares.auth.requireLogin, function(req, res, next) {
+  app.get('/api/weddings',/* middlewares.auth.requireLogin,*/ function(req, res, next) {
     var page = req.param('page', 1);
 
     var limit = 10;

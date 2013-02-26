@@ -9,6 +9,7 @@
       <td rowspan="<%= party.guests.length %>" id="guestListAddress-<%= party.id %>"></td>
     <% } %>
     <td id="guestListStd-<%= party.id %>-<%= index %>"></td>
+    <td id="guestListInv-<%= party.id %>-<%= index %>"></td>
     <td>
       <% if (index === 0) { %><button class="delete btn btn-danger">Delete</button><% } %>
     </td>

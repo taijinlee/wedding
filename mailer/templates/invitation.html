@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Wedding Invitation</title>
+  </head>
+  <body>
+    <table height="1299px" width="901px" style="background: url(http://<%= config.app.host %>/<%= process.env.GIT_REV ? process.env.GIT_REV + '/' : ''%>images/invite.png) 0 0 no-repeat; padding: 0; margin: 0;">
+      <tr>
+        <td height="250"></td>
+      </tr>
+      <tr>
+        <td valign="top" style="padding-left: 100px; padding-right: 100px; text-align: center" >
+            <p style="font-size:20pt"><%= invText %> </p>
+            <p><a href="<%= rsvpUrl %>">rsvp</a></p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

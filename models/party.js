@@ -20,6 +20,7 @@ module.exports = function(store) {
         addressVerified: { type: 'bool', defaults: false },
         stdSentDate: {type: 'timestamp', defaults: 0 },
         isAddressed: {type: 'bool', defaults: false },
+        invSentDate: {type: 'timestamp', defaults: 0 },
         created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
       }
 

@@ -21,9 +21,18 @@ module.exports = function(store) {
     }, callback);
   };
 
+  var createInvitation = function(mailData, partyId, callback) {
+    async.auto({
+      sendMail: function(done) { mailer.send(mailData.from, mailData.to, mailData.subject, mailData.body, done); },
+      logMail: ['sendMail', function(done) { new MailModel(mailData).create(done); }],
+      updateParty: ['sendMail', function(done) { new PartyModel({ invitationSentDate: new Date().getTime() }).update({id : partyId}, done); }]
+    }, callback);
+  };
+
   return {
     create: create,
-    createSaveTheDate : createSaveTheDate
+    createSaveTheDate: createSaveTheDate,
+    createInvitation: createInvitation
   };
 
 };

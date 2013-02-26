@@ -1,0 +1,13 @@
+<tr>
+  <td><%= guest.name %></td>
+  <td>
+    <label class="radio inline" for="attendingYes-<%= index %>"><input type="radio" name="attendingInv-<%= index %>" id="attendingYes-<%= index %>" value="1" <%= (guest.isAttendingInv === true ? 'checked="checked"' : '') %>/>Yes</label>
+    <label class="radio inline" for="attendingNo-<%= index %>"><input type="radio" name="attendingInv-<%= index %>" id="attendingNo-<%= index %>" value="0" <%= (guest.isAttendingInv === false ? 'checked="checked"' : '') %>/>No</label>
+  </td>
+  <td> 
+    <select class="span2" id="mealChoice" name="meal-<%= index %>">
+      <% _.each(meals, function(meal, keyName) { console.log(keyName) ; console.log(meal); console.log('meal_' + keyName == guest.meal); console.log(guest.meal);%>
+      <option value="meal_<%= keyName %>" <%=('meal_' + keyName == guest.meal) ? 'selected="selected"' : ''%>><%= meal %></option>
+      <% }) %>
+    </select>
+</tr>

@@ -28,12 +28,6 @@ module.exports = function(store, history) {
         if (weddingId) { filters.id = weddingId; }
         new WeddingModel(filters).retrieve(done);
       },
-      checkUser: ['wedding', function(done, results) {
-        if (tokenUserId !== results.wedding.userId) {
-          return done(new Error('unauthorized: userId:' + tokenUserId + ' not allowed'));
-        }
-        return done(null);
-      }],
       metadata: ['wedding', function(done, results) { return getMetadata(results.wedding, done); }]
     }, function(error, results) {
       if (error) { return callback(error); }

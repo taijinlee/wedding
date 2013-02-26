@@ -41,10 +41,10 @@ define([
         /* std rsvp */
         _.each(partyJSON.guests, function(guest) {
           /* Save the date responses */
-          if (guest.isAttending === true) {
-            memo.stdRsvp.isAttending += 1;
-          } else if (guest.isAttending === false) {
-            memo.stdRsvp.notAttending += 1;
+          if (guest.isAttendingStd === true) {
+            memo.stdRsvp.isAttendingStd += 1;
+          } else if (guest.isAttendingStd === false) {
+            memo.stdRsvp.notAttendingStd += 1;
           } else {
             memo.stdRsvp.none += 1;
           }

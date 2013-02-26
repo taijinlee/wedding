@@ -32,8 +32,8 @@ define([
       var $tableBody = this.$el.find('#rsvpStdForm tbody');
       $tableBody.empty();
       _.each(this.party.get('guests'), function(guest, index) {
-        if (guest.isAttending === undefined || guest.isAttending === null) {
-          guest.isAttending = true;
+        if (guest.isAttendingStd === undefined || guest.isAttendingStd === null) {
+          guest.isAttendingStd = true;
         }
         $tableBody.append(_.template(rsvpStdFormRow, { guest: guest, index: index }));
       });
@@ -49,11 +49,11 @@ define([
 
       var attendingRegex = /attending-(\d+)/;
       var guests = this.party.get('guests');
-      _.each(values, function(isAttending, key) {
+      _.each(values, function(isAttendingStd, key) {
         var matches = attendingRegex.exec(key);
         if (!matches) { return; }
-        isAttending = parseInt(isAttending, 10);
-        guests[parseInt(matches[1], 10)].isAttending = Boolean(isAttending);
+        isAttendingStd = parseInt(isAttendingStd, 10);
+        guests[parseInt(matches[1], 10)].isAttendingStd = Boolean(isAttendingStd);
       });
 
       var self = this;
