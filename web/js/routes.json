@@ -1,6 +1,7 @@
 {
   "routes": [
     { "urlFragment": "", "view": "homepage", "symName": "homepage" },
+    { "urlFragment": "timeline", "view": "timeline/timeline", "symName": "timeline" },
     { "urlFragment": "login", "view": "login/login", "symName": "login" },
     { "urlFragment": "logout", "view": "logout/logout", "symName": "logout", "requireLogin": true },
     { "urlFragment": "signup", "view": "signup/signup", "symName": "signup" },
