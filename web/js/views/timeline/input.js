@@ -18,9 +18,9 @@ define([
 
     render: function() {
       this.$el.html(inputTemplate);
-      $('#date').editable({
-        type: 'date',
-        viewformat: 'mm/dd/yyyy',
+      $('#date').datepicker();
+      $('#time').timepicker({
+        minuteStep: 5
       });
       $('#people').select2({ tags:['bride', 'groom', 'bridesmaids', 'groomsmen', 'photographer', 'DJ', 'caterer', 'videographer'] });
     },
@@ -28,19 +28,21 @@ define([
     createEvent: function(event) {
       event.preventDefault(); event.stopPropagation();
       var values = {};
-      console.log(this.$('form'));
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
       });
 
-      
+      var date = values.date.split('/');
 
+      // year, month, day, hours, minutes, seconds, milliseconds
+      var d = new Date(Date.UTC(parseInt(date[2], 10), parseInt(date[0], 10) - 1, parseInt(date[1], 10), parseInt(values.hour, 10) + (values.meridian === 'PM' ? 12 : 0), parseInt(values.minute, 10)));
 
-
-
-      console.log(values);
-
-      console.log('hi');
+      new EventModel({
+        name: values.name,
+        time: d.getTime(),
+        people: values.people.split(','),
+        location: values.location
+      }).save()
     }
 
 

@@ -7,9 +7,11 @@ define([
   'autocomplete',
   'bootstrap',
   'bootstrap-editable',
+  'bootstrap-timepicker',
   'select2',
   'datepicker',
-  'text'
+  'text',
+  'moment'
 ], function() {
   var $ = window.$.noConflict();
   var _ = window._.noConflict();
