@@ -9,6 +9,7 @@ module.exports = function(store, history) {
   var create = function(tokenUserId, name, time, people, location, callback) {
     var eventData = {
       id: store.generateId(),
+      userId: tokenUserId,
       name: name,
       time: time,
       people: people,
@@ -18,14 +19,14 @@ module.exports = function(store, history) {
 
     history.record(tokenUserId, 'event', 'create', eventData.id, [event.toJSON()], function(error, historyData) {
       if (error) { return callback(error); }
-      return callback(null, new WebPartyModel(event.toJSON()).toJSON());
+      return callback(null, new WebEventModel(event.toJSON()).toJSON());
     });
   };
 
   var retrieve = function(tokenUserId, eventId, callback) {
-    new PartyModel({ id: eventId }).retrieve(function(error, partyData) {
+    new EventModel({ id: eventId }).retrieve(function(error, eventData) {
       if (error) { return callback(error); }
-      return callback(null, new WebPartyModel(partyData).toJSON());
+      return callback(null, new WebEventModel(eventData).toJSON());
     });
   };
 

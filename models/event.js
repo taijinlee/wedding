@@ -12,6 +12,7 @@ module.exports = function(store) {
 
       schema: {
         id: { type: 'string' },
+        userId: { type: 'string' },
         name: { type: 'string' },
         time: { type: 'timestamp' },
         people: { type: 'object', optional: true },
