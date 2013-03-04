@@ -11,11 +11,25 @@
 
 .timeline ul {
   margin-left: 10px;
+  padding: 10px 0;
 }
 
 .timeline li {
   position: relative;
   margin-bottom: 20px;
+  padding: 5px;
+  width: 300px;
+  border: #a5a5a5 solid 1px;
+}
+
+.timeline li:last-child {
+  margin-bottom: 0px;
+}
+
+.timeline-close {
+  position: absolute;
+  top: 0;
+  right: 3px;
 }
 
 .timeline-time {
