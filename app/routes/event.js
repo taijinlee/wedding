@@ -21,13 +21,14 @@ module.exports = function(app, middlewares, handlers) {
     handlers.event.destroy(res.locals.auth.tokenUserId, req.params.eventId, res.locals.responder.send);
   });
 
-  app.get('/api/events', function(req, res, next) {
+  app.get('/api/events', middlewares.auth.requireLogin, function(req, res, next) {
     var page = req.param('page', 1);
 
     var limit = null;
     var skip = (page - 1) * limit;
+    var filters = { userId: res.locals.auth.tokenUserId };
 
-    handlers.event.list(filters, limit, skip, res.locals.responder.send);
+    handlers.event.list(res.locals.auth.tokenUserId, filters, limit, skip, res.locals.responder.send);
   });
 
 };

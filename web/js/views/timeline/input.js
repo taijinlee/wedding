@@ -35,14 +35,15 @@ define([
       var date = values.date.split('/');
 
       // year, month, day, hours, minutes, seconds, milliseconds
-      var d = new Date(Date.UTC(parseInt(date[2], 10), parseInt(date[0], 10) - 1, parseInt(date[1], 10), parseInt(values.hour, 10) + (values.meridian === 'PM' ? 12 : 0), parseInt(values.minute, 10)));
+      var d = new Date(parseInt(date[2], 10), parseInt(date[0], 10) - 1, parseInt(date[1], 10), parseInt(values.hour, 10) + (values.meridian === 'PM' ? 12 : 0), parseInt(values.minute, 10));
 
       var event = new EventModel({
         name: values.name,
         time: d.getTime(),
         people: values.people.split(','),
         location: values.location
-      }).save();
+      });
+      event.save();
       console.log(event);
 
       this.vent.trigger('timelineInput:addEvent', event);
