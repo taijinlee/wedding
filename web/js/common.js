@@ -11,7 +11,8 @@ define([
   'select2',
   'datepicker',
   'text',
-  'moment'
+  'moment',
+  'socket.io'
 ], function() {
   var $ = window.$.noConflict();
   var _ = window._.noConflict();

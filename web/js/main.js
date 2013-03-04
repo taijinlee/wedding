@@ -15,6 +15,7 @@ var config = {
     'json2': 'lib/json2',
     'jquery': 'lib/jquery/jquery-1.8.3',
     'select2': 'lib/jquery/select2',
+    'socket.io': 'lib/socket.io/socket.io',
     'text': 'lib/require/text',
     'types': 'lib/backbone/types',
     'underscore': 'lib/underscore/underscore',
