@@ -4,7 +4,7 @@ define([
   'backbone',
   './input',
   './output',
-  'text!./timelineLayout.html',
+  'text!./timelineLayout.html'
 ], function($, _, Backbone, TimelineInputView, TimelineOutputView, timelineLayout) {
 
   return Backbone.View.extend({
