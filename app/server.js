@@ -6,6 +6,7 @@ var express = require('express');
 var config = require(process.env.APP_ROOT + '/config/config.js')();
 var logger = require(process.env.APP_ROOT + '/lib/logger.js')();
 var app = express();
+var io = require('socket.io').listen(app);
 
 // overwriting default date token definition
 express.logger.token('date', function() { return Date().replace(/GMT-\d{4} /, ''); });
@@ -27,7 +28,6 @@ var history = require(process.env.APP_ROOT + '/history/history.js')(store);
 var cookieJar = require(process.env.APP_ROOT + '/cookieJar/cookieJar.js')();
 var authMiddleware = require(process.env.APP_ROOT + '/app/middleware/auth.js')(store, cookieJar);
 var cookieJarMiddleware = require(process.env.APP_ROOT + '/app/middleware/cookieJar.js')(store, cookieJar);
-
 
 // load config based on environment
 // specific to development
@@ -79,4 +79,12 @@ require(process.env.APP_ROOT + '/app/routes.js')(app, store, history);
 
 // start listening
 app.listen(config.app.port);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
 logger.log({ message: 'server start', port: config.app.port });
