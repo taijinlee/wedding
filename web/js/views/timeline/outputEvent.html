@@ -1,6 +1,6 @@
 <li>
   <aside class="timeline-close" data-event-id="<%= event.id %>"><a href="#">X</a></aside>
-  <time class="timeline-time"><%= event.time %></time>
+  <a href="#" class="timeline-time"><%= event.time %> </a>
   <header class="timeline-header"><%= event.name %></header>
   <aside class="timeline-footer"><%= event.location %></aside>
   <a class="timeline-chat" href="<%= pather.getUrl('timelineChat', { eventId: event.id }) %>">chat</a>

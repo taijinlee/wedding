@@ -42,7 +42,19 @@ define([
       this.timelineEvents.each(function(event) {
         var eventJSON = event.toJSON();
         eventJSON.time = moment.unix(eventJSON.time / 1000).format('h:mm a');
-        $timelineList.append(_.template(outputEventTemplate, { event: eventJSON, pather: self.pather }));
+        var $event = $(_.template(outputEventTemplate, { event: eventJSON, pather: self.pather}))
+
+        $event.find('.timeline-time').editable({
+          type: 'text',
+          url: function(data) {
+            var d = new $.Deferred();
+            event.save({ time: new Date(new Date().toDateString() + ' ' + data.value).getTime()}, {
+              success: function() { return d.resolve(); },
+              error: function() { return d.reject('error!'); }
+            });
+          }
+        });
+        $timelineList.append($event);
       });
     },
 
