@@ -10,10 +10,9 @@ module.exports = function(store, history, io) {
 
   io.sockets.on('connection', function(socket) {
 
-    socket.on('chat:retrieve', function(eventId, callback) {
+    socket.on('chat:retrieve', function(filters, callback) {
       var limit = null;
       var pageId = 0;
-      var filters = { eventId: eventId };
       ChatModel.prototype.list(filters, limit, pageId, function(error, chats) {
         if (error) { return socket.emit('chat:retrieve:error', error); }
         async.map(chats, chatMetaData, function(error, chats) {
