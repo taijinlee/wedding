@@ -32,8 +32,7 @@ define([
       var self = this;
       this.user.fetch({
         success: function() {
-          window.socket.emit('chat:retrieve', { eventId: this.eventId });
-          window.socket.on('chat:retrieve', function(data) {
+          window.socket.emit('chat:retrieve', this.eventId, function(data) {
             self.chats.reset(data);
           });
 
