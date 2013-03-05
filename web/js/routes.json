@@ -2,6 +2,8 @@
   "routes": [
     { "urlFragment": "", "view": "homepage", "symName": "homepage" },
     { "urlFragment": "timeline", "view": "timeline/timeline", "symName": "timeline" },
+    { "urlFragment": "timeline/chat/:eventId", "view": "timeline/chat", "symName": "timelineChat" },
+
     { "urlFragment": "login", "view": "login/login", "symName": "login" },
     { "urlFragment": "logout", "view": "logout/logout", "symName": "logout", "requireLogin": true },
     { "urlFragment": "signup", "view": "signup/signup", "symName": "signup" },

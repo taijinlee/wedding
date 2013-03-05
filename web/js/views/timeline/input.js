@@ -37,16 +37,18 @@ define([
       // year, month, day, hours, minutes, seconds, milliseconds
       var d = new Date(parseInt(date[2], 10), parseInt(date[0], 10) - 1, parseInt(date[1], 10), parseInt(values.hour, 10) + (values.meridian === 'PM' ? 12 : 0), parseInt(values.minute, 10));
 
-      var event = new EventModel({
+      var event = new EventModel();
+      var self = this;
+      event.save({
         name: values.name,
         time: d.getTime(),
         people: values.people.split(','),
         location: values.location
+      }, {
+        success: function(event) {
+          self.vent.trigger('timelineInput:addEvent', event);
+        }
       });
-      event.save();
-      console.log(event);
-
-      this.vent.trigger('timelineInput:addEvent', event);
 
     }
 

@@ -6,7 +6,8 @@ var express = require('express');
 var config = require(process.env.APP_ROOT + '/config/config.js')();
 var logger = require(process.env.APP_ROOT + '/lib/logger.js')();
 var app = express();
-var io = require('socket.io').listen(app);
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
 
 // overwriting default date token definition
 express.logger.token('date', function() { return Date().replace(/GMT-\d{4} /, ''); });
@@ -76,15 +77,8 @@ app.configure('prod', function () {
 
 // load routes
 require(process.env.APP_ROOT + '/app/routes.js')(app, store, history);
-
+require(process.env.APP_ROOT + '/app/sockets.js')(store, history, io);
 // start listening
-app.listen(config.app.port);
-
-io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-});
+server.listen(config.app.port);
 
 logger.log({ message: 'server start', port: config.app.port });

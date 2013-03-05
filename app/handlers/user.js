@@ -49,9 +49,9 @@ module.exports = function(store, history) {
     var user = new UserModel({ id: userId });
     if (!user.isExistingFieldsValid()) { return callback(new Error('invalid: user corrupt: id: ' + userId)); }
 
-    getMetaData(user, function(error, user) {
+    user.retrieve(function(error, userData) {
       if (error) { return callback(error); }
-      return callback(null, new WebUserModel(user.toJSON()).toJSON());
+      return callback(null, new WebUserModel(userData).toJSON());
     });
   };
 
@@ -143,7 +143,9 @@ module.exports = function(store, history) {
           return done(null);
         });
       }
-    }, callback);
+    }, function(error, results) {
+      if (error) { return callback(error); }
+    });
   };
 
   return {

@@ -7,6 +7,7 @@ define([
 
   new ConfigModel().fetch({
     success: function(configModel, configObj) {
+      window.socket = io.connect('http://' + configObj.data.app.host);
       var router = new Router(configObj.data);
     }
   });

@@ -38,10 +38,11 @@ define([
     renderEvents: function() {
       var $timelineList = this.$('#timelineList');
       $timelineList.empty();
+      var self = this;
       this.timelineEvents.each(function(event) {
         var eventJSON = event.toJSON();
         eventJSON.time = moment.unix(eventJSON.time / 1000).format('h:mm a');
-        $timelineList.append(_.template(outputEventTemplate, eventJSON));
+        $timelineList.append(_.template(outputEventTemplate, { event: eventJSON, pather: self.pather }));
       });
     },
 
