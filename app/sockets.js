@@ -24,8 +24,10 @@ module.exports = function(store, history, io) {
     socket.on('chat:create', function(chatData) {
       chatData.id = store.generateId();
       new ChatModel(chatData).create(function(error, chatData) {
-        socket.broadcast.emit('chat:create', chatData);
-        socket.emit('chat:create', chatData);
+        chatMetaData(chatData, function(error, chatData) {
+          socket.broadcast.emit('chat:create', chatData);
+          socket.emit('chat:create', chatData);
+        });
       });
     });
   });

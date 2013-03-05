@@ -8,8 +8,8 @@ define([
     url: '/api/chats',
     model: ChatModel,
 
-    comparator: function(chat) {
-      return chat.get('created_at');
+    comparator: function(chatA, chatB) {
+      return (chatA.get('created') > chatB.get('created') ? -1 : 1);
     }
 
 

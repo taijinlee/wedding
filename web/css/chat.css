@@ -1,0 +1,8 @@
+.chat-container {
+  background-color: #f5f5f5;
+}
+
+.chat-entry {
+  border: #a5a5a5 1px solid;
+  margin-top: 3px;
+}

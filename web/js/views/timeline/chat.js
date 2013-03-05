@@ -39,7 +39,6 @@ define([
 
           window.socket.on('chat:create', function(data) {
             if (data.eventId !== self.eventId) { return; }
-            data.user = self.user.toJSON();
             self.chats.add(data);
           });
 
