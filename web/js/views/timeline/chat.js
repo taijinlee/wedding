@@ -29,18 +29,26 @@ define([
     render: function() {
       this.$el.html(_.template(chatTemplate, { backUrl: this.pather.getUrl('timeline') }));
 
+      var $chatbox = this.$('#chatbox');
+      $chatbox.unbind();
+      $chatbox.keypress(function(e) {
+        var textVal = $(this).val();
+        if (e.which == 13 && !e.shiftKey) {
+          e.preventDefault(); //Stops enter from creating a new line
+          $('form').submit();
+        }
+      });
+
       var self = this;
       this.user.fetch({
         success: function() {
           window.socket.emit('chat:retrieve', { eventId: self.eventId }, function(data) {
             self.chats.reset(data);
           });
-
           window.socket.on('chat:create', function(data) {
             if (data.eventId !== self.eventId) { return; }
             self.chats.add(data);
           });
-
         }
       });
 
@@ -48,6 +56,7 @@ define([
 
     sendChat: function(event) {
       event.preventDefault(); event.stopPropagation();
+      var $chatbox = this.$('#chatbox');
       var values = {
         eventId: this.eventId,
         userId: this.cookie.get('userId')
@@ -55,14 +64,14 @@ define([
       _.each($(event.currentTarget).serializeArray(), function(field) {
         values[field.name] = field.value;
       });
-
+      var $chatbox = this.$('#chatbox');
+      $chatbox.val('');
       window.socket.emit('chat:create', values);
     },
 
     renderChats: function() {
       var $chat = this.$('#chat');
       $chat.empty();
-
       var userId = this.cookie.get('userId');
       this.chats.each(function(chatModel) {
         var chatData = chatModel.toJSON();
