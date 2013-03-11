@@ -1,6 +1,4 @@
 var config = {
-  baseUrl: '/VERSION/js',
-
   paths: {
     'async': 'lib/async/async',
     'autocomplete': 'lib/jquery/jquery.autocomplete',

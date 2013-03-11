@@ -1,12 +1,24 @@
 var requirejs = require('requirejs');
 var fs = require('fs');
 var _ = require('underscore');
+var mime = require('mime');
+var wrench = require('wrench');
+var config = require('config');
+
+var async = require('async');
+
+var AWS = require('aws-sdk');
+
+if (config.aws.accessKeyId) {
+  AWS.config.update(config.aws);
+}
+
 var exec = require('child_process').exec;
 
-var config = {
+var requireConfig = {
   appDir: process.env.APP_ROOT + '/web',
   baseUrl: 'js',
-  dir: process.env.APP_ROOT + '/web-build',
+  dir: process.env.APP_ROOT + '/web-build/' + process.env.GIT_REV,
   // optimize: 'none',
 
   paths: {
@@ -39,30 +51,72 @@ var config = {
 var routes = JSON.parse(fs.readFileSync(process.env.APP_ROOT + '/web/js/routes.json')).routes;
 _.each(routes, function(route) {
   var currModuleName = 'views/' + route.view;
-  var isDefined = _.find(config.modules, function(module) {
+  var isDefined = _.find(requireConfig.modules, function(module) {
     return module.name === currModuleName;
   });
   if (isDefined) { return; }
-  config.modules.push({
+  requireConfig.modules.push({
     name: currModuleName,
     exclude: ['common']
   });
 });
 
-exec('git rev-parse --verify HEAD', function(error, stdout, stderror) {
-  if (error) { return console.log(error); }
-
-  var latestHash = stdout.trim();
-  config.dir += '/' + latestHash;
-
-  requirejs.optimize(config, function (buildResponse) {
-    console.log(buildResponse);
-    var versionedFiles = [config.dir + 'js/main.js', config.dir + 'layout.html'].join(' ');
-
-    exec('find ' + versionedFiles + " -exec sed -i -e 's/VERSION/" + latestHash + "/g' {} \\;", function(error, stdout, stderror) {
-      if (error) { return console.log(error); }
-      console.log(versionedFiles + ' have VERSION substituted with ' + latestHash);
+async.auto({
+  optimize: function(done) {
+    requirejs.optimize(requireConfig, function(buildResponse) {
+      console.log(buildResponse);
+      return done();
     });
-  });
+  },
+  replaceVersion: ['optimize', function(done) {
+    var s3host = '\\/' + process.env.GIT_REV;
+    if (config.aws.accessKeyId) {
+      s3host = 'http:\\/\\/s3-' + config.aws.region + '.amazonaws.com\\/' + config.aws.s3.bucket + '\\/' + process.env.GIT_REV;
+    }
 
+    exec('find ' + requireConfig.dir + 'layout.html -exec sed -i -e "s/\\/VERSION/' + s3host + '/g" {} \\;', function(error) {
+      if (error) { return done(error); }
+      console.log(requireConfig.dir + 'layout.html has /VERSION substituted with ' + s3host);
+      return done();
+    });
+  }],
+  gzip: ['optimize', function(done) {
+    console.log('starting gzip...');
+    exec('gzip -r -9 ' + requireConfig.dir, function(error) {
+      if (error) { return done(error); }
+      console.log('gzipped done');
+      return done();
+    });
+  }],
+  uploadToS3: ['gzip', function(done) {
+    if (!config.aws.accessKeyId) { return done(); } // do nothing if no aws set
+
+    var s3 = new AWS.S3();
+    var files = wrench.readdirSyncRecursive(requireConfig.dir);
+    console.log(files);
+
+    _.each(files, function(fileName, index) {
+      var fullFilePath = requireConfig.dir + fileName;
+      if (!fs.statSync(fullFilePath).isFile()) { return; }
+
+      s3.client.putObject({
+        Bucket: config.aws.s3.bucket,
+        Body: fs.readFileSync(fullFilePath),
+        Key: process.env.GIT_REV + '/' + fileName.replace('.gz', ''),
+        ContentType: mime.lookup(fileName.replace('.gz', '')),
+        ContentEncoding: 'gzip',
+        StorageClass: 'REDUCED_REDUNDANCY'
+      }, function(error, data) {
+        if (error) { return console.log(error); }
+        console.log('uploaded ' + fileName + ' to s3');
+        console.log(data);
+        if (index === (files.length - 1)) {
+          return done();
+        }
+      });
+    });
+  }]
+}, function(error, result) {
+  if (error) { return console.log(error); }
+  console.log('finished deploying');
 });

@@ -5,6 +5,7 @@ module.exports = function() {
   config.makeHidden(config.app, 'port');
   config.makeHidden(config, 'store');
 
-  return config;
+  config.makeHidden(config, 'aws');
 
+  return config;
 };
