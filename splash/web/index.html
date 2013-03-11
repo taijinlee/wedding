@@ -74,27 +74,111 @@
 display:inline-block;*display:inline;*zoom:1;padding:4px 12px;margin:0;font-size:14px;line-height:25px;height:35px;text-align:center;vertical-align:middle;cursor:pointer;color:#333;text-shadow:0 1px 1px rgba(255,255,255,.75);background-color:#eee;background-image:-moz-linear-gradient(top, #eee, #eee);background-image:-webkit-gradient(linear,0 0,0 100%,from( #eee),to( #eee));background-image:-webkit-linear-gradient(top, #eee, #eee);background-image:-o-linear-gradient(top, #eee, #eee);background-image:linear-gradient(to bottom, #eee, #eee);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeeeeee', endColorstr='#ffeeeeee', GradientType=0);border-color:#eee #eeeeee #c8c8c8;border-color:rgba(0,0,0,.1) rgba(0,0,0,.1) rgba(0,0,0,.25);*background-color:#eee;filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);border:0px solid #ccc;*border:0;border-bottom-color:#b3b3b3;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05);-moz-box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05)
       }
 
+      .three-columns .column {
+        width:33%;
+        float:left;
+      }
+
+      .contentWidth {
+        margin: 0 auto;
+        position: relative;
+        width: 80%;
+      }
+      #companyInfo {
+        list-style-type: none;
+      }
+
+      ul#companyInfo li.guestlist:before {
+        background-image: url("/images/guestlist_ss.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        content: "";
+        height: 250px;
+        left: 50px;
+        position: absolute;
+        top: 10px;
+        width: 33%;
+      }
+
+      ul#companyInfo li.guestlist {
+        padding-left: 38%;
+        height: 250px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+      ul#companyInfo li.timeline:after {
+        background-image: url("/images/guestlist_ss.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        content: "";
+        height: 250px;
+        left: 67%;
+        top: 300px;
+        position: absolute;
+        width: 500px;
+      }
+
+      ul#companyInfo li.timeline {
+        padding-right: 38%;
+        height: 250px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding-top: 30px;
+      }
+
+      ul#companyInfo li.collaboration:before {
+        background-image: url("/images/guestlist_ss.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        content: "";
+        height: 250px;
+        left: 50px;
+        position: absolute;
+        top: 600px;
+        width: 33%;
+      }
+
+      ul#companyInfo li.collaboration {
+        padding-left: 38%;
+        height: 250px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding-top: 30px;
+      }
 
     </style>
   </head>
 
   <body>
-    <div id="content">
-      <div id="bg"></div>
-      <section id="banner">
-        <h1>Before I Do</h1>
-        <h2>Create your perfect moment</h2>
-
-        <section id="subscribeForm" >
-          <form class="form-inline" action="/subscribe">
-            <span id="emailWrapper">
-              <input id="subscribeEmail" type="text" placeholder="inLove@beforeIDo.com"/>
-            </span>
-            <button class="btn" type="submit">Subscribe</button>
-          </form>
-          </section>
-      </section>
-    </div>
+    <div id="container" style="display: block;">
+      <div id="main" role="main">
+        <!-- Slide Show -->
+        <div class="home_slideshow">
+          <div id="slideshow" class="cycle" style="height: 956px;">
+            <div class="slide active" style="background-image: url(/images/dip-cutout.png); background-size: cover; width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; display: block; z-index: 3; opacity: 1; background-position: 50% 50%; background-repeat: no-repeat no-repeat;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <section style="background: #f3f2f2">
+        <div class="contentWidth">
+          <ul id="companyInfo">
+            <li class="guestlist">
+              <h4 style="padding-top:50px">Easy Guestlist Management</h4>
+              <p>Before I Do presents an easy interface for inputting your Wedding Guestlist, with all the management right at your fingertips. Assigning guest priority, categorizing guests, address verification, and sending notices to your guests is a breeze with our incredibly intuitive dashboard. All of our services are fully automated and give you complete control over who you want to celebrate your special day with you.</p>
+            </li>
+            <li class="timeline">
+              <h4>Real Time Wedding Day Timeline Management</h4>
+              <p>Manage and view status of all events on your Wedding Day Timeline with a click of a button. Available on your iPhone or Android mobile device, get real time status updates for all or your critical events on your big day. Delegate responsibility for events, and watch your stress melt away as you gain 100% insight into any delays or problems that occur. Delegate members of your party or guests as responsible parties to manage each event and get real time messaging to those involved in each event.</p>
+            </li>
+            <li class="collaboration">
+              <h4>Collaborative Tools to help plan your big day</h4>
+              <p>ADD SOME BS ABOUT COLLABORATION</p>
+            </li>
+          </ul>
+          <div class="clear"></div>
+        </div>
     <script type="text/javascript" src="/js/jquery-1.8.3.js"></script>
     <script type="text/javascript">
       $('form').on('submit', function(event) {
