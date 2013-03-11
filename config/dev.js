@@ -33,4 +33,14 @@ module.exports = {
     password: 'ApriC0tWh1sk'
   },
 
+  aws: {
+    accessKeyId: '',
+    secretAccessKey: '',
+    region: 'us-west-2',
+    sslEnabled: false,
+    s3: {
+      bucket: 'apricotwhisk.com'
+    }
+  }
+
 };
