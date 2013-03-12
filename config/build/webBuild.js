@@ -84,8 +84,12 @@ async.auto({
     console.log('starting gzip...');
     exec('gzip -r -9 ' + requireConfig.dir, function(error) {
       if (error) { return done(error); }
-      console.log('gzipped done');
-      return done();
+      // unzip layout
+      exec('gzip -d ' + requireConfig.dir + '/layout.html.gz', function(error) {
+        if (error) { return done(error); }
+        console.log('gzipped done');
+        return done();
+      });
     });
   }],
   uploadToS3: ['gzip', function(done) {
@@ -105,7 +109,7 @@ async.auto({
         Key: process.env.GIT_REV + '/' + fileName.replace('.gz', ''),
         ContentType: mime.lookup(fileName.replace('.gz', '')),
         ContentEncoding: 'gzip',
-        StorageClass: 'REDUCED_REDUNDANCY'
+        // StorageClass: 'REDUCED_REDUNDANCY'
       }, function(error, data) {
         if (error) { return console.log(error); }
         console.log('uploaded ' + fileName + ' to s3');
