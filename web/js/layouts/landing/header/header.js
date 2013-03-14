@@ -3,28 +3,39 @@ define([
   'underscore',
   'backbone',
   'views/lib/horizontalLinks/horizontalLinks',
-  'text!./header.html'
-], function($, _, Backbone, HorizontalLinksView, headerTemplate) {
+  './login/login',
+  'text!./header.html',
+  'text!./loginModal.html'
+], function($, _, Backbone, HorizontalLinksView, LoginView, headerTemplate, loginModalTemplate) {
 
   var View = Backbone.View.extend({
+    events: {
+      'click #login': 'showLogin'
+    },
+
     initialize: function(config, vent, pather, cookie) {
       this.vent = vent; this.pather = pather; this.cookie = cookie;
-      this.routes = [
-        { symName: 'userGuestlist', name: 'My Guest List', loggedIn: true },
-        { symName: 'login', name: 'Login', loggedIn: false },
-        { symName: 'linkAccount', name: 'Link social accounts', loggedIn: true },
-        { symName: 'logout', name: 'Sign out', loggedIn: true, id: 'logout' }
-      ];
 
-      this.navigation = new HorizontalLinksView(config, vent, pather, cookie);
+      this.loginView = new LoginView(config, vent, pather, cookie);
+      this.vent.on('homepage:signup:success', this.closeModal, this);
+      this.$modal = $(loginModalTemplate);
     },
 
     render: function(options) {
       this.$el.html(_.template(headerTemplate)).addClass('container');
-
-      this.navigation.setElement(this.$('#app-header-navigation')).render(this.routes);
       return this;
+    },
+
+    showLogin: function(event) {
+      event.preventDefault(); event.stopPropagation();
+      this.loginView.setElement(this.$modal.find('#modal-body')).render();
+      this.$modal.modal('show');
+    },
+
+    closeModal: function(event) {
+      this.$modal.modal('hide');
     }
+
   });
 
   return View;
