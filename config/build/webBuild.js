@@ -84,12 +84,8 @@ async.auto({
     console.log('starting gzip...');
     exec('gzip -r -9 ' + requireConfig.dir, function(error) {
       if (error) { return done(error); }
-      // unzip layout
-      exec('gzip -d ' + requireConfig.dir + '/layout.html.gz', function(error) {
-        if (error) { return done(error); }
-        console.log('gzipped done');
-        return done();
-      });
+      console.log('gzip done');
+      return done();
     });
   }],
   uploadToS3: ['gzip', function(done) {
@@ -118,6 +114,14 @@ async.auto({
           return done();
         }
       });
+    });
+  }],
+  unzip: ['uploadToS3', function(done) {
+    console.log('unzipping...');
+    exec('gzip -d -r ' + require.dir, function(error) {
+      if (error) { return done(error); }
+      console.log('unzipping done');
+      return done();
     });
   }]
 }, function(error, result) {
