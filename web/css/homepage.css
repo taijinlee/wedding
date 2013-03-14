@@ -2,6 +2,13 @@
   padding: 0;
 }
 
+.homepage-banner {
+  height: 420px;
+  position: relative;
+  background-image: url(../images/background-flower-cup420.jpg);
+  background-repeat: no-repeat no-repeat;
+}
+
 .row-1 {
   position: relative;
 }
