@@ -44,7 +44,9 @@ var requireConfig = {
 
   modules: [
     { name: 'common' },
-    { name: 'init', exclude: ['common'] }
+    { name: 'init', exclude: ['common'] },
+    { name: 'layouts/appChromed/appChromed', exclude: ['common'] },
+    { name: 'layouts/landing/landing', exclude: ['common'] }
   ]
 };
 
@@ -118,7 +120,7 @@ async.auto({
   }],
   unzip: ['uploadToS3', function(done) {
     console.log('unzipping...');
-    exec('gzip -d -r ' + require.dir, function(error) {
+    exec('gzip -d -r ' + requireConfig.dir, function(error) {
       if (error) { return done(error); }
       console.log('unzipping done');
       return done();
