@@ -5,8 +5,8 @@ define([
   'backbone',
   'pather',
   'models/cookie',
-  'views/app/app'
-], function(routes, $, _, Backbone, Pather, CookieModel, AppView) {
+  'layouts/appChromed/appChromed'
+], function(routes, $, _, Backbone, Pather, CookieModel, AppChromedLayout) {
   var Router = Backbone.Router.extend({
 
     paths: function() {
@@ -32,7 +32,7 @@ define([
       this.pather = new Pather(this.paths());
       this.cookie = new CookieModel();
 
-      this.app = new AppView(this.config, this.vent, this.pather, this.cookie);
+      this.appChromedLayout = new AppChromedLayout(this.config, this.vent, this.pather, this.cookie);
 
       // going backwards for backbone compatability
       this.route('*splat', 'default', function() { // TODO: route this to 404 instead
@@ -44,9 +44,9 @@ define([
         // ignore any empty views or views with ! in the view name
         if (!path.view || path.view.indexOf('!') !== -1) { return; }
 
-        self.route(path.urlFragment, path.view, (function(_view, requireLogin) {
+        self.route(path.urlFragment, path.view, (function(_view, layout, requireLogin) {
           return function() {
-            var regex = (document.cookie.search(';') === -1) ? /c=(.*)/ : /c=(.*?);/;
+            var regex = /c=([^;]*)/;
             var cookieJSON = document.cookie ? $.parseJSON(decodeURIComponent(regex.exec(document.cookie)[1])) : {};
             self.cookie.clear({ silent: true });
             self.cookie.set(cookieJSON, { silent: true });
@@ -57,10 +57,9 @@ define([
             }
 
             var args = Array().slice.call(arguments);
-            args.unshift(_view);
-            return self.genericRoute.apply(self, args);
+            return self.genericRoute.apply(self, [_view, layout].concat(args));
           };
-        }(path.view, path.requireLogin)));
+        }(path.view, path.layout || 'appChromed/appChromed', path.requireLogin)));
       });
 
       Backbone.history.start({ pushState: true });
@@ -69,13 +68,17 @@ define([
     genericRoute: function() {
       var args = Array().slice.call(arguments);
       var view = args.shift();
+      var layout = args.shift();
       var self = this;
 
       require([
-        'views/' + view
-      ], function(View) {
+        'views/' + view,
+        'layouts/' + layout
+      ], function(View, Layout) {
         self.vent.unbind();
-        self.app.render(new View(self.config, self.vent, self.pather, self.cookie, args));
+        var layout = new Layout(self.config, self.vent, self.pather, self.cookie, args);
+        layout.render(new View(self.config, self.vent, self.pather, self.cookie, args));
+        //self.appChromedLayout.render(new View(self.config, self.vent, self.pather, self.cookie, args));
       });
     }
 

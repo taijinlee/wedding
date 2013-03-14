@@ -14,12 +14,11 @@ module.exports = function(store, history) {
   var tokenizer = require(process.env.APP_ROOT + '/lib/tokenizer.js')();
 
   /* Basic crud */
-  var create = function(email, firstName, lastName, secret, callback) {
+  var create = function(email, name, secret, callback) {
     var userData = {
       id: store.generateId(),
       email: email,
-      firstName: firstName,
-      lastName: lastName,
+      name: name,
       role: 'user'
     };
 
@@ -82,12 +81,11 @@ module.exports = function(store, history) {
     });
   };
 
-  var signup = function(email, firstName, lastName, secret, fianceFirstName, fianceLastName, callback) {
+  var signup = function(email, name, secret, fianceName, callback) {
     var userData = {
       id: store.generateId(),
       email: email,
-      firstName: firstName,
-      lastName: lastName,
+      name: name,
       role: 'user'
     };
 
@@ -103,7 +101,7 @@ module.exports = function(store, history) {
     var weddingData = {
       id: store.generateId(),
       userId: userData.id,
-      name: userData.firstName + ' & ' + fianceFirstName,
+      name: userData.name + ' & ' + fianceName,
       mainPartyId: store.generateId()
     };
 
@@ -111,8 +109,8 @@ module.exports = function(store, history) {
       id: weddingData.mainPartyId,
       weddingId: weddingData.id,
       guests: [
-        { salutation: '', name: firstName + ' ' + lastName, email: email },
-        { salutation: '', name: fianceFirstName + ' ' + fianceLastName, email: '' }
+        { salutation: '', name: name, email: email },
+        { salutation: '', name: fianceName, email: '' }
       ]
     };
 

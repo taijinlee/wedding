@@ -5,12 +5,12 @@ module.exports = function(app, middlewares, handlers) {
 
   app.post('/api/user', function(req, res, next) {
     var userData = req.body;
-    handlers.user.create(userData.email, userData.firstName, userData.lastName, userData.secret, res.locals.responder.send);
+    handlers.user.create(userData.email, userData.name, userData.secret, res.locals.responder.send);
   });
 
   app.post('/api/user/signup', middlewares.entity.notExists('user', 'email', 'email'), function(req, res, next) {
     var signupData = req.body;
-    handlers.user.signup(signupData.email, signupData.firstName, signupData.lastName, signupData.secret, signupData.fianceFirstName, signupData.fianceLastName, res.locals.responder.send);
+    handlers.user.signup(signupData.email, signupData.name, signupData.secret, signupData.fianceName, res.locals.responder.send);
   });
 
   app.get('/api/user/:userId', middlewares.entity.exists('user'), function(req, res, next) {

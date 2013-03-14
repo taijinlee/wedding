@@ -23,6 +23,7 @@ define([
 
     signup: function(event) {
       event.preventDefault(); event.stopPropagation();
+
       var values = {};
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
@@ -44,6 +45,7 @@ define([
           // auto login
           new AuthBaseModel().save({ type: 'base', identifier: values.email, secret: values.secret }, {
             success: function() {
+              self.vent.trigger('homepage:signup:success');
               Backbone.history.navigate(self.pather.getUrl('userGuestlist'), true);
             },
             error: function() {

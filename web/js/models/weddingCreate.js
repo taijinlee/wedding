@@ -8,13 +8,12 @@ define([
 
     schema: {
       id: { type: 'string', optional: true },
-      fianceFirstName: { type: 'string' },
-      fianceLastName: { type: 'string' },
+      fianceName: { type: 'string' },
       created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
     },
 
     name: function() {
-      return this.user.get('firstName') + ' & ' + this.fiance.get('firstName');
+      return this.user.get('name') + ' & ' + this.fiance.get('name');
     }
 
 

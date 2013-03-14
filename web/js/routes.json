@@ -1,8 +1,6 @@
 {
   "routes": [
-    { "urlFragment": "", "view": "homepage", "symName": "homepage" },
-    { "urlFragment": "timeline", "view": "timeline/timeline", "symName": "timeline" },
-    { "urlFragment": "timeline/chat/:eventId", "view": "timeline/chat", "symName": "timelineChat" },
+    { "urlFragment": "", "view": "homepage/homepage", "symName": "homepage", "layout": "landing/landing" },
 
     { "urlFragment": "login", "view": "login/login", "symName": "login" },
     { "urlFragment": "logout", "view": "logout/logout", "symName": "logout", "requireLogin": true },
@@ -18,6 +16,10 @@
 
     { "urlFragment": "address/:partyId/:accessToken", "view": "party/verifyAddress", "symName": "verifyAddress" },
     { "urlFragment": "rsvpStd/:partyId/:accessToken", "view": "party/rsvpStd", "symName": "rsvpStd" },
-    { "urlFragment": "rsvpInv/:weddingId/:weddingToken/:partyId/:accessToken", "view": "party/rsvpInv", "symName": "rsvpInv" }
+    { "urlFragment": "rsvpInv/:weddingId/:weddingToken/:partyId/:accessToken", "view": "party/rsvpInv", "symName": "rsvpInv" },
+
+    { "urlFragment": "timeline", "view": "timeline/timeline", "symName": "timeline" },
+    { "urlFragment": "timeline/chat/:eventId", "view": "timeline/chat", "symName": "timelineChat" }
+
   ]
 }

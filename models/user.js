@@ -12,8 +12,7 @@ module.exports = function(store) {
 
       schema: {
         id: { type: 'string' },
-        firstName: { type: 'string' },
-        lastName: { type: 'string' },
+        name: { type: 'string' },
         email: { type: 'email', optional: true },
         role: { type: 'userRole', defaults: 'user' },
         // active: { type: 'boolean', defaults: false }, // flesh this out later

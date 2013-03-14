@@ -8,8 +8,7 @@ define([
 
     schema: {
       id: { type: 'string', optional: true },
-      firstName: { type: 'string' },
-      lastName: { type: 'string' },
+      name: { type: 'string' },
       email: { type: 'email', optional: true },
       secret: { type: 'string', optional: true },
       created: { type: 'timestamp', defaults: function() { return new Date().getTime(); } }
