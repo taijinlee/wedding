@@ -24,10 +24,22 @@ define([
     signup: function(event) {
       event.preventDefault(); event.stopPropagation();
       var values = {};
+
       _.each(this.$('form').serializeArray(), function(field) {
         values[field.name] = field.value;
       });
-
+      console.log("FUCK");
+     console.log(values);
+      Stripe.setPublishableKey('pk_test_3Li4dEQmrdYdyJZvc51J63Lr');
+/*
+      var amount = $('#cc-amount').val(); // amount you want to charge in cents
+      Stripe.createToken({
+        number: $('.card-number').val(),
+        cvc: $('.card-cvc').val(),
+        exp_month: $('.card-expiry-month').val(),
+        exp_year: $('.card-expiry-year').val()
+      }, amount, stripeResponseHandler);
+*/
       var self = this;
       new SignupModel().save(values, {
         error: function(model, response) {

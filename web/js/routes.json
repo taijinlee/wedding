@@ -13,6 +13,7 @@
     { "urlFragment": "wedding/:weddingId/party/new", "view": "party/new", "symName": "partyNew", "requireLogin": true },
     { "urlFragment": "wedding/:weddingId/party/:partyId", "view": "party/new", "symName": "partyEdit", "requireLogin": true },
     { "urlFragment": "account", "view": "account/linkAccount", "symName": "linkAccount", "requireLogin": true },
+    { "urlFragment": "upgradeAccount", "view": "account/upgradeAccount", "symName": "upgradeAccount", "requireLogin": true },
 
     { "urlFragment": "address/:partyId/:accessToken", "view": "party/verifyAddress", "symName": "verifyAddress" },
     { "urlFragment": "rsvpStd/:partyId/:accessToken", "view": "party/rsvpStd", "symName": "rsvpStd" },

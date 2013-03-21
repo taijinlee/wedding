@@ -1,0 +1,21 @@
+<div id="stripe-form">
+  <form class="white-container" method="POST" id="payment-form">
+    <div class="form-row">
+      <div class="cc-text">Card Number</div>
+      <input type="text" size="30" autocomplete="off" name="card-number"/>
+    </div>
+    <div class="form-row">
+      <div class="cc-text">CVC</div>
+      <input type="text" size="4" autocomplete="off" name="card-cvc"/>
+    </div>
+    <div class="form-row">
+      <div class="cc-text">Expiration (MM/YYYY)</div>
+      <input type="text" size="2" name="card-expiry-month"/>
+      <span> / </span>
+      <input type="text" size="4" name="card-expiry-year"/>
+    </div>
+    <button type="submit" class="submit-button">Submit Payment</button>
+  </form>
+</div>
+<div id="error" class="hidden"></div>
+<div id="success" class="hidden">Thanks for upgrading!</div>

@@ -23,9 +23,30 @@
       <input id="secret" type="password" name="secret" class="span4" />
     </div>
   </div>
+
+  <div class="form-row">
+    <div class="cc-text">Card Number</div>
+    <input name="cc-number" type="text" size="30" autocomplete="off" class="card-number"/>
+  </div>
+  <div class="form-row">
+    <div class="cc-text">CVC</div>
+    <input name="cc-cvc" type="text" size="4" autocomplete="off" class="card-cvc"/>
+  </div>
+  <div class="form-row">
+    <div class="cc-text">Expiration (MM/YYYY)</div>
+    <input name="card-expiry-month" type="text" size="2" class="card-expiry-month"/>
+    <span> / </span>
+    <input name="card-expiry-year" type="text" size="4" class="card-expiry-year"/>
+  </div>
+  <input type="hidden" name="amount" value="2000" id="cc-amount">
   <div class="control-group">
     <div class="controls">
       <button type="submit" class="btn" id="signupButton" name="" value="">Sign Up</button>
     </div>
   </div>
+  
+  <span class="payment-errors"></span>
+  </form>
+
 </form>
+

@@ -10,6 +10,7 @@ define([
     initialize: function(config, vent, pather, cookie) {
       this.vent = vent; this.pather = pather; this.cookie = cookie;
       this.routes = [
+        { symName: 'upgradeAccount', name: 'Upgrade', loggedIn: true },
         { symName: 'userGuestlist', name: 'My Guest List', loggedIn: true },
         { symName: 'login', name: 'Login', loggedIn: false },
         { symName: 'signup', name: 'Signup', loggedIn: false },
