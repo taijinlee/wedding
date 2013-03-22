@@ -29,6 +29,8 @@ define([
       var self = this;
       Stripe.setPublishableKey('pk_test_3Li4dEQmrdYdyJZvc51J63Lr');
       
+      var $button = $(event.target);
+      $button.attr('disabled', 'disabled').html('Processing...');
       Stripe.createToken({
         number: values['card-number'],
         cvc: values['card-cvc'],
@@ -42,7 +44,7 @@ define([
             paymentToken: response.id
           }, {
             success: function() {
-              console.log("Payment Saved");
+              $button.html('Thanks for upgrading!');
             }
           });
         }
