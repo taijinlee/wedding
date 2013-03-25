@@ -11,7 +11,8 @@ define([
   'select2',
   'datepicker',
   'text',
-  'moment'
+  'moment',
+  'js/lib/jquery/jquery.cookie.js'
   // 'socket.io'
 ], function() {
   var $ = window.$.noConflict();

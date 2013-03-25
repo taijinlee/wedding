@@ -26,9 +26,7 @@ var store = require(process.env.APP_ROOT + '/store/store.js')(datastore, config.
 var history = require(process.env.APP_ROOT + '/history/history.js')(store);
 
 // globally applied middleware
-var cookieJar = require(process.env.APP_ROOT + '/cookieJar/cookieJar.js')();
-var authMiddleware = require(process.env.APP_ROOT + '/app/middleware/auth.js')(store, cookieJar);
-var cookieJarMiddleware = require(process.env.APP_ROOT + '/app/middleware/cookieJar.js')(store, cookieJar);
+var authMiddleware = require(process.env.APP_ROOT + '/app/middleware/auth.js')(store);
 
 // load config based on environment
 // specific to development
@@ -42,7 +40,6 @@ app.configure('dev', function () {
     return next();
   });
   app.use(express['static'](process.env.APP_ROOT + process.env.WEB_ROOT));
-  app.use(cookieJarMiddleware.init);
   app.use(function(req, res, next) {
     res.locals.responder = require(process.env.APP_ROOT + '/lib/responder.js')();
     res.locals.responder.initialize(res);
@@ -63,7 +60,6 @@ app.configure('prod', function () {
     maxAge: 31536000000 // one year
   }));
 
-  app.use(cookieJarMiddleware.init);
   app.use(function(req, res, next) {
     res.locals.responder = require(process.env.APP_ROOT + '/lib/responder.js')();
     res.locals.responder.initialize(res);

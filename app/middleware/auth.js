@@ -1,5 +1,5 @@
 
-module.exports = function(store, cookieJar) {
+module.exports = function(store) {
 
   var async = require('async');
   var AuthModel = require(process.env.APP_ROOT + '/models/auth.js')(store);
@@ -11,7 +11,7 @@ module.exports = function(store, cookieJar) {
   var getTokenUserId = function(req, res, next) {
     res.locals.auth = { tokenUserId: false };
 
-    var loginToken = cookieJar.get('login');
+    var loginToken = req.cookies.login;
     if (!loginToken) { return next(null); }
 
     var userId = loginToken.slice(0, loginToken.indexOf(':'));
@@ -68,18 +68,16 @@ module.exports = function(store, cookieJar) {
         var time = (new Date()).getTime();
         var token = tokenizer.generate(salt, userId, time, 300000 /* 5 mins */);
 
-        cookieJar.set('userId', userId);
-        cookieJar.set('login', [userId, time, 300000, token].join(':'));
-        res.cookie.apply(res, cookieJar.cookie());
+        res.cookie('userId', userId);
+        res.cookie('login', [userId, time, 300000, token].join(':'))
         return done(null);
       }]
     }, next);
   };
 
   var logout = function(req, res, next) {
-    cookieJar.del('userId');
-    cookieJar.del('login');
-    res.cookie.apply(res, cookieJar.cookie());
+    res.clearCookie('userId');
+    res.clearCookie('login');
     return next();
   };
 

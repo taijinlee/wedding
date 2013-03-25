@@ -5,7 +5,6 @@ module.exports = function(app, store, history) {
   var async = require('async');
   var _ = require('underscore');
   var logger = require(process.env.APP_ROOT + '/lib/logger.js')();
-  var cookieJar = require(process.env.APP_ROOT + '/cookieJar/cookieJar.js')();
 
   var recursiveReaddirSync = function(path) {
     var files = fs.readdirSync(path);
@@ -26,7 +25,7 @@ module.exports = function(app, store, history) {
   var middlewareFiles = recursiveReaddirSync(process.env.APP_ROOT + '/app/middleware');
   var middlewares = {};
   middlewareFiles.forEach(function(file) {
-    middlewares[file.replace('.js', '')] = require(process.env.APP_ROOT + '/app/middleware/' + file)(store, cookieJar);
+    middlewares[file.replace('.js', '')] = require(process.env.APP_ROOT + '/app/middleware/' + file)(store);
   });
 
   // load all handlers

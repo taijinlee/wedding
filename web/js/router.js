@@ -46,8 +46,7 @@ define([
 
         self.route(path.urlFragment, path.view, (function(_view, layout, requireLogin) {
           return function() {
-            var regex = /c=([^;]*)/;
-            var cookieJSON = document.cookie ? $.parseJSON(decodeURIComponent(regex.exec(document.cookie)[1])) : {};
+            var cookieJSON = document.cookie ? $.cookie() : {};
             self.cookie.clear({ silent: true });
             self.cookie.set(cookieJSON, { silent: true });
 

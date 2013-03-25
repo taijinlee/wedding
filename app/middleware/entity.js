@@ -1,5 +1,5 @@
 
-module.exports = function(store, cookieJar) {
+module.exports = function(store) {
 
   var exists = function(modelName, param, key) {
     return function(req, res, next) {
